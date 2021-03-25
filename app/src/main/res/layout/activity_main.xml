@@ -4,15 +4,320 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_bg"
     tools:context=".MainActivity">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top_menu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/main_search_bg"
+
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top_banner_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+        app:layout_constraintBottom_toTopOf="@id/gl_h1"
+        app:layout_constraintTop_toBottomOf="@id/top_menu_layout">
+
+        <com.zhouwei.mzbanner.MZBannerView
+            android:id="@+id/banner"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            app:open_mz_mode="true"
+            app:canLoop="true"
+            app:indicatorAlign="center"
+            app:indicatorPaddingLeft="10dp"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+        app:layout_constraintBottom_toTopOf="@id/gl_h2"
+        app:layout_constraintTop_toBottomOf="@id/gl_h1">
+
+
+        <Button
+            android:id="@+id/btn_access_control"
+            android:layout_width="@dimen/btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/btn_access_control"
+            android:layout_marginTop="@dimen/main_btn_to_top_margin"
+
+            app:layout_constraintBottom_toTopOf="@id/tv_access_control"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_video_surveillance"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/tv_access_control"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_access_control"
+            android:textSize="@dimen/btn_tv_text_size"
+            android:layout_marginTop="@dimen/main_btn_interval_v"
+
+            app:layout_constraintBottom_toTopOf="@id/btn_gl_h1"
+            app:layout_constraintEnd_toEndOf="@id/btn_access_control"
+            app:layout_constraintStart_toStartOf="@id/btn_access_control"
+            app:layout_constraintTop_toBottomOf="@id/btn_access_control" />
+
+        <Button
+            android:id="@+id/btn_video_surveillance"
+            android:layout_width="@dimen/btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/btn_video_surveillance"
+            app:layout_constraintDimensionRatio="w,1:1"
+
+            app:layout_constraintStart_toEndOf="@id/btn_access_control"
+            app:layout_constraintTop_toTopOf="@id/btn_access_control"
+            app:layout_constraintBottom_toBottomOf="@id/btn_access_control"
+            app:layout_constraintEnd_toStartOf="@id/btn_inspection"
+            />
+
+        <TextView
+            android:id="@+id/tv_video_surveillance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_video_surveillance"
+            android:textSize="@dimen/btn_tv_text_size"
+
+
+            app:layout_constraintEnd_toEndOf="@id/btn_video_surveillance"
+            app:layout_constraintStart_toStartOf="@id/btn_video_surveillance"
+            app:layout_constraintTop_toTopOf="@id/tv_access_control"
+            app:layout_constraintBottom_toBottomOf="@id/tv_access_control"/>
+
+        <Button
+            android:id="@+id/btn_inspection"
+            android:layout_width="@dimen/btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/btn_inspection"
+            app:layout_constraintDimensionRatio="w,1:1"
+
+            app:layout_constraintStart_toEndOf="@id/btn_video_surveillance"
+            app:layout_constraintTop_toTopOf="@id/btn_access_control"
+            app:layout_constraintBottom_toBottomOf="@id/btn_access_control"
+            app:layout_constraintEnd_toStartOf="@id/btn_temp_screening"
+            />
+
+        <TextView
+            android:id="@+id/tv_inspection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_inspection"
+            android:textSize="@dimen/btn_tv_text_size"
+
+            app:layout_constraintEnd_toEndOf="@id/btn_inspection"
+            app:layout_constraintStart_toStartOf="@id/btn_inspection"
+            app:layout_constraintTop_toTopOf="@id/tv_access_control"
+            app:layout_constraintBottom_toBottomOf="@id/tv_access_control"/>
+
+
+        <Button
+            android:id="@+id/btn_temp_screening"
+            android:layout_width="@dimen/btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/btn_temp_screening"
+            app:layout_constraintDimensionRatio="w,1:1"
+
+            app:layout_constraintStart_toEndOf="@id/btn_inspection"
+            app:layout_constraintTop_toTopOf="@id/btn_access_control"
+            app:layout_constraintBottom_toBottomOf="@id/btn_access_control"
+            app:layout_constraintEnd_toStartOf="@id/btn_park_track"
+            />
+
+        <TextView
+            android:id="@+id/tv_temp_screening"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_temp_screening"
+            android:textSize="@dimen/btn_tv_text_size"
+
+            app:layout_constraintEnd_toEndOf="@id/btn_temp_screening"
+            app:layout_constraintStart_toStartOf="@id/btn_temp_screening"
+            app:layout_constraintTop_toTopOf="@id/tv_access_control"
+            app:layout_constraintBottom_toBottomOf="@id/tv_access_control"/>
+
+
+        <Button
+            android:id="@+id/btn_park_track"
+            android:layout_width="@dimen/btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/btn_park_track"
+            app:layout_constraintDimensionRatio="w,1:1"
+
+            app:layout_constraintStart_toEndOf="@id/btn_temp_screening"
+            app:layout_constraintTop_toTopOf="@id/btn_access_control"
+            app:layout_constraintBottom_toBottomOf="@id/btn_access_control"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/tv_park_track"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_park_track"
+            android:textSize="@dimen/btn_tv_text_size"
+
+            app:layout_constraintEnd_toEndOf="@id/btn_park_track"
+            app:layout_constraintStart_toStartOf="@id/btn_park_track"
+            app:layout_constraintTop_toTopOf="@id/tv_access_control"
+            app:layout_constraintBottom_toBottomOf="@id/tv_access_control"/>
+
+
+
+        <Button
+            android:id="@+id/btn_statistics"
+            android:layout_width="@dimen/btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/btn_statistics"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:layout_marginTop="@dimen/main_btn_to_top_margin"
+
+            app:layout_constraintStart_toStartOf="@id/btn_access_control"
+            app:layout_constraintEnd_toEndOf="@id/btn_access_control"
+            app:layout_constraintTop_toBottomOf="@id/btn_gl_h1"
+            app:layout_constraintBottom_toTopOf="@id/tv_statistics"
+            />
+
+        <TextView
+            android:id="@+id/tv_statistics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_statistics"
+            android:textSize="@dimen/btn_tv_text_size"
+            android:layout_marginTop="@dimen/main_btn_interval_v"
+
+            app:layout_constraintEnd_toEndOf="@id/btn_statistics"
+            app:layout_constraintStart_toStartOf="@id/btn_statistics"
+            app:layout_constraintTop_toBottomOf="@id/btn_statistics"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+        <Button
+            android:id="@+id/btn_abnormal_alarm"
+            android:layout_width="@dimen/btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/btn_abnormal_alarm"
+            app:layout_constraintDimensionRatio="w,1:1"
+
+            app:layout_constraintStart_toStartOf="@id/btn_video_surveillance"
+            app:layout_constraintTop_toTopOf="@id/btn_statistics"
+            app:layout_constraintBottom_toBottomOf="@id/btn_statistics"
+            app:layout_constraintEnd_toEndOf="@id/btn_video_surveillance"
+            />
+
+        <TextView
+            android:id="@+id/tv_abnormal_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_abnormal_alarm"
+            android:textSize="@dimen/btn_tv_text_size"
+
+            app:layout_constraintEnd_toEndOf="@id/btn_abnormal_alarm"
+            app:layout_constraintStart_toStartOf="@id/btn_abnormal_alarm"
+            app:layout_constraintTop_toTopOf="@id/tv_statistics"
+            app:layout_constraintBottom_toBottomOf="@id/tv_statistics"/>
+
+
+        <Button
+            android:id="@+id/btn_more"
+            android:layout_width="@dimen/btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/btn_more"
+            app:layout_constraintDimensionRatio="w,1:1"
+
+            app:layout_constraintStart_toStartOf="@id/btn_inspection"
+            app:layout_constraintTop_toTopOf="@id/btn_statistics"
+            app:layout_constraintBottom_toBottomOf="@id/btn_statistics"
+            app:layout_constraintEnd_toEndOf="@id/btn_inspection"
+            />
+
+        <TextView
+            android:id="@+id/tv_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_more"
+            android:textSize="@dimen/btn_tv_text_size"
+
+            app:layout_constraintEnd_toEndOf="@id/btn_more"
+            app:layout_constraintStart_toStartOf="@id/btn_more"
+            app:layout_constraintTop_toTopOf="@id/tv_statistics"
+            app:layout_constraintBottom_toBottomOf="@id/tv_statistics"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/btn_gl_h1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_news_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+        app:layout_constraintBottom_toTopOf="@id/gl_h3"
+        app:layout_constraintTop_toBottomOf="@id/gl_h2">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/favorite_cams_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+        app:layout_constraintBottom_toTopOf="@id/bottom_menu_layout"
+        app:layout_constraintTop_toBottomOf="@id/gl_h3" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottom_menu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_h1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_h2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_h3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.55" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">irs_vms</string>
+
+    <string name="btn_access_control">安防门禁</string>
+    <string name="btn_video_surveillance">视频监控</string>
+    <string name="btn_inspection">巡检任务</string>
+    <string name="btn_temp_screening">体温筛查</string>
+    <string name="btn_park_track">园区轨迹</string>
+    <string name="btn_statistics">数据统计</string>
+    <string name="btn_abnormal_alarm">异常报警</string>
+    <string name="btn_more">更多</string>
 </resources>
