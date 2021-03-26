@@ -5,4 +5,10 @@
     <dimen name="btn_size">42dp</dimen>
     <dimen name="main_btn_interval_v">3dp</dimen>
     <dimen name="main_btn_to_top_margin">8dp</dimen>
+    <dimen name="tab_btn_size">26dp</dimen>
+    <dimen name="tab_btn_tv_text_size">10sp</dimen>
+
+    <dimen name="shadow_radius">8dp</dimen>
+    <dimen name="shadow_top_padding">0dp</dimen>
+    <dimen name="shadow_other_padding">1dp</dimen>
 </resources>

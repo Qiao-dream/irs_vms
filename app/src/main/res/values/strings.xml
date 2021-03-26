@@ -9,4 +9,13 @@
     <string name="btn_statistics">数据统计</string>
     <string name="btn_abnormal_alarm">异常报警</string>
     <string name="btn_more">更多</string>
+    <string name="btn_home">首页</string>
+    <string name="btn_alarm">报警</string>
+    <string name="btn_user">我的</string>
+    <string name="btn_favorite_cams_manage">管理</string>
+
+    <string name="tv_position">烟台</string>
+    <string name="tv_favorite_cams_title">智慧园区</string>
+    <string name="et_search_hint">&#160;&#160;搜索监控区域/设备/名称</string>
+
 </resources>
