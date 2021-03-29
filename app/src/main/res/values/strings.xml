@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">irs_vms</string>
-
+<!--    MainActivity-->
     <string name="btn_access_control">安防门禁</string>
     <string name="btn_video_surveillance">视频监控</string>
     <string name="btn_inspection">巡检任务</string>
@@ -17,5 +17,16 @@
     <string name="tv_position">烟台</string>
     <string name="tv_favorite_cams_title">智慧园区</string>
     <string name="et_search_hint">&#160;&#160;搜索监控区域/设备/名称</string>
+
+
+<!--    LoginActivity-->
+    <string name="tv_copyright">COPYRIGHT@2021&#160;睿创微纳.版权所有</string>
+    <string name="et_name_hint">User Name</string>
+    <string name="et_password_hint">Password</string>
+    <string name="cb_save_password">记住密码</string>
+    <string name="btn_forget_password">忘记密码</string>
+    <string name="btn_login">立&#160;即&#160;登&#160;录</string>
+
+
 
 </resources>

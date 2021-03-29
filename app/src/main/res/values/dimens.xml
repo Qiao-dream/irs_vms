@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+<!--MainActivity-->
     <dimen name="btn_tv_text_size">12sp</dimen>
     <dimen name="btn_size">42dp</dimen>
     <dimen name="main_btn_interval_v">3dp</dimen>
@@ -11,4 +11,10 @@
     <dimen name="shadow_radius">8dp</dimen>
     <dimen name="shadow_top_padding">0dp</dimen>
     <dimen name="shadow_other_padding">1dp</dimen>
+
+<!--    LoginActivity-->
+    <dimen name="login_icon_size">30dp</dimen>
+    <dimen name="login_sub_icon_size">26dp</dimen>
+    <dimen name="login_et_height">40dp</dimen>
+    <dimen name="login_et_width">260dp</dimen>
 </resources>

@@ -8,4 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/edit_line_color</item>
+        <item name="colorControlActivated">@color/text_color</item>
+    </style>
+
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/text_color</item>
+        <item name="colorControlActivated">@color/main_search_bg</item>
+    </style>
+
 </resources>
