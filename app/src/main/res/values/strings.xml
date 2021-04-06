@@ -26,6 +26,8 @@
     <string name="cb_save_password">记住密码</string>
     <string name="btn_forget_password">忘记密码</string>
     <string name="btn_login">立&#160;即&#160;登&#160;录</string>
+    <string name="tv_login_failed_info">用户名或密码错误，请重新输入</string>
+    <string name="tv_login_info_empty">请输入用户名和密码</string>
 
 
 
