@@ -5,12 +5,20 @@ android {
     buildToolsVersion "30.0.2"
     defaultConfig {
         applicationId "com.iray.irs_vms"
-        minSdkVersion 24
-        targetSdkVersion 29
+        minSdkVersion 22
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters "armeabi-v7a"
+//, "arm64-v8a"//, "x86", "x86_64"//, "armeabi", "mips", "mips64"
+        }
     }
+
+
+
     buildTypes {
         release {
             minifyEnabled false

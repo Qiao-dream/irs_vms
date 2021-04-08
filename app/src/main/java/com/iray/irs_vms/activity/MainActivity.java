@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         tvUser = (TextView) findViewById(R.id.tv_user);
 
         btnMore.setOnClickListener(mOnClickListener);
+        btnVideoSurveillance.setOnClickListener(mOnClickListener);
     }
 
 
@@ -146,6 +147,10 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.btn_more:
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
+                    break;
+                case R.id.btn_video_surveillance:
+                    Intent intent1 = new Intent(MainActivity.this, PreviewActivity.class);
+                    startActivity(intent1);
                     break;
                 default:
                     break;
