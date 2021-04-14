@@ -12,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/main_search_bg"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
 
         app:layout_constraintTop_toTopOf="parent">
 
@@ -22,6 +24,8 @@
             android:background="@drawable/rounded_shape"
             android:hint="@string/et_search_hint"
             android:textSize="16sp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
 
 
             app:layout_constraintTop_toTopOf="parent"

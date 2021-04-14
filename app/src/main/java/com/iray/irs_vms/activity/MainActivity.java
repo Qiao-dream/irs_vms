@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnMore.setOnClickListener(mOnClickListener);
         btnVideoSurveillance.setOnClickListener(mOnClickListener);
+
     }
 
 
