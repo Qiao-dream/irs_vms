@@ -17,7 +17,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.iray.irs_vms.R;
+import com.iray.irs_vms.httpUtils.Common;
 import com.iray.irs_vms.httpUtils.UserUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -29,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnForgetPassword;
     private TextView tvLoginFailedInfo;
     private Button btnLogin;
-
+    private String accessToken;
     Handler mHandler;
     public final static int LOGIN_RESULT = 201;
 
@@ -142,8 +146,18 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString(getString(R.string.user_sp_name), etLoginName.getText().toString());
                             editor.putString(getString(R.string.user_sp_password), etLoginPassword.getText().toString());
                             editor.apply();
+                            try {
+                                JSONObject jsonObject = new JSONObject(msg.obj.toString());
+                                JSONObject datasJ = jsonObject.getJSONObject("datas");
+                                accessToken = datasJ.getString("access_token");
+                                Common.ACCESS_TOKEN = "Bearer"+accessToken;
+                                Log.e("login", accessToken);
+                            } catch (JSONException e){
+                                e.printStackTrace();
+                            }
+
                         }
-                        Log.e("login", msg.obj.toString());
+//                        Log.e("login", msg.obj.toString());
                         break;
                     default:
                         break;

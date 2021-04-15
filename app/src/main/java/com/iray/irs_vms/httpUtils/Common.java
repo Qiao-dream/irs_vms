@@ -11,7 +11,7 @@ import java.io.File;
 
 public class Common {
     public static String HTTP_URL = "http://172.16.20.10:9900";
-
+    public static String ACCESS_TOKEN;
     public static String FILE_PATH = getSDPath() + File.separator + "iRayMedia/";
     public static final int DEFAULT_WIDTH = 384;
     public static final int DEFAULT_HEIGHT = 288;
