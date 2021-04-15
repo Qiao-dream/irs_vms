@@ -28,6 +28,14 @@
     <string name="btn_login">立&#160;即&#160;登&#160;录</string>
     <string name="tv_login_failed_info">用户名或密码错误，请重新输入</string>
     <string name="tv_login_info_empty">请输入用户名和密码</string>
+    <string name="tv_login_service_failed">服务器连接失败</string>
+
+
+<!--    SharedPreferences-->
+    <string name="sp_user">user</string>
+    <string name="user_sp_name">name</string>
+    <string name="user_sp_password">password</string>
+    <string name="user_sp_save_password">save</string>
 
 
 </resources>

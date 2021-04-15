@@ -3,6 +3,7 @@ package com.iray.irs_vms.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
     Handler mHandler;
     public final static int LOGIN_RESULT = 201;
 
+    private SharedPreferences userSp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,19 +43,30 @@ public class LoginActivity extends AppCompatActivity {
         init();
     }
 
-    private void init(){
+    private void init() {
         initView();
         setmHandler();
+
     }
 
 
     private void initView() {
         findView();
-
+        userSp = getSharedPreferences(getString(R.string.sp_user), MODE_PRIVATE);
+        boolean savePasswordTag = userSp.getBoolean(getString(R.string.user_sp_save_password), false);
+        cbSavePassword.setChecked(savePasswordTag);
+        String loginName = userSp.getString(getString(R.string.user_sp_name), "");
+        if (!loginName.equals("")) {
+            etLoginName.setText(loginName);
+        }
+        String loginPassword = userSp.getString(getString(R.string.user_sp_password), "");
+        if (savePasswordTag && !loginPassword.equals("")) {
+            etLoginPassword.setText(loginPassword);
+        }
     }
 
 
-    private void findView(){
+    private void findView() {
         etLoginName = (EditText) findViewById(R.id.et_login_name);
         btnMoreName = (Button) findViewById(R.id.btn_more_name);
         etLoginPassword = (EditText) findViewById(R.id.et_login_password);
@@ -65,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
         btnHidePassword.setOnClickListener(mOnClickListener);
         btnLogin.setOnClickListener(mOnClickListener);
         btnMoreName.setOnClickListener(mOnClickListener);
+        cbSavePassword.setOnClickListener(mOnClickListener);
     }
 
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
@@ -88,9 +103,18 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     break;
                 case R.id.btn_hide_password:
-                    if(etLoginPassword.getInputType()==InputType.TYPE_TEXT_VARIATION_PASSWORD){
+                    if (etLoginPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) {
                         etLoginPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                     }
+                    break;
+                case R.id.cb_save_password:
+                    SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.sp_user), MODE_PRIVATE).edit();
+                    editor.putBoolean(getString(R.string.user_sp_save_password), cbSavePassword.isChecked());
+                    if(!cbSavePassword.isChecked()){
+                        editor.putString(getString(R.string.user_sp_password), "");
+                    }
+                    editor.apply();
+                    break;
                 default:
                     break;
             }
@@ -103,6 +127,16 @@ public class LoginActivity extends AppCompatActivity {
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
                     case LOGIN_RESULT:
+                        if (msg.obj.toString().equals("")) {  //登录失败
+                            tvLoginFailedInfo.setText(getString(R.string.tv_login_service_failed));
+                            tvLoginFailedInfo.setVisibility(View.VISIBLE);
+                        } else {
+                            tvLoginFailedInfo.setVisibility(View.INVISIBLE);
+                            SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.sp_user), MODE_PRIVATE).edit();
+                            editor.putString(getString(R.string.user_sp_name), etLoginName.getText().toString());
+                            editor.putString(getString(R.string.user_sp_password), etLoginPassword.getText().toString());
+                            editor.apply();
+                        }
                         Log.e("login", msg.obj.toString());
                         break;
                     default:

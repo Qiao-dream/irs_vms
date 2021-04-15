@@ -35,14 +35,14 @@ public class UserUtils {
             Response response = client.newCall(request).execute();
             String resultStr = response.body().string();
             if(resultStr.equals("")){
-                message = mHandler.obtainMessage(LoginActivity.LOGIN_RESULT, -1);
+                message = mHandler.obtainMessage(LoginActivity.LOGIN_RESULT, "");
             } else {
                 message = mHandler.obtainMessage(LoginActivity.LOGIN_RESULT, resultStr);
             }
             mHandler.sendMessage(message);
         } catch (Exception e){
             e.printStackTrace();
-            message = mHandler.obtainMessage(LoginActivity.LOGIN_RESULT, -1);
+            message = mHandler.obtainMessage(LoginActivity.LOGIN_RESULT, "");
             mHandler.sendMessage(message);
         }
     }
