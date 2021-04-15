@@ -63,6 +63,8 @@ public class LoginActivity extends AppCompatActivity {
         if (savePasswordTag && !loginPassword.equals("")) {
             etLoginPassword.setText(loginPassword);
         }
+        etLoginPassword.setInputType(0x81);
+        btnHidePassword.setBackground(getDrawable(R.drawable.btn_hide_password));
     }
 
 
@@ -103,8 +105,12 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     break;
                 case R.id.btn_hide_password:
-                    if (etLoginPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) {
+                    if (etLoginPassword.getInputType() == 0x81) {
                         etLoginPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                        btnHidePassword.setBackground(getDrawable(R.drawable.btn_show_password));
+                    } else {
+                        etLoginPassword.setInputType(0x81);
+                        btnHidePassword.setBackground(getDrawable(R.drawable.btn_hide_password));
                     }
                     break;
                 case R.id.cb_save_password:

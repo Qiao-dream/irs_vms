@@ -115,7 +115,6 @@
             android:textColorHint="@color/edit_line_color"
             android:gravity="center_horizontal"
             android:maxLines="1"
-            android:inputType="textPassword"
 
             app:layout_constraintStart_toEndOf="@id/tv_login_icon_password"
             app:layout_constraintEnd_toEndOf="parent"
