@@ -18,6 +18,8 @@ public class Common {
     public  static final String  IMAGE_SIZE="IMAGE_SIZE";
     public  static final String  IMAGE_SIZE_VALUE="IMAGE_SIZE_VALUE";
 
+    public static String MEDIA_TYPE = "application/x-www-form-urlencoded";
+
 
     private static String getSDPath() {
         boolean hasSDCard = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);

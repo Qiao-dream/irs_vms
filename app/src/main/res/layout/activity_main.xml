@@ -11,7 +11,7 @@
         android:id="@+id/top_menu_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/main_search_bg"
+        android:background="@drawable/top_bar_bg"
         android:focusable="true"
         android:focusableInTouchMode="true"
 

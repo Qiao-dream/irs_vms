@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 public class UserUtils {
     private static String USER_API_URL = "/api-user";
     private static String LOGIN_API_URL = "/api-uaa/oauth/token";
-    private static String MEDIA_TYPE = "application/x-www-form-urlencoded";
 
 
     public static void loginForToken(Handler mHandler, String userName, String password, String grantType, String clientId, String clientSecret){
@@ -25,7 +24,7 @@ public class UserUtils {
             OkHttpClient client = new OkHttpClient();
             client.setConnectTimeout(30, TimeUnit.SECONDS);
             client.setReadTimeout(30, TimeUnit.SECONDS);
-            MediaType mediaType = MediaType.parse(MEDIA_TYPE);
+            MediaType mediaType = MediaType.parse(Common.MEDIA_TYPE);
             RequestBody body = RequestBody.create(mediaType, String.format("username=%s&password=%s&grant_type=%s&client_id=%s&client_secret=%s", userName, password, grantType, clientId, clientSecret));
             Request request = new Request.Builder()
                     .url(Common.HTTP_URL+LOGIN_API_URL)

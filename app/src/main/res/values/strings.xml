@@ -31,7 +31,11 @@
     <string name="tv_login_service_failed">服务器连接失败</string>
 
 
-<!--    SharedPreferences-->
+<!--    DeviceListActivity-->
+    <string name="device_list_tv_title">设备列表</string>
+
+
+    <!--    SharedPreferences-->
     <string name="sp_user">user</string>
     <string name="user_sp_name">name</string>
     <string name="user_sp_password">password</string>

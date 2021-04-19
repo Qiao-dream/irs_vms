@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.btn_video_surveillance:
-                    Intent intent1 = new Intent(MainActivity.this, PreviewActivity.class);
+                    Intent intent1 = new Intent(MainActivity.this, DeviceListActivity.class);
                     startActivity(intent1);
                     break;
                 default:
