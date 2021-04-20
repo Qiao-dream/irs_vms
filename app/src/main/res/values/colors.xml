@@ -11,4 +11,5 @@
     <color name="transparent">#00FFFFFF</color>
     <color name="text_color">#979090</color>
     <color name="edit_line_color">#C7BEBE</color>
+    <color name="divide_gray_color">#3CBBB2B2</color>
 </resources>

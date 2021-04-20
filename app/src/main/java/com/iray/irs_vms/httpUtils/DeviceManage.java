@@ -6,9 +6,15 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.iray.irs_vms.activity.DeviceListActivity;
+import com.iray.irs_vms.activity.MainActivity;
 import com.iray.irs_vms.info.DeviceInfo;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DeviceManage {
@@ -16,13 +22,13 @@ public class DeviceManage {
     private static DeviceManage instance = null;
 //    private DeviceListActivity deviceListActivity;
     private WeakReference<DeviceListActivity> deviceListActivityWeakReference;
-    List<DeviceInfo> mDeviceList;
+    public List<DeviceInfo> mDeviceList;
     String testDeviceResultStr = "1";
 
     private static final String DEVICE_MANAGE_LIST_DEVICES = "list_devices";
 
     private DeviceManage(){
-
+        mDeviceList = new ArrayList<DeviceInfo>();
     }
 
     public static synchronized DeviceManage getInstance(){
@@ -64,7 +70,24 @@ public class DeviceManage {
             if(strings[0].equals(DEVICE_MANAGE_LIST_DEVICES)){
                 String deviceListStr = DeviceUtils.listAllCurrentDevice(Common.ACCESS_TOKEN);
                 if(!deviceListStr.equals("")){
-                    testDeviceResultStr = deviceListStr;
+                    try {
+                        JSONObject jsonObject = new JSONObject(deviceListStr);
+                        JSONArray deviceDatas = jsonObject.getJSONArray("datas");
+                        JSONObject aDeviceData;
+                        for(int i = 0; i<deviceDatas.length(); i++){
+                            aDeviceData = deviceDatas.getJSONObject(i);
+                            DeviceInfo deviceInfoBuff = new DeviceInfo();
+                            deviceInfoBuff.setDeviceOrg(aDeviceData.getString("organizationName"));
+                            deviceInfoBuff.setDeviceName(aDeviceData.getString("name"));
+                            deviceInfoBuff.setDeviceTransport(aDeviceData.isNull("transport")?0:aDeviceData.getInt("transport"));
+                            deviceInfoBuff.setDeviceType(aDeviceData.isNull("deviceType")?0:aDeviceData.getInt("deviceType"));
+                            deviceInfoBuff.setDeviceOnline(!aDeviceData.isNull("online")&&aDeviceData.getBoolean("online"));
+                            mDeviceList.add(deviceInfoBuff);
+                        }
+                    } catch (JSONException e){
+                        e.printStackTrace();
+                    }
+
                 }
             }
             return result;
@@ -74,7 +97,7 @@ public class DeviceManage {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if(s.equals(DEVICE_MANAGE_LIST_DEVICES)){
-                Log.e("device", "testDeviceResultStr: "+testDeviceResultStr);
+                deviceListActivity.get().sendDeviceHandler(DeviceListActivity.HANDLER_LIST_ALL_DEVICES);
             }
             mProgressBar.setVisibility(View.GONE);
         }

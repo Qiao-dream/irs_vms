@@ -21,14 +21,15 @@ public class DeviceUtils {
             OkHttpClient client = new OkHttpClient();
             client.setConnectTimeout(30, TimeUnit.SECONDS);
             client.setReadTimeout(30, TimeUnit.SECONDS);
-            MediaType mediaType = MediaType.parse(Common.MEDIA_TYPE);
+//            MediaType mediaType = MediaType.parse(Common.MEDIA_TYPE);
             Request request = new Request.Builder()
                     .url(Common.HTTP_URL+DEVICE_API_URL+DEVICE_ALL_CURRENT_DEVICE)
-                    .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                    .addHeader("Content-Type", Common.MEDIA_TYPE)
                     .addHeader("Authorization", accessToken)
                     .build();
             Response response = client.newCall(request).execute();
-            return response.body().string();
+            String result = response.body().string();
+            return result;
         } catch (Exception e){
             e.printStackTrace();
             return "";

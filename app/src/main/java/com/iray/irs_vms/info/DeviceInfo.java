@@ -4,7 +4,8 @@ public class DeviceInfo {
     private String deviceOrg;
     private String deviceName;
     private int deviceTransport;
-    private String deviceType;
+    private int deviceType;
+    private boolean deviceOnline;
 
 
     public String getDeviceOrg() {
@@ -31,11 +32,19 @@ public class DeviceInfo {
         this.deviceTransport = deviceTransport;
     }
 
-    public String getDeviceType() {
+    public int getDeviceType() {
         return deviceType;
     }
 
-    public void setDeviceType(String deviceType) {
+    public void setDeviceType(int deviceType) {
         this.deviceType = deviceType;
+    }
+
+    public boolean isDeviceOnline() {
+        return deviceOnline;
+    }
+
+    public void setDeviceOnline(boolean deviceOnline) {
+        this.deviceOnline = deviceOnline;
     }
 }

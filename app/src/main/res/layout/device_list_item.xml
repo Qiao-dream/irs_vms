@@ -72,7 +72,7 @@
         android:layout_height="@dimen/device_list_icon_size"
         android:background="@drawable/icon_online"
         app:layout_constraintBottom_toBottomOf="@id/iv_device_item"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
 
         app:layout_constraintDimensionRatio="h,1:1"
         app:layout_constraintStart_toEndOf="@id/device_list_gl_v2" />
