@@ -12,4 +12,5 @@
     <color name="text_color">#979090</color>
     <color name="edit_line_color">#C7BEBE</color>
     <color name="divide_gray_color">#3CBBB2B2</color>
+    <color name="sub_text_color">#B0BBB2B2</color>
 </resources>

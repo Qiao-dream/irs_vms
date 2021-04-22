@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnMore.setOnClickListener(mOnClickListener);
         btnVideoSurveillance.setOnClickListener(mOnClickListener);
+        btnUser.setOnClickListener(mOnClickListener);
 
     }
 
@@ -152,6 +153,10 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.btn_video_surveillance:
                     Intent intent1 = new Intent(MainActivity.this, DeviceListActivity.class);
                     startActivity(intent1);
+                    break;
+                case R.id.btn_user:
+                    Intent intent2 = new Intent(MainActivity.this, UserActivity.class);
+                    startActivity(intent2);
                     break;
                 default:
                     break;

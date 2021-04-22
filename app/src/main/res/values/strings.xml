@@ -30,11 +30,18 @@
     <string name="tv_login_info_empty">请输入用户名和密码</string>
     <string name="tv_login_service_failed">服务器连接失败</string>
 
+<!--    UserActivity-->
+    <string name="tv_user_menu_setting">我的设置</string>
+    <string name="tv_user_menu_alarm_pushing">报警推送</string>
+    <string name="tv_user_menu_feedback">意见反馈</string>
+    <string name="tv_user_menu_customer_service">联系客服</string>
+    <string name="tv_user_cs_text">联系客服</string>
+    <string name="tv_user_cs_number">0535-02602</string>
 
-<!--    DeviceListActivity-->
+
+    <!--    DeviceListActivity-->
     <string name="device_list_tv_title">设备列表</string>
     <string name="tst_device_list_empty">未找到设备</string>
-
 
 
     <!--    SharedPreferences-->
@@ -44,12 +51,12 @@
     <string name="user_sp_save_password">save</string>
 
 
-<!--    deviceType-->
+    <!--    deviceType-->
     <string name="device_type_1">IPC</string>
     <string name="device_type_2">NVR</string>
     <string name="device_type_3">门禁</string>
 
-<!--    deviceOnline-->
+    <!--    deviceOnline-->
     <string name="device_online">在线</string>
     <string name="device_offline">离线</string>
 

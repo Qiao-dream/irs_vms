@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.UserActivity">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/user_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@drawable/top_bar_bg"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <Button
+            android:id="@+id/user_btn_close"
+            android:layout_width="@dimen/top_bar_btn_size"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/top_bar_btn_margin"
+            android:background="@drawable/btn_close"
+
+            app:layout_constraintBottom_toBottomOf="@id/user_top_bar_gl_h"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/user_btn_setting"
+            android:layout_width="@dimen/top_bar_btn_size"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/top_bar_btn_margin"
+            android:background="@drawable/btn_setting_white"
+
+            app:layout_constraintBottom_toBottomOf="@id/user_top_bar_gl_h"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/user_top_bar_gl_h"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="60dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/user_gl_h1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="60dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/user_info_layout"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="@dimen/top_bar_btn_margin"
+        android:layout_marginEnd="@dimen/top_bar_btn_margin"
+        android:background="@drawable/rounded_shadow_shape"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/user_gl_h1">
+
+        <com.shehuan.niv.NiceImageView
+            android:id="@+id/iv_user_avatar"
+            android:layout_width="130dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/test_avatar"
+            app:is_circle="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tx_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/user_info_name_text_margin_start"
+            android:layout_marginTop="@dimen/user_info_name_text_margin_top"
+            android:text="用户A"
+            android:textColor="@color/black"
+            android:textSize="@dimen/user_info_name_text_size"
+
+            app:layout_constraintStart_toEndOf="@id/iv_user_avatar"
+            app:layout_constraintTop_toTopOf="@id/iv_user_avatar" />
+
+
+        <TextView
+            android:id="@+id/tx_user_info_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="职位： 保安一部 高级保安"
+            android:textSize="@dimen/user_info_sub_text_size"
+
+
+            app:layout_constraintStart_toStartOf="@id/tx_user_name"
+            app:layout_constraintTop_toBottomOf="@id/tx_user_name" />
+
+        <TextView
+            android:id="@+id/tx_user_info_job_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="工号： 123456"
+            android:textSize="@dimen/user_info_sub_text_size"
+
+
+            app:layout_constraintStart_toStartOf="@id/tx_user_name"
+            app:layout_constraintTop_toBottomOf="@id/tx_user_info_position" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/user_menu_layout"
+        android:layout_width="0dp"
+        android:layout_height="280dp"
+        android:layout_marginStart="@dimen/top_bar_btn_margin"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="@dimen/top_bar_btn_margin"
+        android:background="@drawable/rounded_shadow_shape"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/user_info_layout">
+
+
+        <TextView
+            android:id="@+id/user_menu_setting_icon"
+            android:layout_width="@dimen/user_menu_icon_size"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/user_menu_item_margin_start"
+            android:layout_marginTop="@dimen/user_menu_item_margin_top"
+            android:background="@drawable/icon_feedback"
+            app:layout_constraintDimensionRatio="w,1:1"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/user_menu_setting_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/user_menu_text_margin_start"
+            android:text="@string/tv_user_menu_setting"
+            android:textSize="@dimen/user_menu_text_size"
+
+            app:layout_constraintBottom_toBottomOf="@id/user_menu_setting_icon"
+            app:layout_constraintStart_toEndOf="@id/user_menu_setting_icon"
+            app:layout_constraintTop_toTopOf="@id/user_menu_setting_icon" />
+
+        <TextView
+            android:id="@+id/user_menu_dividing_line1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/user_menu_dividing_line_height"
+            android:layout_marginTop="@dimen/user_menu_dividing_margin_top"
+            android:layout_marginEnd="@dimen/user_menu_item_margin_start"
+            android:background="@color/divide_gray_color"
+
+            app:layout_constraintStart_toStartOf="@id/user_menu_setting_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_menu_setting_icon"/>
+
+
+        <TextView
+            android:id="@+id/user_menu_alarm_pushing_icon"
+            android:layout_width="@dimen/user_menu_icon_size"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/user_menu_item_margin_top"
+            android:background="@drawable/icon_feedback"
+            app:layout_constraintDimensionRatio="w,1:1"
+
+            app:layout_constraintStart_toStartOf="@id/user_menu_setting_icon"
+            app:layout_constraintTop_toBottomOf="@id/user_menu_dividing_line1"/>
+
+        <TextView
+            android:id="@+id/user_menu_alarm_pushing_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/user_menu_text_margin_start"
+            android:text="@string/tv_user_menu_alarm_pushing"
+            android:textSize="@dimen/user_menu_text_size"
+
+
+            app:layout_constraintBottom_toBottomOf="@id/user_menu_alarm_pushing_icon"
+            app:layout_constraintStart_toEndOf="@id/user_menu_alarm_pushing_icon"
+            app:layout_constraintTop_toTopOf="@id/user_menu_alarm_pushing_icon" />
+
+        <TextView
+            android:id="@+id/user_menu_dividing_line2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/user_menu_dividing_line_height"
+            android:background="@color/divide_gray_color"
+            android:layout_marginTop="@dimen/user_menu_dividing_margin_top"
+
+            app:layout_constraintStart_toStartOf="@id/user_menu_dividing_line1"
+            app:layout_constraintEnd_toEndOf="@id/user_menu_dividing_line1"
+            app:layout_constraintTop_toBottomOf="@id/user_menu_alarm_pushing_icon"/>
+
+        <TextView
+            android:id="@+id/user_menu_feedback_icon"
+            android:layout_width="@dimen/user_menu_icon_size"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/user_menu_item_margin_top"
+            android:background="@drawable/icon_feedback"
+            app:layout_constraintDimensionRatio="w,1:1"
+
+            app:layout_constraintStart_toStartOf="@id/user_menu_setting_icon"
+            app:layout_constraintTop_toBottomOf="@id/user_menu_dividing_line2"/>
+
+        <TextView
+            android:id="@+id/user_menu_feedback_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/user_menu_text_margin_start"
+            android:text="@string/tv_user_menu_feedback"
+            android:textSize="@dimen/user_menu_text_size"
+
+
+            app:layout_constraintBottom_toBottomOf="@id/user_menu_feedback_icon"
+            app:layout_constraintStart_toEndOf="@id/user_menu_feedback_icon"
+            app:layout_constraintTop_toTopOf="@id/user_menu_feedback_icon" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottom_menu_layout_user"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/user_btn_home"
+            android:layout_width="@dimen/tab_btn_size"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/main_btn_to_top_margin"
+            android:background="@drawable/btn_home_selector"
+
+            app:layout_constraintBottom_toTopOf="@id/user_tv_home"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toStartOf="@id/user_btn_alarm"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/user_tv_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/main_btn_interval_v"
+            android:text="@string/btn_home"
+            android:textSize="@dimen/tab_btn_tv_text_size"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/user_btn_home"
+            app:layout_constraintStart_toStartOf="@id/user_btn_home"
+            app:layout_constraintTop_toBottomOf="@id/user_btn_home" />
+
+
+        <Button
+            android:id="@+id/user_btn_alarm"
+            android:layout_width="@dimen/tab_btn_size"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/main_btn_to_top_margin"
+            android:background="@drawable/btn_alarm_selector"
+
+            app:layout_constraintBottom_toTopOf="@id/user_tv_alarm"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toStartOf="@id/user_btn_user"
+            app:layout_constraintStart_toEndOf="@id/user_btn_home"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/user_tv_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/main_btn_interval_v"
+            android:text="@string/btn_alarm"
+            android:textSize="@dimen/tab_btn_tv_text_size"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/user_btn_alarm"
+            app:layout_constraintStart_toStartOf="@id/user_btn_alarm"
+            app:layout_constraintTop_toBottomOf="@id/user_btn_alarm" />
+
+
+        <Button
+            android:id="@+id/user_btn_user"
+            android:layout_width="@dimen/tab_btn_size"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/main_btn_to_top_margin"
+            android:background="@drawable/btn_user_selector"
+
+
+            app:layout_constraintBottom_toTopOf="@id/user_tv_user"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/user_btn_alarm"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/user_tv_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/main_btn_interval_v"
+            android:text="@string/btn_user"
+            android:textSize="@dimen/tab_btn_tv_text_size"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/user_btn_user"
+            app:layout_constraintStart_toStartOf="@id/user_btn_user"
+            app:layout_constraintTop_toBottomOf="@id/user_btn_user" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_user_menu_cs_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_user_cs_text"
+        android:textSize="@dimen/user_menu_cs_text_size"
+        android:textColor="@color/sub_text_color"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_user_menu_cs_number"/>
+
+    <TextView
+        android:id="@+id/tv_user_menu_cs_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_user_cs_number"
+        android:textSize="@dimen/user_menu_cs_text_size"
+        android:textColor="@color/sub_text_color"
+        android:layout_marginBottom="@dimen/user_menu_cs_number_margin_bottom"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_menu_layout_user"/>
+
+    <TextView
+        android:id="@+id/tv_user_menu_cs_icon"
+        android:layout_width="@dimen/user_menu_cs_icon_size"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="w,1:1"
+        android:background="@drawable/icon_customer_service"
+        android:layout_marginEnd="5dp"
+
+        app:layout_constraintEnd_toStartOf="@id/tv_user_menu_cs_text"
+        app:layout_constraintBottom_toBottomOf="@id/tv_user_menu_cs_text"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
