@@ -1,11 +1,10 @@
 package com.iray.irs_vms.activity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,7 +22,6 @@ import android.widget.Toast;
 import com.iray.irs_vms.R;
 import com.iray.irs_vms.httpUtils.Common;
 import com.iray.irs_vms.httpUtils.UserUtils;
-import com.iray.irs_vms.utils.DisplayUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,7 +35,7 @@ public class LoginActivity extends BaseActivity {
     private EditText etLoginPassword;
     private Button btnHidePassword;
     private CheckBox cbSavePassword;
-    private Button btnForgetPassword;
+    private Button btnAlterPassword;
     private TextView tvLoginFailedInfo;
     private Button btnLogin;
     private String accessToken;
@@ -89,14 +87,15 @@ public class LoginActivity extends BaseActivity {
         etLoginPassword = (EditText) findViewById(R.id.et_login_password);
         btnHidePassword = (Button) findViewById(R.id.btn_hide_password);
         cbSavePassword = (CheckBox) findViewById(R.id.cb_save_password);
-        btnForgetPassword = (Button) findViewById(R.id.btn_forget_password);
+        btnAlterPassword = (Button) findViewById(R.id.login_btn_alter_password);
         tvLoginFailedInfo = (TextView) findViewById(R.id.tv_login_failed_info);
         btnLogin = (Button) findViewById(R.id.btn_login);
-        btnForgetPassword.setOnClickListener(mOnClickListener);
+        btnAlterPassword.setOnClickListener(mOnClickListener);
         btnHidePassword.setOnClickListener(mOnClickListener);
         btnLogin.setOnClickListener(mOnClickListener);
         btnMoreName.setOnClickListener(mOnClickListener);
         cbSavePassword.setOnClickListener(mOnClickListener);
+        btnAlterPassword.setOnClickListener(mOnClickListener);
     }
 
     private void initLayoutSize(){
@@ -143,6 +142,10 @@ public class LoginActivity extends BaseActivity {
                         editor.putString(getString(R.string.user_sp_password), "");
                     }
                     editor.apply();
+                    break;
+                case R.id.login_btn_alter_password:
+                    Intent intent = new Intent(LoginActivity.this, AlterPasswordActivity.class);
+                    startActivity(intent);
                     break;
                 default:
                     break;

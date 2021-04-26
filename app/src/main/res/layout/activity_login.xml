@@ -70,7 +70,9 @@
             android:hint="@string/et_name_hint"
             android:textColorHint="@color/edit_line_color"
             android:gravity="center_horizontal"
-            android:maxLines="1"
+            android:inputType="text"
+            android:lines="1"
+            android:maxLength="20"
 
 
             app:layout_constraintStart_toEndOf="@id/tv_login_icon_name"
@@ -114,7 +116,8 @@
             android:theme="@style/MyEditText"
             android:textColorHint="@color/edit_line_color"
             android:gravity="center_horizontal"
-            android:maxLines="1"
+            android:lines="1"
+            android:maxLength="20"
 
             app:layout_constraintStart_toEndOf="@id/tv_login_icon_password"
             app:layout_constraintEnd_toEndOf="parent"
@@ -145,17 +148,17 @@
 
             app:layout_constraintTop_toBottomOf="@id/et_login_password"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btn_forget_password"
+            app:layout_constraintEnd_toStartOf="@id/login_btn_alter_password"
 
 
 
             />
 
         <Button
-            android:id="@+id/btn_forget_password"
+            android:id="@+id/login_btn_alter_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btn_forget_password"
+            android:text="@string/login_btn_alter_password"
             android:textColor="@color/text_color"
             android:background="@color/transparent"
             android:minWidth="0dp"

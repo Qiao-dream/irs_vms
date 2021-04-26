@@ -19,6 +19,16 @@
     <dimen name="login_et_width">260dp</dimen>
     <dimen name="login_bg_image_height">340dp</dimen>
 
+<!--    AlterPasswordActivity-->
+    <dimen name="ap_top_et_margin_top">50dp</dimen>
+    <dimen name="ap_between_et_margin_top">15dp</dimen>
+    <dimen name="ap_et_margin_start">10dp</dimen>
+    <dimen name="ap_hide_password_btn_size">26dp</dimen>
+    <dimen name="ap_text_size">16sp</dimen>
+    <dimen name="ap_hide_password_btn_margin_end">5dp</dimen>
+    <dimen name="ap_btn_confirm_height">35dp</dimen>
+    <dimen name="ap_btn_confirm_margin_top">25dp</dimen>
+
 <!--    UserActivity-->
     <dimen name="user_info_name_text_size">25sp</dimen>
     <dimen name="user_info_name_text_margin_start">20dp</dimen>
