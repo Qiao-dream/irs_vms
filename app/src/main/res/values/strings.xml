@@ -1,3 +1,77 @@
 <resources>
     <string name="app_name">irs_vms</string>
+    <!--    MainActivity-->
+    <string name="btn_access_control">安防门禁</string>
+    <string name="btn_video_surveillance">视频监控</string>
+    <string name="btn_inspection">巡检任务</string>
+    <string name="btn_temp_screening">体温筛查</string>
+    <string name="btn_park_track">园区轨迹</string>
+    <string name="btn_statistics">数据统计</string>
+    <string name="btn_abnormal_alarm">异常报警</string>
+    <string name="btn_more">更多</string>
+    <string name="btn_home">首页</string>
+    <string name="btn_alarm">报警</string>
+    <string name="btn_user">我的</string>
+    <string name="btn_favorite_cams_manage">管理</string>
+
+    <string name="tv_position">烟台</string>
+    <string name="tv_favorite_cams_title">智慧园区</string>
+    <string name="et_search_hint">&#160;&#160;搜索监控区域/设备/名称</string>
+
+
+    <!--    LoginActivity-->
+    <string name="tv_copyright">COPYRIGHT@2021&#160;睿创微纳.版权所有</string>
+    <string name="et_name_hint">User Name</string>
+    <string name="et_password_hint">Password</string>
+    <string name="cb_save_password">记住密码</string>
+    <string name="login_btn_alter_password">修改密码</string>
+    <string name="btn_login">立&#160;即&#160;登&#160;录</string>
+    <string name="tv_login_failed_info">用户名或密码错误，请重新输入</string>
+    <string name="tv_login_info_empty">请输入用户名和密码</string>
+    <string name="tv_login_service_failed">服务器连接失败</string>
+    <string name="tst_login_success">登录成功</string>
+
+    <!--    UserActivity-->
+    <string name="tv_user_menu_setting">我的设置</string>
+    <string name="tv_user_menu_alarm_pushing">报警推送</string>
+    <string name="tv_user_menu_feedback">意见反馈</string>
+    <string name="tv_user_menu_customer_service">联系客服</string>
+    <string name="tv_user_cs_text">联系客服</string>
+    <string name="tv_user_cs_number">0535-02602</string>
+
+
+<!--    AlterPasswordActivity-->
+    <string name="tv_alter_password_title">修改密码</string>
+    <string name="tv_alter_password_old">旧密码</string>
+    <string name="et_hint_alter_password_old">请输入旧密码</string>
+    <string name="tv_alter_password_new">新密码</string>
+    <string name="et_hint_alter_password_new">请输入新密码</string>
+    <string name="tv_alter_password_new_confirm">新密码</string>
+    <string name="et_hint_alter_password_new_confirm">请再次输入新密码</string>
+    <string name="btn_alter_password_confirm">确定修改</string>
+
+
+
+    <!--    DeviceListActivity-->
+    <string name="device_list_tv_title">设备列表</string>
+    <string name="tst_device_list_empty">未找到设备</string>
+
+
+    <!--    SharedPreferences-->
+    <string name="sp_user">user</string>
+    <string name="user_sp_name">name</string>
+    <string name="user_sp_password">password</string>
+    <string name="user_sp_save_password">save</string>
+
+
+    <!--    deviceType-->
+    <string name="device_type_1">IPC</string>
+    <string name="device_type_2">NVR</string>
+    <string name="device_type_3">门禁</string>
+
+    <!--    deviceOnline-->
+    <string name="device_online">在线</string>
+    <string name="device_offline">离线</string>
+
+
 </resources>

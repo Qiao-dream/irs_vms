@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#ffffff"/>
+
+    <stroke android:width="0dp"
+        android:color="#00000000"/>
+
+    <!--<padding android:left="2dp"-->
+        <!--android:top="2dp"-->
+        <!--android:right="2dp"-->
+        <!--android:bottom="2dp"/>-->
+
+    <corners android:bottomRightRadius="@dimen/shadow_radius"
+        android:bottomLeftRadius="@dimen/shadow_radius"
+        android:topLeftRadius="@dimen/shadow_radius"
+        android:topRightRadius="@dimen/shadow_radius"/>
+</shape>

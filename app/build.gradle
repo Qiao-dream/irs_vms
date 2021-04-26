@@ -5,12 +5,19 @@ android {
     buildToolsVersion "30.0.2"
     defaultConfig {
         applicationId "com.iray.irs_vms"
-        minSdkVersion 24
-        targetSdkVersion 29
+        minSdkVersion 22
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters "armeabi-v7a"
+//, "arm64-v8a"//, "x86", "x86_64"//, "armeabi", "mips", "mips64"
+        }
     }
+
+
     buildTypes {
         release {
             minifyEnabled false
@@ -23,7 +30,12 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'com.squareup.okhttp:okhttp:2.7.5'
+    implementation 'com.github.SheHuan:NiceImageView:1.0.5'
 }
