@@ -17,6 +17,8 @@ public class UserUtils {
     private static String USER_API_URL = "/api-user";
     private static String LOGIN_API_URL = "/api-uaa/oauth/token";
 
+    public final static int LOGIN_RESULT = 201;
+
 
     public static void loginForToken(Handler mHandler, String userName, String password, String grantType, String clientId, String clientSecret){
         Message message = new Message();
@@ -34,14 +36,14 @@ public class UserUtils {
             Response response = client.newCall(request).execute();
             String resultStr = response.body().string();
             if(resultStr.equals("")){
-                message = mHandler.obtainMessage(LoginActivity.LOGIN_RESULT, "");
+                message = mHandler.obtainMessage(LOGIN_RESULT, "");
             } else {
-                message = mHandler.obtainMessage(LoginActivity.LOGIN_RESULT, resultStr);
+                message = mHandler.obtainMessage(LOGIN_RESULT, resultStr);
             }
             mHandler.sendMessage(message);
         } catch (Exception e){
             e.printStackTrace();
-            message = mHandler.obtainMessage(LoginActivity.LOGIN_RESULT, "");
+            message = mHandler.obtainMessage(LOGIN_RESULT, "");
             mHandler.sendMessage(message);
         }
     }

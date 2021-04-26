@@ -29,14 +29,27 @@
     <string name="tv_login_failed_info">用户名或密码错误，请重新输入</string>
     <string name="tv_login_info_empty">请输入用户名和密码</string>
     <string name="tv_login_service_failed">服务器连接失败</string>
+    <string name="tst_login_success">登录成功</string>
 
-<!--    UserActivity-->
+    <!--    UserActivity-->
     <string name="tv_user_menu_setting">我的设置</string>
     <string name="tv_user_menu_alarm_pushing">报警推送</string>
     <string name="tv_user_menu_feedback">意见反馈</string>
     <string name="tv_user_menu_customer_service">联系客服</string>
     <string name="tv_user_cs_text">联系客服</string>
     <string name="tv_user_cs_number">0535-02602</string>
+
+
+<!--    AlterPasswordActivity-->
+    <string name="tv_alter_password_title">修改密码</string>
+    <string name="tv_alter_password_old">旧密码</string>
+    <string name="et_hint_alter_password_old">请输入旧密码</string>
+    <string name="tv_alter_password_new">新密码</string>
+    <string name="et_hint_alter_password_new">请输入新密码</string>
+    <string name="tv_alter_password_new_confirm">新密码</string>
+    <string name="et_hint_alter_password_new_confirm">请再次输入新密码</string>
+    <string name="btn_alter_password_confirm">确定修改</string>
+
 
 
     <!--    DeviceListActivity-->

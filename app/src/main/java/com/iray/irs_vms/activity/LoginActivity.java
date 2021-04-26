@@ -2,6 +2,7 @@ package com.iray.irs_vms.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -14,17 +15,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.iray.irs_vms.R;
 import com.iray.irs_vms.httpUtils.Common;
 import com.iray.irs_vms.httpUtils.UserUtils;
+import com.iray.irs_vms.utils.DisplayUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
+    private ConstraintLayout loginMainLayout;
+    private ImageView ivImageBg;
     private EditText etLoginName;
     private Button btnMoreName;
     private EditText etLoginPassword;
@@ -69,10 +76,14 @@ public class LoginActivity extends AppCompatActivity {
         }
         etLoginPassword.setInputType(0x81);
         btnHidePassword.setBackground(getDrawable(R.drawable.btn_hide_password));
+
+        initLayoutSize();
     }
 
 
     private void findView() {
+        loginMainLayout = findViewById(R.id.login_main_layout);
+        ivImageBg = findViewById(R.id.login_image_bg);
         etLoginName = (EditText) findViewById(R.id.et_login_name);
         btnMoreName = (Button) findViewById(R.id.btn_more_name);
         etLoginPassword = (EditText) findViewById(R.id.et_login_password);
@@ -86,6 +97,14 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(mOnClickListener);
         btnMoreName.setOnClickListener(mOnClickListener);
         cbSavePassword.setOnClickListener(mOnClickListener);
+    }
+
+    private void initLayoutSize(){
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) ivImageBg.getLayoutParams();
+        layoutParams.height = statusBarHeight+ (int)getResources().getDimension(R.dimen.login_bg_image_height);
+        ivImageBg.setLayoutParams(layoutParams);
+        FrameLayout.LayoutParams layoutParams1 = (FrameLayout.LayoutParams) loginMainLayout.getLayoutParams();
+        layoutParams1.bottomMargin = navigationBarHeight;
     }
 
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
@@ -142,18 +161,24 @@ public class LoginActivity extends AppCompatActivity {
                             tvLoginFailedInfo.setVisibility(View.VISIBLE);
                         } else {
                             tvLoginFailedInfo.setVisibility(View.INVISIBLE);
-                            SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.sp_user), MODE_PRIVATE).edit();
-                            editor.putString(getString(R.string.user_sp_name), etLoginName.getText().toString());
-                            editor.putString(getString(R.string.user_sp_password), etLoginPassword.getText().toString());
-                            editor.apply();
+
                             try {
                                 JSONObject jsonObject = new JSONObject(msg.obj.toString());
                                 JSONObject datasJ = jsonObject.getJSONObject("datas");
                                 accessToken = datasJ.getString("access_token");
                                 Common.ACCESS_TOKEN = "Bearer"+accessToken;
+                                SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.sp_user), MODE_PRIVATE).edit();
+                                editor.putString(getString(R.string.user_sp_name), etLoginName.getText().toString());
+                                editor.putString(getString(R.string.user_sp_password), etLoginPassword.getText().toString());
+                                editor.apply();
+                                MainActivity.tagLogin = true;
+                                Toast.makeText(LoginActivity.this, getString(R.string.tst_login_success), Toast.LENGTH_SHORT).show();
                                 Log.e("login", accessToken);
+                                finish();
                             } catch (JSONException e){
                                 e.printStackTrace();
+                                tvLoginFailedInfo.setText(getString(R.string.tv_login_service_failed));
+                                tvLoginFailedInfo.setVisibility(View.VISIBLE);
                             }
 
                         }

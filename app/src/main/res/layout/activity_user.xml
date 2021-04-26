@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.UserActivity">
@@ -10,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/user_top_bar"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="@dimen/user_top_bar_origin_height"
         android:background="@drawable/top_bar_bg"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -23,12 +24,13 @@
             android:layout_width="@dimen/top_bar_btn_size"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/top_bar_btn_margin"
+            android:layout_marginBottom="@dimen/user_top_bar_item_margin_bottom"
             android:background="@drawable/btn_close"
 
-            app:layout_constraintBottom_toBottomOf="@id/user_top_bar_gl_h"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            />
 
         <Button
             android:id="@+id/user_btn_setting"
@@ -37,17 +39,11 @@
             android:layout_marginEnd="@dimen/top_bar_btn_margin"
             android:background="@drawable/btn_setting_white"
 
-            app:layout_constraintBottom_toBottomOf="@id/user_top_bar_gl_h"
+            app:layout_constraintBottom_toBottomOf="@id/user_btn_close"
             app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/user_btn_close" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/user_top_bar_gl_h"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="60dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -65,10 +61,11 @@
         android:layout_marginStart="@dimen/top_bar_btn_margin"
         android:layout_marginEnd="@dimen/top_bar_btn_margin"
         android:background="@drawable/rounded_shadow_shape"
+        android:layout_marginTop="@dimen/user_info_layout_margin_top"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/user_gl_h1">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.shehuan.niv.NiceImageView
             android:id="@+id/iv_user_avatar"
@@ -143,7 +140,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/user_menu_item_margin_start"
             android:layout_marginTop="@dimen/user_menu_item_margin_top"
-            android:background="@drawable/icon_feedback"
+            android:background="@drawable/icon_setting"
             app:layout_constraintDimensionRatio="w,1:1"
 
             app:layout_constraintStart_toStartOf="parent"
@@ -179,7 +176,7 @@
             android:layout_width="@dimen/user_menu_icon_size"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/user_menu_item_margin_top"
-            android:background="@drawable/icon_feedback"
+            android:background="@drawable/icon_alarm_pushing"
             app:layout_constraintDimensionRatio="w,1:1"
 
             app:layout_constraintStart_toStartOf="@id/user_menu_setting_icon"

@@ -1,28 +1,43 @@
 package com.iray.irs_vms.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iray.irs_vms.R;
+import com.iray.irs_vms.httpUtils.Common;
+import com.iray.irs_vms.httpUtils.UserUtils;
+import com.iray.irs_vms.utils.DisplayUtil;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends BaseActivity {
+    private ConstraintLayout mainLayout;
     private ConstraintLayout topMenuLayout;
     private EditText etSearchBox;
     private Button btnSearch;
@@ -58,6 +73,12 @@ public class MainActivity extends AppCompatActivity {
     private Button btnUser;
     private TextView tvUser;
 
+    private SharedPreferences userSp;
+    public static boolean tagLogin = false;    //登录标记
+    //Handler
+    MainHandler mHandler;
+    public final static int LOGIN_RESULT = 201;
+
 
     MZBannerView mMZBanner;
     List<Integer> list;
@@ -69,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initView();
         initBanner();
+        mHandler = new MainHandler(this);
+        initLogin();
     }
 
     @Override
@@ -84,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        mainLayout = findViewById(R.id.main_layout);
         topMenuLayout = (ConstraintLayout) findViewById(R.id.top_menu_layout);
         etSearchBox = (EditText) findViewById(R.id.et_search_box);
         btnSearch = (Button) findViewById(R.id.btn_search);
@@ -123,6 +147,27 @@ public class MainActivity extends AppCompatActivity {
         btnVideoSurveillance.setOnClickListener(mOnClickListener);
         btnUser.setOnClickListener(mOnClickListener);
 
+        initLayoutSize();
+
+    }
+
+    /**
+     * 启动时自动登录
+     */
+    private void initLogin(){
+        userSp = getSharedPreferences(getString(R.string.sp_user), MODE_PRIVATE);
+        final String loginName = userSp.getString(getString(R.string.user_sp_name), "");
+        final String loginPassword = userSp.getString(getString(R.string.user_sp_password), "");
+        if(loginName.equals("")||loginPassword.equals("")){
+
+        } else {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    UserUtils.loginForToken(mHandler, loginName, loginPassword, "password", "webApp", "webApp");
+                }
+            }).start();
+        }
     }
 
 
@@ -142,6 +187,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 初始化视图尺寸，适配虚拟键和水滴屏
+     */
+    private void initLayoutSize(){
+        Log.e("status", "status: "+statusBarHeight+"      nav: "+navigationBarHeight+"   ori: "+ getResources().getDimension(R.dimen.top_bar_origin_height));
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) topMenuLayout.getLayoutParams();
+        layoutParams.height = statusBarHeight+(int)getResources().getDimension(R.dimen.top_bar_origin_height);
+        topMenuLayout.setLayoutParams(layoutParams);
+        FrameLayout.LayoutParams layoutParams1 = (FrameLayout.LayoutParams) mainLayout.getLayoutParams();
+        layoutParams1.bottomMargin = navigationBarHeight;
+    }
+
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -151,12 +208,22 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.btn_video_surveillance:
-                    Intent intent1 = new Intent(MainActivity.this, DeviceListActivity.class);
-                    startActivity(intent1);
+                    if(tagLogin) {
+                        Intent intent1 = new Intent(MainActivity.this, DeviceListActivity.class);
+                        startActivity(intent1);
+                    } else {
+                        Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent1);
+                    }
                     break;
                 case R.id.btn_user:
-                    Intent intent2 = new Intent(MainActivity.this, UserActivity.class);
-                    startActivity(intent2);
+                    if(tagLogin) {
+                        Intent intent2 = new Intent(MainActivity.this, UserActivity.class);
+                        startActivity(intent2);
+                    }else {
+                        Intent intent2 = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent2);
+                    }
                     break;
                 default:
                     break;
@@ -179,6 +246,42 @@ public class MainActivity extends AppCompatActivity {
         public void onBind(Context context, int position, Integer data) {
             // 数据绑定
             mImageView.setImageResource(data);
+        }
+    }
+
+
+
+    private static class MainHandler extends Handler{
+        private MainActivity activity;
+
+        private MainHandler(MainActivity activity){
+            WeakReference<MainActivity> reference = new WeakReference<MainActivity>(activity);
+            this.activity = reference.get();
+        }
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            switch (msg.what){
+                case LOGIN_RESULT:
+                    if (msg.obj.toString().equals("")) {  //登录失败
+                        activity.tagLogin = false;
+                    } else {
+                        try {
+                            JSONObject jsonObject = new JSONObject(msg.obj.toString());
+                            JSONObject datasJ = jsonObject.getJSONObject("datas");
+                            String accessToken = datasJ.getString("access_token");
+                            Common.ACCESS_TOKEN = "Bearer"+accessToken;
+                            activity.tagLogin = true;
+                            Log.e("login", accessToken);
+                        } catch (JSONException e){
+                            e.printStackTrace();
+                            activity.tagLogin = false;
+                        }
+
+                    }
+//                        Log.e("login", msg.obj.toString());
+                    break;
+            }
         }
     }
 

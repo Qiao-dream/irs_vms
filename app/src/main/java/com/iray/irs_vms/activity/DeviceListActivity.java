@@ -2,13 +2,16 @@ package com.iray.irs_vms.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,15 +20,17 @@ import com.iray.irs_vms.R;
 import com.iray.irs_vms.adapter.DeviceListAdapter;
 import com.iray.irs_vms.httpUtils.DeviceManage;
 import com.iray.irs_vms.info.DeviceInfo;
+import com.iray.irs_vms.utils.DisplayUtil;
 import com.iray.irs_vms.widget.RecycleViewDivider;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeviceListActivity extends AppCompatActivity {
+public class DeviceListActivity extends BaseActivity {
 
-    public static DeviceListActivity deviceListActivity;
+    private ConstraintLayout deviceListMainLayout;
+    private ConstraintLayout deviceListDeviceListTopBar;
     private TextView deviceListTvTitle;
     private Button deviceListBtnClose;
     private Button deviceListBtnSearch;
@@ -55,9 +60,9 @@ public class DeviceListActivity extends AppCompatActivity {
 
     private void initView() {
         findView();
+        initLayoutSize();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
         rcDeviceList.addItemDecoration(new RecycleViewDivider(this, LinearLayoutManager.HORIZONTAL, 2, getResources().getColor(R.color.divide_gray_color)));
         rcDeviceList.setLayoutManager(linearLayoutManager);
     }
@@ -68,6 +73,19 @@ public class DeviceListActivity extends AppCompatActivity {
         deviceListBtnSearch = (Button) findViewById(R.id.device_list_btn_search);
         rcDeviceList = (RecyclerView) findViewById(R.id.rc_device_list);
         pbDeviceList = findViewById(R.id.pb_device_list);
+        deviceListDeviceListTopBar = findViewById(R.id.device_list_top_bar);
+        deviceListMainLayout = findViewById(R.id.device_list_main_layout);
+    }
+
+    /**
+     * 初始化视图尺寸，适配虚拟键和水滴屏
+     */
+    private void initLayoutSize(){
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) deviceListDeviceListTopBar.getLayoutParams();
+        layoutParams.height = statusBarHeight+ (int)getResources().getDimension(R.dimen.top_bar_origin_height);
+        deviceListDeviceListTopBar.setLayoutParams(layoutParams);
+        FrameLayout.LayoutParams layoutParams1 = (FrameLayout.LayoutParams) deviceListMainLayout.getLayoutParams();
+        layoutParams1.bottomMargin = navigationBarHeight;
     }
 
     @Override
