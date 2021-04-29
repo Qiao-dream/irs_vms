@@ -6,13 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".activity.PreviewActivity">
 
-    <FrameLayout
-        android:id="@+id/preview_layout"
-        android:layout_width="match_parent"
+<!--    <LinearLayout-->
+<!--        android:id="@+id/preview_layout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:layout_constraintDimensionRatio="h,4:3"-->
+
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent">-->
+
+
+    <org.videolan.libvlc.util.VLCVideoLayout
+        android:id="@+id/video_layout"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:fitsSystemWindows="false"
 
-        app:layout_constraintDimensionRatio="l,384:288"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    </FrameLayout>
+    </org.videolan.libvlc.util.VLCVideoLayout>
+
+<!--        </LinearLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

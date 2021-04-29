@@ -146,6 +146,7 @@ public class MainActivity extends BaseActivity {
         btnMore.setOnClickListener(mOnClickListener);
         btnVideoSurveillance.setOnClickListener(mOnClickListener);
         btnUser.setOnClickListener(mOnClickListener);
+        btnAbnormalAlarm.setOnClickListener(mOnClickListener);
 
         initLayoutSize();
 
@@ -225,6 +226,9 @@ public class MainActivity extends BaseActivity {
                         startActivity(intent2);
                     }
                     break;
+                case R.id.btn_abnormal_alarm:
+                    Intent intent3 = new Intent(MainActivity.this, PreviewActivity.class);
+                    startActivity(intent3);
                 default:
                     break;
             }
