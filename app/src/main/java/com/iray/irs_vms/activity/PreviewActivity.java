@@ -35,6 +35,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.VLCVideoLayout;
 
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
@@ -96,6 +97,7 @@ public class PreviewActivity extends AppCompatActivity {
 
     private void initView() {
         findView();
+        video_layout.inflate(PreviewActivity.this, R.layout.vlc_video_layout, video_layout);
 
 //        ConstraintLayout.LayoutParams layoutParams =(ConstraintLayout.LayoutParams) previewLayout.getLayoutParams();
 //        layoutParams.width = DisplayUtil.getScreenWidth(mContext);
@@ -113,6 +115,7 @@ public class PreviewActivity extends AppCompatActivity {
 
     private void findView() {
         video_layout = findViewById(R.id.video_layout);
+
 //        previewLayout = findViewById(R.id.preview_layout);
     }
 
@@ -179,21 +182,21 @@ public class PreviewActivity extends AppCompatActivity {
 
 
             mMediaPlayer.setScale(0);
-            mMediaPlayer.getVLCVout().setWindowSize(384, 288);
+//            mMediaPlayer.getVLCVout().setWindowSize(384, 288);
 
-            ConstraintLayout.LayoutParams layoutParams =(ConstraintLayout.LayoutParams) video_layout.getLayoutParams();
-            int width = DisplayUtil.getScreenWidth(mContext);
-            int sh = DisplayUtil.getScreenHeight(mContext);
-            int height = width * 288 / 384;
-            Log.e("vlc", "width: "+width+"    height: "+height);
-            layoutParams.width = width;
-            layoutParams.height = height;
-            layoutParams.bottomMargin = (sh-height)/2;
-            video_layout.requestLayout();
+//            ConstraintLayout.LayoutParams layoutParams =(ConstraintLayout.LayoutParams) video_layout.getLayoutParams();
+//            int width = DisplayUtil.getScreenWidth(mContext);
+//            int sh = DisplayUtil.getScreenHeight(mContext);
+//            int height = width * 288 / 384;
+//            Log.e("vlc", "width: "+width+"    height: "+height);
+//            layoutParams.width = width;
+//            layoutParams.height = height;
+//            layoutParams.bottomMargin = (sh-height)/2;
+//            video_layout.requestLayout();
 //            video_layout.setLayoutParams(layoutParams);
-            mMediaPlayer.setAspectRatio("384:288");//设置屏幕比例
+//            mMediaPlayer.setAspectRatio("384:288");//设置屏幕比例
             mMediaPlayer.attachViews(video_layout, null, ENABLE_SUBTITLES, USE_TEXTURE_VIEW);
-            mMediaPlayer.setVideoScale(MediaPlayer.ScaleType.SURFACE_BEST_FIT);
+            mMediaPlayer.setVideoScale(MediaPlayer.ScaleType.SURFACE_FILL);
 
             mMediaPlayer.play();
 
