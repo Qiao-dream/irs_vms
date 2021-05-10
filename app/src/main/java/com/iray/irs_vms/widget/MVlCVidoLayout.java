@@ -13,33 +13,33 @@ import com.iray.irs_vms.activity.PreviewActivity;
 import com.iray.irs_vms.utils.DisplayUtil;
 
 import org.videolan.libvlc.util.VLCVideoLayout;
-import org.videolan.R.layout;
+import com.iray.irs_vms.R;
 
 public class MVlCVidoLayout extends VLCVideoLayout {
     public MVlCVidoLayout(@NonNull Context context) {
         super(context);
-        this.setupLayout(context);
+//        this.setupLayout(context);
     }
 
     public MVlCVidoLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        this.setupLayout(context);
+//        this.setupLayout(context);
     }
 
     public MVlCVidoLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.setupLayout(context);
+//        this.setupLayout(context);
     }
 
     public MVlCVidoLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        this.setupLayout(context);
+//        this.setupLayout(context);
     }
 
-    private void setupLayout(@NonNull Context context) {
-        inflate(context, layout.vlc_video_layout, this);
-
-    }
+//    private void setupLayout(@NonNull Context context) {
+//        inflate(context, layout.vlc_video_layout, this);
+//
+//    }
 
     @Override
     protected void onAttachedToWindow() {

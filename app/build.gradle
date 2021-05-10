@@ -16,11 +16,11 @@ android {
 //, "arm64-v8a"//, "x86", "x86_64"//, "armeabi", "mips", "mips64"
         }
 
-        repositories{
-            flatDir{
-                dirs 'libs'
-            }
-        }
+//        repositories{
+//            flatDir{
+//                dirs 'libs'
+//            }
+//        }
     }
 
 
@@ -44,5 +44,5 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.squareup.okhttp:okhttp:2.7.5'
     implementation 'com.github.SheHuan:NiceImageView:1.0.5'
-    implementation(name: 'libvlc-all-3.3.0-eap17', ext: 'aar')
+//    implementation(name: 'libvlc-all-3.3.0-eap17', ext: 'aar')
 }
