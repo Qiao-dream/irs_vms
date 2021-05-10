@@ -1,220 +1,338 @@
-/*****************************************************************************
- * MediaList.java
- *****************************************************************************
- * Copyright © 2013 VLC authors and VideoLAN
- * Copyright © 2013 Edward Wang
- *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation; either version 2.1 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
- *****************************************************************************/
+/*     */
 package org.videolan.libvlc;
+/*     */
+/*     */
 
-import android.os.Bundle;
+import android.os.Handler;
+/*     */ import android.util.SparseArray;
+/*     */ import androidx.annotation.Nullable;
+/*     */ import org.videolan.libvlc.interfaces.AbstractVLCEvent;
+/*     */ import org.videolan.libvlc.interfaces.ILibVLC;
+/*     */ import org.videolan.libvlc.interfaces.IMedia;
+/*     */ import org.videolan.libvlc.interfaces.IMediaList;
+/*     */ import org.videolan.libvlc.interfaces.IVLCObject;
+import org.videolan.libvlc.VLCObject;
 
-import java.util.ArrayList;
+/*     */
+/*     */
+/*     */
+/*     */
+/*     */
+/*     */
+/*     */
+/*     */
+/*     */
+/*     */
+/*     */
+/*     */
+/*     */
+/*     */
+/*     */
+/*     */
+/*     */
+/*     */
+/*     */
+/*     */
+/*     */ public class MediaList
+        /*     */ extends VLCObject<IMediaList.Event>
+        /*     */ implements IMediaList
+        /*     */ {
+    /*     */   private static final String TAG = "LibVLC/MediaList";
+    /*  36 */   private int mCount = 0;
+    /*  37 */   private final SparseArray<IMedia> mMediaArray = new SparseArray();
+    /*     */   private boolean mLocked = false;
 
-/**
- * Java/JNI wrapper for the libvlc_media_list_t structure.
- */
-public class MediaList {
-    private static final String TAG = "VLC/LibVLC/MediaList";
+    /*     */
+    /*     */
+    private void init() {
+        /*  41 */
+        lock();
+        /*  42 */
+        this.mCount = nativeGetCount();
+        /*  43 */
+        for (int i = 0; i < this.mCount; i++)
+            /*  44 */
+            this.mMediaArray.put(i, new Media(this, i));
+        /*  45 */
+        unlock();
+        /*     */
+    }
 
-    /* Since the libvlc_media_t is not created until the media plays, we have
-     * to cache them here. */
-    private class MediaHolder {
-        Media m;
-        boolean noVideo; // default false
-        boolean noOmx; // default false
+    /*     */
+    /*     */
+    /*     */
+    /*     */
+    /*     */
+    /*     */
+    /*     */
+    public MediaList(ILibVLC iLibVLC) {
+        /*  54 */
+        super(iLibVLC);
+        /*  55 */
+        nativeNewFromLibVlc(iLibVLC);
+        /*  56 */
+        init();
+        /*     */
+    }
 
-        public MediaHolder(Media media) {
-            m = media; noVideo = false; noOmx = false;
+    /*     */
+    /*     */
+    /*     */
+    /*     */
+    /*     */
+    protected MediaList(MediaDiscoverer md) {
+        /*  63 */
+        super(md);
+        /*  64 */
+        nativeNewFromMediaDiscoverer(md);
+        /*  65 */
+        init();
+        /*     */
+    }
+
+    /*     */
+    /*     */
+    /*     */
+    /*     */
+    /*     */
+    protected MediaList(IMedia m) {
+        /*  72 */
+        super((IVLCObject) m);
+        /*  73 */
+        nativeNewFromMedia(m);
+        /*  74 */
+        init();
+        /*     */
+    }
+
+    /*     */
+    /*     */
+    private synchronized IMedia insertMediaFromEvent(int index) {
+        /*  78 */
+        for (int i = this.mCount - 1; i >= index; i--)
+            /*  79 */
+            this.mMediaArray.put(i + 1, this.mMediaArray.valueAt(i));
+        /*  80 */
+        this.mCount++;
+        /*  81 */
+        IMedia media = new Media(this, index);
+        /*  82 */
+        this.mMediaArray.put(index, media);
+        /*  83 */
+        return media;
+        /*     */
+    }
+
+    /*     */
+    /*     */
+    private synchronized IMedia removeMediaFromEvent(int index) {
+        /*  87 */
+        this.mCount--;
+        /*  88 */
+        IMedia media = (IMedia) this.mMediaArray.get(index);
+        /*  89 */
+        if (media != null)
+            /*  90 */ media.release();
+        /*  91 */
+        for (int i = index; i < this.mCount; i++) {
+            /*  92 */
+            this.mMediaArray.put(i, this.mMediaArray.valueAt(i + 1));
+            /*     */
         }
-        public MediaHolder(Media m_, boolean noVideo_, boolean noOmx_) {
-            m = m_; noVideo = noVideo_; noOmx = noOmx_;
+        /*  94 */
+        return media;
+        /*     */
+    }
+
+    /*     */
+    /*     */
+    public void setEventListener(EventListener listener, Handler handler) {
+        /*  98 */
+        setEventListener(listener, handler);
+        /*     */
+    }
+
+    /*     */
+    /*     */
+    protected synchronized Event onEventNative(int eventType, long arg1, long arg2, float argf1, @Nullable String args1) {
+        /*     */
+        int index;
+        /* 103 */
+        if (this.mLocked)
+            /* 104 */ throw new IllegalStateException("already locked from event callback");
+        /* 105 */
+        this.mLocked = true;
+        /* 106 */
+        Event event = null;
+        /*     */
+        /*     */
+        /* 109 */
+        switch (eventType) {
+            /*     */
+            case 512:
+                /* 111 */
+                index = (int) arg1;
+                /* 112 */
+                if (index != -1) {
+                    /* 113 */
+                    IMedia media = insertMediaFromEvent(index);
+                    /* 114 */
+                    event = new Event(eventType, media, true, index);
+                    /*     */
+                }
+                /*     */
+                break;
+            /*     */
+            case 514:
+                /* 118 */
+                index = (int) arg1;
+                /* 119 */
+                if (index != -1) {
+                    /* 120 */
+                    IMedia media = removeMediaFromEvent(index);
+                    /* 121 */
+                    event = new Event(eventType, media, false, index);
+                    /*     */
+                }
+                /*     */
+                break;
+            /*     */
+            case 516:
+                /* 125 */
+                event = new Event(eventType, null, false, -1);
+                /*     */
+                break;
+            /*     */
         }
+        /* 128 */
+        this.mLocked = false;
+        /* 129 */
+        return event;
+        /*     */
     }
 
-    /* TODO: add locking */
-    private ArrayList<MediaHolder> mInternalList;
-    private LibVLC mLibVLC; // Used to create new objects that require a libvlc instance
-    private EventHandler mEventHandler;
-
-    public MediaList(LibVLC libVLC) {
-        mEventHandler = new EventHandler(); // used in init() below to fire events at the correct targets
-        mInternalList = new ArrayList<MediaHolder>();
-        mLibVLC = libVLC;
+    /*     */
+    /*     */
+    /*     */
+    /*     */
+    /*     */
+    public synchronized int getCount() {
+        /* 136 */
+        return this.mCount;
+        /*     */
     }
 
-    /**
-     * Adds a media URI to the media list.
-     *
-     * @param mrl
-     *            The MRL to add. Must be a location and not a path.
-     *            {@link LibVLC#PathToURI(String)} can be used to convert a path
-     *            to a MRL.
-     */
-    public void add(String mrl) {
-        add(new Media(mLibVLC, mrl));
-    }
-    public void add(Media media) {
-        add(media, false, false);
-    }
-    public void add(Media media, boolean noVideo) {
-        add(media, noVideo, false);
-    }
-    public void add(Media media, boolean noVideo, boolean noOmx) {
-        mInternalList.add(new MediaHolder(media, noVideo, noOmx));
-        signal_list_event(EventHandler.CustomMediaListItemAdded, mInternalList.size() - 1, media.getLocation());
-    }
-
-    /**
-     * Clear the media list. (remove all media)
-     */
-    public void clear() {
-        // Signal to observers of media being deleted.
-        for(int i = 0; i < mInternalList.size(); i++) {
-            signal_list_event(EventHandler.CustomMediaListItemDeleted, i, mInternalList.get(i).m.getLocation());
-        }
-        mInternalList.clear();
+    /*     */
+    /*     */
+    /*     */
+    /*     */
+    /*     */
+    /*     */
+    /*     */
+    /*     */
+    public synchronized IMedia getMediaAt(int index) {
+        /* 146 */
+        if (index < 0 || index >= getCount())
+            /* 147 */ throw new IndexOutOfBoundsException();
+        /* 148 */
+        IMedia media = (IMedia) this.mMediaArray.get(index);
+        /* 149 */
+        media.retain();
+        /* 150 */
+        return media;
+        /*     */
     }
 
-    private boolean isValid(int position) {
-        return position >= 0 && position < mInternalList.size();
-    }
-
-    /**
-     * This function checks the currently playing media for subitems at the given
-     * position, and if any exist, it will expand them at the same position
-     * and replace the current media.
-     *
-     * @param position The position to expand
-     * @return -1 if no subitems were found, 0 if subitems were expanded
-     */
-    public int expandMedia(int position) {
-        ArrayList<String> children = new ArrayList<String>();
-        int ret = expandMedia(mLibVLC, position, children);
-        if(ret == 0) {
-            mEventHandler.callback(EventHandler.CustomMediaListExpanding, new Bundle());
-            this.remove(position);
-            for(String mrl : children) {
-                this.insert(position, mrl);
+    /*     */
+    /*     */
+    /*     */
+    public void onReleaseNative() {
+        /* 155 */
+        for (int i = 0; i < this.mMediaArray.size(); i++) {
+            /* 156 */
+            IMedia media = (IMedia) this.mMediaArray.get(i);
+            /* 157 */
+            if (media != null) {
+                /* 158 */
+                media.release();
+                /*     */
             }
-            mEventHandler.callback(EventHandler.CustomMediaListExpandingEnd, new Bundle());
+            /*     */
         }
-        return ret;
-    }
-    private native int expandMedia(LibVLC libvlc_instance, int position, ArrayList<String> children);
-
-    public void loadPlaylist(String mrl) {
-        ArrayList<String> items = new ArrayList<String>();
-        loadPlaylist(mLibVLC, mrl, items);
-        this.clear();
-        for(String item : items) {
-            this.add(item);
-        }
-    }
-    private native void loadPlaylist(LibVLC libvlc_instance, String mrl, ArrayList<String> items);
-
-    public void insert(int position, String mrl) {
-        insert(position, new Media(mLibVLC, mrl));
-    }
-    public void insert(int position, Media media) {
-        mInternalList.add(position, new MediaHolder(media));
-        signal_list_event(EventHandler.CustomMediaListItemAdded, position, media.getLocation());
+        /* 161 */
+        nativeRelease();
+        /*     */
     }
 
-    public void remove(int position) {
-        if (!isValid(position))
-            return;
-        String uri = mInternalList.get(position).m.getLocation();
-        mInternalList.remove(position);
-        signal_list_event(EventHandler.CustomMediaListItemDeleted, position, uri);
+    /*     */
+    /*     */
+    private synchronized void lock() {
+        /* 165 */
+        if (this.mLocked)
+            /* 166 */ throw new IllegalStateException("already locked");
+        /* 167 */
+        this.mLocked = true;
+        /* 168 */
+        nativeLock();
+        /*     */
     }
 
-    public int size() {
-        return mInternalList.size();
+    /*     */
+    /*     */
+    private synchronized void unlock() {
+        /* 172 */
+        if (!this.mLocked)
+            /* 173 */ throw new IllegalStateException("not locked");
+        /* 174 */
+        this.mLocked = false;
+        /* 175 */
+        nativeUnlock();
+        /*     */
     }
 
-    public Media getMedia(int position) {
-        if (!isValid(position))
-            return null;
-        return mInternalList.get(position).m;
+    /*     */
+    /*     */
+    public synchronized boolean isLocked() {
+        /* 179 */
+        return this.mLocked;
+        /*     */
     }
 
-    /**
-     * @param position The index of the media in the list
-     * @return null if not found
-     */
-    public String getMRL(int position) {
-        if (!isValid(position))
-            return null;
-        return mInternalList.get(position).m.getLocation();
-    }
+    /*     */
+    /*     */
+    private native void nativeNewFromLibVlc(ILibVLC paramILibVLC);
 
-    public String[] getMediaOptions(int position) {
-        boolean noOmx = !mLibVLC.useIOMX();
-        boolean noVideo = false;
-        if (isValid(position))
-        {
-            if (!noOmx)
-                noOmx = mInternalList.get(position).noOmx;
-            noVideo = mInternalList.get(position).noVideo;
-        }
-        ArrayList<String> options = new ArrayList<String>();
+    /*     */
+    /*     */
+    private native void nativeNewFromMediaDiscoverer(MediaDiscoverer paramMediaDiscoverer);
 
-        if (!noOmx) {
-            /*
-             * Set higher caching values if using iomx decoding, since some omx
-             * decoders have a very high latency, and if the preroll data isn't
-             * enough to make the decoder output a frame, the playback timing gets
-             * started too soon, and every decoded frame appears to be too late.
-             * On Nexus One, the decoder latency seems to be 25 input packets
-             * for 320x170 H.264, a few packets less on higher resolutions.
-             * On Nexus S, the decoder latency seems to be about 7 packets.
-             */
-            options.add(":file-caching=1500");
-            options.add(":network-caching=1500");
-            options.add(":codec=mediacodec,iomx,all");
-        }
-        if (noVideo)
-            options.add(":no-video");
+    /*     */
+    /*     */
+    private native void nativeNewFromMedia(IMedia paramIMedia);
 
-        return options.toArray(new String[options.size()]);
-    }
+    /*     */
+    /*     */
+    private native void nativeRelease();
 
-    public EventHandler getEventHandler() {
-        return mEventHandler;
-    }
+    /*     */
+    /*     */
+    private native int nativeGetCount();
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("LibVLC Media List: {");
-        for(int i = 0; i < size(); i++) {
-            sb.append(((Integer)i).toString());
-            sb.append(": ");
-            sb.append(getMRL(i));
-            sb.append(", ");
-        }
-        sb.append("}");
-        return sb.toString();
-    }
+    /*     */
+    /*     */
+    private native void nativeLock();
 
-    private void signal_list_event(int event, int position, String uri) {
-        Bundle b = new Bundle();
-        b.putString("item_uri", uri);
-        b.putInt("item_index", position);
-        mEventHandler.callback(event, b);
-    }
+    /*     */
+    /*     */
+    private native void nativeUnlock();
+    /*     */
 }
+
+
+
+
+
+/* Location:              C:\Users\gy\Desktop\test0429\libvlc-all-3.3.0-eap17\classes.jar!\org\videolan\libvlc\MediaList.class
+ * Java compiler version: 7 (51.0)
+ * JD-Core Version:       1.1.3
+ */
