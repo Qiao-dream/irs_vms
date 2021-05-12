@@ -2,12 +2,8 @@ package com.iray.irs_vms.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentTransaction;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,22 +12,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.TextureView;
-import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.iray.irs_vms.R;
 
-import com.iray.irs_vms.utils.DisplayUtil;
-import com.iray.irs_vms.widget.MVlCVidoLayout;
-import com.squareup.okhttp.internal.Util;
+import com.iray.irs_vms.httpUtils.DeviceManage;
 
 
 import org.videolan.libvlc.LibVLC;
@@ -42,6 +30,7 @@ import org.videolan.libvlc.util.VLCVideoLayout;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PreviewActivity extends AppCompatActivity {
     private static final String TAG = "PreviewActivity";
@@ -56,13 +45,15 @@ public class PreviewActivity extends AppCompatActivity {
     public static boolean flag_pic_ok = false;
 
     private FrameLayout previewLayout;
-    private FrameLayout mVideoSurfaceFrame;
-    private ViewStub mVideoTexture = null;
+    public ProgressBar pbPreview;
 
+    DeviceManage deviceManage;
     private PreviewHandler previewHandler;
-    private static final int HANDLER_GET_PREVIEW_SIZE = 2001;
+    private static final int HANDLER_GOT_PREVIEW_SIZE = 2001;
+    public static final int HANDLER_GOT_RTSP = 2002;
 
     private int previewWidth, previewHeight;
+    public String deviceId = "";
 
 
     @Override
@@ -77,31 +68,18 @@ public class PreviewActivity extends AppCompatActivity {
 
     private void init() {
         previewHandler = new PreviewHandler(this);
+        deviceManage = DeviceManage.getInstance();
+        deviceManage.setPreviewActivityWeakReference(this);
+        Intent intent = getIntent();
+        deviceId = Objects.requireNonNull(intent.getExtras()).getString("id");
         initView();
+
 
     }
 
 
     private void initView() {
         findView();
-
-
-
-
-//        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mVideoTexture.getLayoutParams();
-//        layoutParams.width = -1;
-//        layoutParams.height = -1;
-//        mVideoTexture.setLayoutParams(layoutParams);
-//
-//        FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) subtitles_surface_stub.getLayoutParams();
-//        layoutParams.width = -1;
-//        layoutParams.height = -1;
-//        mVideoTexture.setLayoutParams(layoutParams2);
-//
-//        FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) surface_stub.getLayoutParams();
-//        layoutParams.width = -1;
-//        layoutParams.height = -1;
-//        mVideoTexture.setLayoutParams(layoutParams3);
         setLayoutLister();
 
     }
@@ -110,13 +88,14 @@ public class PreviewActivity extends AppCompatActivity {
     private void findView() {
         video_layout = findViewById(R.id.video_layout);
         previewLayout = findViewById(R.id.preview_layout);
-        mVideoSurfaceFrame = (FrameLayout) video_layout.findViewById(R.id.player_surface_frame);
-        mVideoTexture = mVideoSurfaceFrame.findViewById(R.id.texture_stub);
+        pbPreview = findViewById(R.id.pb_preview);
+//        mVideoSurfaceFrame = (FrameLayout) video_layout.findViewById(R.id.player_surface_frame);
+//        mVideoTexture = mVideoSurfaceFrame.findViewById(R.id.texture_stub);
 //        subtitles_surface_stub = mVideoSurfaceFrame.findViewById(R.id.subtitles_surface_stub);
 //        surface_stub = mVideoSurfaceFrame.findViewById(R.id.surface_stub);
     }
 
-    private void setLayoutLister(){
+    private void setLayoutLister() {
         ViewTreeObserver vto = previewLayout.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -124,10 +103,26 @@ public class PreviewActivity extends AppCompatActivity {
                 previewLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 previewWidth = previewLayout.getWidth();
                 previewHeight = previewLayout.getHeight();
-                Log.e("test", "previewWidth: "+previewWidth+"      previewHeight: "+previewHeight);
-                previewHandler.sendEmptyMessage(HANDLER_GET_PREVIEW_SIZE);
+                Log.e("test", "previewWidth: " + previewWidth + "      previewHeight: " + previewHeight);
+                previewHandler.sendEmptyMessage(HANDLER_GOT_PREVIEW_SIZE);
             }
         });
+    }
+
+    public void sendPreviewHandler(int msgWhat, String... str) {
+
+        if(str.length==0) {
+            previewHandler.sendEmptyMessage(msgWhat);
+        } else {
+            Message msg = new Message();
+            msg.what = msgWhat;
+            Bundle b = new Bundle();
+            for(int i = 0; i < str.length; i++) {
+                b.putString(String.valueOf(i), str[i]);
+            }
+            msg.setData(b);
+            previewHandler.sendMessage(msg);
+        }
     }
 
 
@@ -140,19 +135,23 @@ public class PreviewActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        mMediaPlayer.stop();
-        mMediaPlayer.detachViews();
+        if(mMediaPlayer!=null) {
+            mMediaPlayer.stop();
+            mMediaPlayer.detachViews();
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mMediaPlayer.release();
-        mLibVLC.release();
+        if(mMediaPlayer!=null) {
+            mMediaPlayer.release();
+            mLibVLC.release();
+        }
         finish();
     }
 
-    public void initCamera_vlc() {
+    public void initCamera_vlc(String rtsp, int previewWidth, int previewHeight) {
         try {
 
             Log.i("aaa", "************111111111******");
@@ -165,8 +164,8 @@ public class PreviewActivity extends AppCompatActivity {
             mMediaPlayer = new MediaPlayer(mLibVLC);
             init_vlc_eventListener();
 
-            String pathUri = "rtsp://admin:admin@10.10.25.34:554/cam/realmonitor?channel=1&subtype=0";
-//            String pathUri = "rtsp://172.16.20.5:8554/rtp/0BEBD7A4";
+//            String pathUri = "rtsp://admin:admin@10.10.25.34:554/cam/realmonitor?channel=1&subtype=0";
+            String pathUri = rtsp;
             Uri uri = Uri.parse(pathUri);//rtsp流地址或其他流地址
             // Uri uri = Uri.parse("rtsp://10.10.25.42:554/stream0");//rtsp流地址或其他流地址
             //    Uri uri = Uri.parse("rtsp://10.10.25.35:554/cam/realmonitor?channel=1&subtype=0");
@@ -294,9 +293,17 @@ public class PreviewActivity extends AppCompatActivity {
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
-                case HANDLER_GET_PREVIEW_SIZE:
-                    this.previewActiviy.initCamera_vlc();
+                case HANDLER_GOT_PREVIEW_SIZE:
+//                    this.previewActiviy.initCamera_vlc();
+                    this.previewActiviy.deviceManage.getDeviceChannel();
                     break;
+                case HANDLER_GOT_RTSP:
+                    String rtsp = msg.getData().getString("0");
+                    if(!rtsp.equals("")) {
+                        this.previewActiviy.initCamera_vlc(rtsp, this.previewActiviy.previewWidth, this.previewActiviy.previewHeight);
+                    } else {
+                        Toast.makeText(this.previewActiviy, this.previewActiviy.getString(R.string.tst_get_rtsp_error), Toast.LENGTH_SHORT).show();
+                    }
                 default:
                     break;
             }

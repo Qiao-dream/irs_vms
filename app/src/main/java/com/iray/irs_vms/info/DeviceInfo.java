@@ -1,12 +1,21 @@
 package com.iray.irs_vms.info;
 
 public class DeviceInfo {
+    private String deviceId;
     private String deviceOrg;
     private String deviceName;
     private int deviceTransport;
     private int deviceType;
     private boolean deviceOnline;
 
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
 
     public String getDeviceOrg() {
         return deviceOrg;

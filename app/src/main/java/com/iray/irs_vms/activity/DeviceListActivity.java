@@ -6,10 +6,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
@@ -41,7 +44,8 @@ public class DeviceListActivity extends BaseActivity {
 
     DeviceManage deviceManage;
     public DeviceListHandler mDeviceHandler;
-    public static final int HANDLER_LIST_ALL_DEVICES = 101;
+    public static final int HANDLER_LIST_ALL_DEVICES = 1001;
+    public static final int HANDLER_GET_DEVICE_ID = 1002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,7 @@ public class DeviceListActivity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rcDeviceList.addItemDecoration(new RecycleViewDivider(this, LinearLayoutManager.HORIZONTAL, 2, getResources().getColor(R.color.divide_gray_color)));
         rcDeviceList.setLayoutManager(linearLayoutManager);
+
     }
 
     private void findView() {
@@ -104,13 +109,16 @@ public class DeviceListActivity extends BaseActivity {
         if (mDeviceInfoList.size() == 0) {
             Toast.makeText(this, getString(R.string.tst_device_list_empty), Toast.LENGTH_SHORT).show();
         } else {
-            adapter = new DeviceListAdapter(this, mDeviceInfoList);
+            adapter = new DeviceListAdapter(this, mDeviceInfoList, mDeviceHandler);
             rcDeviceList.setAdapter(adapter);
+
         }
     }
 
 
-    private static class DeviceListHandler extends Handler {
+
+
+    public static class DeviceListHandler extends Handler {
         private WeakReference<DeviceListActivity> reference;
         private DeviceListActivity activity;
 
@@ -126,6 +134,15 @@ public class DeviceListActivity extends BaseActivity {
             switch (msg.what) {
                 case HANDLER_LIST_ALL_DEVICES:
                     activity.listDevicesInfo();
+                    break;
+                case HANDLER_GET_DEVICE_ID:
+                    if(!msg.obj.toString().equals("")){
+                        Intent intent = new Intent(activity, PreviewActivity.class);
+                        intent.putExtra("id", msg.obj.toString());
+                        activity.startActivity(intent);
+                    } else {
+                        Toast.makeText(activity, activity.getString(R.string.tst_get_device_id_error), Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 default:
                     break;

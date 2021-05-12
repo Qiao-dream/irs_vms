@@ -23,12 +23,14 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
     private final LayoutInflater mLayoutInflater;
     private List<DeviceInfo> mDeviceInfoList;
     private WeakReference<Context> reference;
+    private DeviceListActivity.DeviceListHandler handler;
 
 
-    public DeviceListAdapter(Context context, List<DeviceInfo> mDeviceInfoList) {
+    public DeviceListAdapter(Context context, List<DeviceInfo> mDeviceInfoList, DeviceListActivity.DeviceListHandler deviceListHandler) {
         this.mLayoutInflater = LayoutInflater.from(context);
         this.mDeviceInfoList = mDeviceInfoList;
         this.reference = new WeakReference<Context>(context);
+        this.handler = deviceListHandler;
     }
 
     @NonNull
@@ -38,7 +40,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.tvDeviceOrg.setText(mDeviceInfoList.get(position).getDeviceOrg().equals("null")?"未知区域":mDeviceInfoList.get(position).getDeviceOrg());
         holder.tvDeviceName.setText(mDeviceInfoList.get(position).getDeviceName().equals("null")?"未命名设备":mDeviceInfoList.get(position).getDeviceName());
         holder.tvDeviceTransport.setText(String.format("%s%s", "通道", mDeviceInfoList.get(position).getDeviceTransport()));
@@ -65,7 +67,17 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
             holder.tvOnline.setText(reference.get().getString(R.string.device_offline));
         }
 
+        holder.item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String deviceId = mDeviceInfoList.get(position).getDeviceId();
+                Message msg = handler.obtainMessage(DeviceListActivity.HANDLER_GET_DEVICE_ID, deviceId);
+                handler.sendMessage(msg);
+            }
+        });
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -73,6 +85,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        View item;
         ImageView ivDeviceItem;
         TextView tvDeviceOrg;
         TextView tvDeviceName;
@@ -83,6 +96,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 
         ViewHolder(View view) {
             super(view);
+            item = view;
             ivDeviceItem = view.findViewById(R.id.iv_device_item);
             tvDeviceOrg = view.findViewById(R.id.tv_device_org);
             tvDeviceName = view.findViewById(R.id.tv_device_name);

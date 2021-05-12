@@ -55,7 +55,10 @@
     <!--    DeviceListActivity-->
     <string name="device_list_tv_title">设备列表</string>
     <string name="tst_device_list_empty">未找到设备</string>
+    <string name="tst_get_device_id_error">获取设备信息失败</string>
 
+<!--    PreviewActivity-->
+    <string name="tst_get_rtsp_error">获取设备信号失败</string>
 
     <!--    SharedPreferences-->
     <string name="sp_user">user</string>
