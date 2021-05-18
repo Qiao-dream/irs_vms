@@ -1,6 +1,7 @@
 package com.iray.irs_vms.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -70,8 +71,13 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String deviceId = mDeviceInfoList.get(position).getDeviceId();
-                Message msg = handler.obtainMessage(DeviceListActivity.HANDLER_GET_DEVICE_ID, deviceId);
+                Message msg = new Message();
+                msg.what = DeviceListActivity.HANDLER_GET_DEVICE_ID;
+                Bundle b = new Bundle();
+                b.putString("id", mDeviceInfoList.get(position).getDeviceId());
+                b.putString("org", mDeviceInfoList.get(position).getDeviceOrg());
+                b.putString("name", mDeviceInfoList.get(position).getDeviceName());
+                msg.setData(b);
                 handler.sendMessage(msg);
             }
         });

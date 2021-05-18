@@ -136,9 +136,11 @@ public class DeviceListActivity extends BaseActivity {
                     activity.listDevicesInfo();
                     break;
                 case HANDLER_GET_DEVICE_ID:
-                    if(!msg.obj.toString().equals("")){
+                    if(!msg.getData().getString("id").equals("")){
                         Intent intent = new Intent(activity, PreviewActivity.class);
-                        intent.putExtra("id", msg.obj.toString());
+                        intent.putExtra("id", msg.getData().getString("id"));
+                        intent.putExtra("org", msg.getData().getString("org"));
+                        intent.putExtra("name", msg.getData().getString("name"));
                         activity.startActivity(intent);
                     } else {
                         Toast.makeText(activity, activity.getString(R.string.tst_get_device_id_error), Toast.LENGTH_SHORT).show();

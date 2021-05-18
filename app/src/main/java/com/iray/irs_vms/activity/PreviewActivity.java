@@ -19,6 +19,8 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +62,23 @@ public class PreviewActivity extends BaseActivity {
     private TextView previewTvLoading;
     private Button btnShowSettingSheet;
 
+    private RadioGroup radioGroupChannel;
+    private RadioButton rbChannel1;
+    private RadioButton rbChannel2;
+    private Button btnFullScreen;
+    private Button previewBtnPause;
+    private Button previewBtnReplay;
+    private Button previewBtnTakePhoto;
+    private Button previewBtnVideo;
+    private Button previewBtnZoom;
+    private Button previewBtnDialogue;
+    private Button previewBtnSound;
+    private Button previewBtnArrowTop;
+    private Button previewBtnArrowBottom;
+    private Button previewBtnArrowLeft;
+    private Button previewBtnArrowRight;
+    private Button previewBtnArrowSpin;
+
 
     DeviceManage deviceManage;
     private PreviewHandler previewHandler;
@@ -68,6 +87,8 @@ public class PreviewActivity extends BaseActivity {
 
     private int previewWidth, previewHeight;
     public String deviceId = "";
+    private String deviceOrg = "";
+    private String deviceName = "";
 
 
     @Override
@@ -86,6 +107,8 @@ public class PreviewActivity extends BaseActivity {
         deviceManage.setPreviewActivityWeakReference(this);
         Intent intent = getIntent();
         deviceId = Objects.requireNonNull(intent.getExtras()).getString("id");
+        deviceOrg = Objects.requireNonNull(intent.getExtras()).getString("org");
+        deviceName = Objects.requireNonNull(intent.getExtras()).getString("name");
         initView();
 
 
@@ -95,6 +118,7 @@ public class PreviewActivity extends BaseActivity {
     private void initView() {
         findView();
         initLayoutSize();
+        previewTvTitle.setText(String.format("%s#%s", deviceOrg, deviceName));
         setLayoutLister();
 
     }
@@ -110,12 +134,42 @@ public class PreviewActivity extends BaseActivity {
         previewBtnClose = (Button) findViewById(R.id.preview_btn_close);
         previewTvLoading = findViewById(R.id.tv_image_loading);
         btnShowSettingSheet = findViewById(R.id.btn_show_ps_setting_sheet);
+
+        radioGroupChannel = (RadioGroup) findViewById(R.id.radio_group_channel);
+        rbChannel1 = (RadioButton) findViewById(R.id.rb_channel1);
+        rbChannel2 = (RadioButton) findViewById(R.id.rb_channel2);
+        btnFullScreen = (Button) findViewById(R.id.btn_full_screen);
+        previewBtnPause = (Button) findViewById(R.id.preview_btn_pause);
+        previewBtnReplay = (Button) findViewById(R.id.preview_btn_replay);
+        previewBtnTakePhoto = (Button) findViewById(R.id.preview_btn_take_photo);
+        previewBtnVideo = (Button) findViewById(R.id.preview_btn_video);
+        previewBtnZoom = (Button) findViewById(R.id.preview_btn_zoom);
+        previewBtnDialogue = (Button) findViewById(R.id.preview_btn_dialogue);
+        previewBtnSound = (Button) findViewById(R.id.preview_btn_sound);
+        previewBtnArrowTop = (Button) findViewById(R.id.preview_btn_arrow_top);
+        previewBtnArrowBottom = (Button) findViewById(R.id.preview_btn_arrow_bottom);
+        previewBtnArrowLeft = (Button) findViewById(R.id.preview_btn_arrow_left);
+        previewBtnArrowRight = (Button) findViewById(R.id.preview_btn_arrow_right);
+        previewBtnArrowSpin = (Button) findViewById(R.id.preview_btn_arrow_spin);
 //        mVideoSurfaceFrame = (FrameLayout) video_layout.findViewById(R.id.player_surface_frame);
 //        mVideoTexture = mVideoSurfaceFrame.findViewById(R.id.texture_stub);
 //        subtitles_surface_stub = mVideoSurfaceFrame.findViewById(R.id.subtitles_surface_stub);
 //        surface_stub = mVideoSurfaceFrame.findViewById(R.id.surface_stub);
 
         btnShowSettingSheet.setOnClickListener(mOnClickListener);
+        btnFullScreen.setOnClickListener(mOnClickListener);
+        previewBtnPause.setOnClickListener(mOnClickListener);
+        previewBtnReplay.setOnClickListener(mOnClickListener);
+        previewBtnTakePhoto.setOnClickListener(mOnClickListener);
+        previewBtnVideo.setOnClickListener(mOnClickListener);
+        previewBtnZoom.setOnClickListener(mOnClickListener);
+        previewBtnDialogue.setOnClickListener(mOnClickListener);
+        previewBtnSound.setOnClickListener(mOnClickListener);
+        previewBtnArrowTop.setOnClickListener(mOnClickListener);
+        previewBtnArrowBottom.setOnClickListener(mOnClickListener);
+        previewBtnArrowLeft.setOnClickListener(mOnClickListener);
+        previewBtnArrowRight.setOnClickListener(mOnClickListener);
+        previewBtnArrowSpin.setOnClickListener(mOnClickListener);
     }
 
     private void initLayoutSize() {
