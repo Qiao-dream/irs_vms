@@ -63,8 +63,8 @@ public class PreviewActivity extends BaseActivity {
     private Button btnShowSettingSheet;
 
     private RadioGroup radioGroupChannel;
-    private RadioButton rbChannel1;
-    private RadioButton rbChannel2;
+    public RadioButton rbChannel1;
+    public RadioButton rbChannel2;
     private Button btnFullScreen;
     private Button previewBtnPause;
     private Button previewBtnReplay;
@@ -425,6 +425,10 @@ public class PreviewActivity extends BaseActivity {
                     break;
                 case HANDLER_GOT_RTSP:
                     String rtsp = msg.getData().getString("0");
+                    int channelCount = Integer.valueOf(msg.getData().getString("1"));
+                    if(channelCount==1){
+                        this.previewActiviy.rbChannel2.setVisibility(View.INVISIBLE);
+                    }
                     if (!rtsp.equals("")) {
                         this.previewActiviy.initCamera_vlc(rtsp, this.previewActiviy.previewWidth, this.previewActiviy.previewHeight);
                     } else {

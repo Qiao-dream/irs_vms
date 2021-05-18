@@ -65,6 +65,7 @@ public class DeviceManage {
         private WeakReference<DeviceListActivity> deviceListActivity = null;
         private WeakReference<PreviewActivity> previewActivity = null;
         private String rtsp = "";
+        private String channelCount = "1";
 
         public DeviceManageTask(ProgressBar mProgressBar) {
             this.mProgressBar = mProgressBar;
@@ -118,6 +119,7 @@ public class DeviceManage {
                             JSONObject aChannelData = channelData.getJSONObject(0);
                             protocolChannelId = aChannelData.getString("protocolChannelId");
                             protocolDeviceId = aChannelData.getString("protocolDeviceId");
+                            channelCount = String.valueOf(channelObject.getInt("count"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -153,7 +155,7 @@ public class DeviceManage {
                     deviceListActivity.get().sendDeviceHandler(DeviceListActivity.HANDLER_LIST_ALL_DEVICES);
                     break;
                 case DEVICE_MANAGE_GET_CHANNELS:
-                    previewActivity.get().sendPreviewHandler(PreviewActivity.HANDLER_GOT_RTSP, rtsp);
+                    previewActivity.get().sendPreviewHandler(PreviewActivity.HANDLER_GOT_RTSP, rtsp, channelCount);
                     break;
                 default:
                     break;
