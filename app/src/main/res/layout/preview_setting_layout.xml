@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_preview_setting"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ps_cl_zoom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/preview_setting_layout_item_height">
+
+
+        <TextView
+            android:id="@+id/ps_tv_zoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ps_tv_zoom"
+            android:textSize="@dimen/ps_tv_text_size"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/ps_zoom_gl_v1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/ps_btn_zoom_less"
+            android:layout_width="@dimen/preview_btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/ps_btn_zoom_less"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/ps_tv_zoom"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintStart_toEndOf="@id/ps_tv_zoom"
+            app:layout_constraintTop_toTopOf="@id/ps_tv_zoom" />
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/ps_sb_zoom"
+            android:layout_width="@dimen/ps_sb_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            app:isb_indicator_color="@color/primary_color"
+            app:isb_track_progress_color="@color/primary_color"
+            app:isb_track_progress_size="@dimen/ps_sb_track_size"
+            app:isb_thumb_drawable="@drawable/sb_thumb"
+            app:isb_thumb_size="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/ps_tv_zoom"
+            app:layout_constraintStart_toEndOf="@id/ps_btn_zoom_less"
+            app:layout_constraintTop_toTopOf="@id/ps_tv_zoom"
+            app:layout_constraintEnd_toStartOf="@id/ps_btn_zoom_plus"/>
+
+        <Button
+            android:id="@+id/ps_btn_zoom_plus"
+            android:layout_width="@dimen/preview_btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/ps_btn_zoom_plus"
+            app:layout_constraintBottom_toBottomOf="@id/ps_tv_zoom"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toEndOf="@id/ps_zoom_gl_v2"
+            app:layout_constraintTop_toTopOf="@id/ps_tv_zoom"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/ps_zoom_gl_v1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.15" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/ps_zoom_gl_v2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.85" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ps_cl_focus"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/preview_setting_layout_item_height">
+
+
+        <TextView
+            android:id="@+id/ps_tv_focus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ps_tv_focus"
+            android:textSize="@dimen/ps_tv_text_size"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/ps_focus_gl_v1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/ps_btn_focus_less"
+            android:layout_width="@dimen/preview_btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/ps_btn_focus_less"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/ps_tv_focus"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintStart_toEndOf="@id/ps_tv_focus"
+            app:layout_constraintTop_toTopOf="@id/ps_tv_focus" />
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/ps_sb_focus"
+            android:layout_width="@dimen/ps_sb_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            app:isb_indicator_color="@color/primary_color"
+            app:isb_track_progress_color="@color/primary_color"
+            app:isb_track_progress_size="@dimen/ps_sb_track_size"
+            app:isb_thumb_drawable="@drawable/sb_thumb"
+            app:isb_thumb_size="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/ps_tv_focus"
+            app:layout_constraintStart_toEndOf="@id/ps_btn_focus_less"
+            app:layout_constraintTop_toTopOf="@id/ps_tv_focus"
+            app:layout_constraintEnd_toStartOf="@id/ps_btn_focus_plus"/>
+
+        <Button
+            android:id="@+id/ps_btn_focus_plus"
+            android:layout_width="@dimen/preview_btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/ps_btn_focus_plus"
+            app:layout_constraintBottom_toBottomOf="@id/ps_tv_focus"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toEndOf="@id/ps_focus_gl_v2"
+            app:layout_constraintTop_toTopOf="@id/ps_tv_focus"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/ps_focus_gl_v1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.15" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/ps_focus_gl_v2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.85" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ps_cl_aperture"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/preview_setting_layout_item_height">
+
+
+        <TextView
+            android:id="@+id/ps_tv_aperture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ps_tv_aperture"
+            android:textSize="@dimen/ps_tv_text_size"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/ps_aperture_gl_v1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/ps_btn_aperture_less"
+            android:layout_width="@dimen/preview_btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/ps_btn_aperture_less"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/ps_tv_aperture"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintStart_toEndOf="@id/ps_tv_aperture"
+            app:layout_constraintTop_toTopOf="@id/ps_tv_aperture" />
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/ps_sb_aperture"
+            android:layout_width="@dimen/ps_sb_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            app:isb_indicator_color="@color/primary_color"
+            app:isb_track_progress_color="@color/primary_color"
+            app:isb_track_progress_size="@dimen/ps_sb_track_size"
+            app:isb_thumb_drawable="@drawable/sb_thumb"
+            app:isb_thumb_size="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/ps_tv_aperture"
+            app:layout_constraintStart_toEndOf="@id/ps_btn_aperture_less"
+            app:layout_constraintTop_toTopOf="@id/ps_tv_aperture"
+            app:layout_constraintEnd_toStartOf="@id/ps_btn_aperture_plus"/>
+
+        <Button
+            android:id="@+id/ps_btn_aperture_plus"
+            android:layout_width="@dimen/preview_btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/ps_btn_aperture_plus"
+            app:layout_constraintBottom_toBottomOf="@id/ps_tv_aperture"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toEndOf="@id/ps_aperture_gl_v2"
+            app:layout_constraintTop_toTopOf="@id/ps_tv_aperture"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/ps_aperture_gl_v1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.15" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/ps_aperture_gl_v2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.85" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

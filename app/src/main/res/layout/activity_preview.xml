@@ -2,31 +2,391 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/preview_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_bg"
     tools:context=".activity.PreviewActivity">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/preview_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/top_bar_bg"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/preview_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/top_bar_title_margin_bottom"
+            android:text="@string/device_list_tv_title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_text_size"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/preview_btn_close"
+            android:layout_width="@dimen/top_bar_btn_size"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/top_bar_btn_margin"
+            android:background="@drawable/btn_close"
+
+            app:layout_constraintBottom_toBottomOf="@id/preview_tv_title"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/preview_tv_title" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/preview_top_black_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/preview_top_black_menu_height"
+        android:background="@color/black"
+
+        app:layout_constraintTop_toBottomOf="@id/preview_top_bar">
+
+
+        <RadioGroup
+            android:id="@+id/radio_group_channel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/preview_rb_margin_start"
+            android:orientation="horizontal"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RadioButton
+                android:id="@+id/rb_channel1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/primary_color"
+                android:text="@string/preview_rb_channel1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/preview_rb_text_size" />
+
+            <RadioButton
+                android:id="@+id/rb_channel2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/preview_rb_margin_start"
+                android:buttonTint="@color/primary_color"
+                android:text="@string/preview_rb_channel2"
+                android:textColor="@color/white"
+                android:textSize="@dimen/preview_rb_text_size" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btn_full_screen"
+            android:layout_width="@dimen/preview_btn_size"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/preview_btn_full_screen_margin_end"
+            android:background="@drawable/btn_full_screen"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
         android:id="@+id/preview_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/black"
         app:layout_constraintDimensionRatio="h,4:3"
 
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/preview_top_black_bar">
 
 
-    <org.videolan.libvlc.util.VLCVideoLayout
-        android:id="@+id/video_layout"
+        <org.videolan.libvlc.util.VLCVideoLayout
+            android:id="@+id/video_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+
+            ></org.videolan.libvlc.util.VLCVideoLayout>
+
+
+        <TextView
+            android:id="@+id/tv_image_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/tv_loading"
+            android:textColor="@color/white"
+            android:textSize="@dimen/tv_loading_text_size" />
+
+
+    </FrameLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/preview_bottom_black_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_height="@dimen/preview_top_black_menu_height"
+        android:background="@color/black"
 
-        >
-    </org.videolan.libvlc.util.VLCVideoLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/preview_layout">
 
-        </FrameLayout>
+
+        <Button
+            android:id="@+id/preview_btn_pause"
+            android:layout_width="@dimen/preview_btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/preview_btn_pause"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toStartOf="@id/preview_btn_replay"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/preview_btn_replay"
+            android:layout_width="@dimen/preview_btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/preview_btn_replay"
+            app:layout_constraintBottom_toBottomOf="@id/preview_btn_pause"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toStartOf="@id/preview_btn_take_photo"
+            app:layout_constraintStart_toEndOf="@id/preview_btn_pause"
+            app:layout_constraintTop_toTopOf="@id/preview_btn_pause" />
+
+        <Button
+            android:id="@+id/preview_btn_take_photo"
+            android:layout_width="@dimen/preview_btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/preview_btn_take_photo"
+            app:layout_constraintBottom_toBottomOf="@id/preview_btn_pause"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toStartOf="@id/preview_btn_video"
+            app:layout_constraintStart_toEndOf="@id/preview_btn_replay"
+            app:layout_constraintTop_toTopOf="@id/preview_btn_pause" />
+
+        <Button
+            android:id="@+id/preview_btn_video"
+            android:layout_width="@dimen/preview_btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/preview_btn_video"
+            app:layout_constraintBottom_toBottomOf="@id/preview_btn_pause"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toStartOf="@id/preview_btn_zoom"
+            app:layout_constraintStart_toEndOf="@id/preview_btn_take_photo"
+            app:layout_constraintTop_toTopOf="@id/preview_btn_pause" />
+
+        <Button
+            android:id="@+id/preview_btn_zoom"
+            android:layout_width="@dimen/preview_btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/preview_btn_zoom"
+            app:layout_constraintBottom_toBottomOf="@id/preview_btn_pause"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toStartOf="@id/preview_btn_dialogue"
+            app:layout_constraintStart_toEndOf="@id/preview_btn_video"
+            app:layout_constraintTop_toTopOf="@id/preview_btn_pause" />
+
+        <Button
+            android:id="@+id/preview_btn_dialogue"
+            android:layout_width="@dimen/preview_btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/preview_btn_dialogue"
+            app:layout_constraintBottom_toBottomOf="@id/preview_btn_pause"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toStartOf="@id/preview_btn_sound"
+            app:layout_constraintStart_toEndOf="@id/preview_btn_zoom"
+            app:layout_constraintTop_toTopOf="@id/preview_btn_pause"
+
+            />
+
+        <Button
+            android:id="@+id/preview_btn_sound"
+            android:layout_width="@dimen/preview_btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/preview_btn_sound"
+            app:layout_constraintBottom_toBottomOf="@id/preview_btn_pause"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/preview_btn_dialogue"
+            app:layout_constraintTop_toTopOf="@id/preview_btn_pause"
+
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/arrow_keys_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/arrow_keys_layout_margin_top"
+        android:layout_marginBottom="@dimen/arrow_keys_layout_margin_bottom"
+        android:background="@drawable/bg_arrow_keys"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/preview_bottom_black_bar">
+
+
+        <Button
+            android:id="@+id/preview_btn_arrow_top"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/btn_arrow_top"
+            android:layout_marginTop="@dimen/arrow_btn_margin"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/arrow_keys_gl_h1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            />
+
+
+        <Button
+            android:id="@+id/preview_btn_arrow_bottom"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/btn_arrow_bottom"
+            android:layout_marginBottom="@dimen/arrow_btn_margin"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/arrow_keys_gl_h2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            />
+
+        <Button
+            android:id="@+id/preview_btn_arrow_left"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/btn_arrow_left"
+            android:layout_marginLeft="@dimen/arrow_btn_margin"
+
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/arrow_keys_gl_v1"
+
+            />
+
+
+        <Button
+            android:id="@+id/preview_btn_arrow_right"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/btn_arrow_right"
+            android:layout_marginRight="@dimen/arrow_btn_margin"
+
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/arrow_keys_gl_v2"
+
+            />
+
+
+        <Button
+            android:id="@+id/preview_btn_arrow_spin"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/btn_arrow_spin"
+
+
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintBottom_toBottomOf="@id/arrow_keys_gl_h4"
+            app:layout_constraintTop_toTopOf="@id/arrow_keys_gl_h3"
+            app:layout_constraintEnd_toEndOf="@id/arrow_keys_gl_v4"
+            app:layout_constraintStart_toStartOf="@id/arrow_keys_gl_v3"
+
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/arrow_keys_gl_h1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.18" />
+
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/arrow_keys_gl_h2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.82" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/arrow_keys_gl_v1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.18" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/arrow_keys_gl_v2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.82" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/arrow_keys_gl_h3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.33" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/arrow_keys_gl_h4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.66" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/arrow_keys_gl_v3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.33" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/arrow_keys_gl_v4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.66" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <ProgressBar
         android:id="@+id/pb_preview"
@@ -35,8 +395,24 @@
         android:layout_height="wrap_content"
         android:visibility="invisible"
 
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/btn_show_ps_setting_sheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="更多设置"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

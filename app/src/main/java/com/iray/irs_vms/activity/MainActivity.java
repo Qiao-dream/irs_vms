@@ -198,6 +198,7 @@ public class MainActivity extends BaseActivity {
         topMenuLayout.setLayoutParams(layoutParams);
         FrameLayout.LayoutParams layoutParams1 = (FrameLayout.LayoutParams) mainLayout.getLayoutParams();
         layoutParams1.bottomMargin = navigationBarHeight;
+        mainLayout.setLayoutParams(layoutParams1);
     }
 
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {

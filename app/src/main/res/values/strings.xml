@@ -59,6 +59,13 @@
 
 <!--    PreviewActivity-->
     <string name="tst_get_rtsp_error">获取设备信号失败</string>
+    <string name="preview_tv_title_default">未知设备</string>
+    <string name="preview_rb_channel1">通道1</string>
+    <string name="preview_rb_channel2">通道2</string>
+    <string name="tv_loading">视频正在加载中，请稍候...</string>
+    <string name="ps_tv_zoom">变焦</string>
+    <string name="ps_tv_focus">聚焦</string>
+    <string name="ps_tv_aperture">光圈</string>
 
     <!--    SharedPreferences-->
     <string name="sp_user">user</string>

@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="main_bg">#F5F5F5</color>
+    <color name="primary_color">#28a3df</color>
     <color name="main_search_bg">#28a3df</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
