@@ -66,6 +66,8 @@
     <string name="ps_tv_zoom">变焦</string>
     <string name="ps_tv_focus">聚焦</string>
     <string name="ps_tv_aperture">光圈</string>
+    <string name="tst_preview_pause">已暂停</string>
+    <string name="tst_preview_restart">继续播放</string>
 
     <!--    SharedPreferences-->
     <string name="sp_user">user</string>

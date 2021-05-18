@@ -28,6 +28,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.iray.irs_vms.R;
 
 import com.iray.irs_vms.httpUtils.DeviceManage;
+import com.iray.irs_vms.utils.DisplayUtil;
+import com.iray.irs_vms.utils.FileUtils;
 import com.warkiz.widget.IndicatorSeekBar;
 
 
@@ -37,6 +39,7 @@ import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.VLCVideoLayout;
 
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -218,6 +221,23 @@ public class PreviewActivity extends BaseActivity {
             switch (v.getId()) {
                 case R.id.btn_show_ps_setting_sheet:
                     showSettingSheet();
+                    break;
+                case R.id.preview_btn_pause:
+                    if(mMediaPlayer.isPlaying()) {
+                        mMediaPlayer.pause();
+                        Toast.makeText(PreviewActivity.this, getString(R.string.tst_preview_pause), Toast.LENGTH_SHORT).show();
+                    } else {
+                        mMediaPlayer.play();
+                        Toast.makeText(PreviewActivity.this, getString(R.string.tst_preview_restart), Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case R.id.preview_btn_take_photo:
+                    String snapPath = snapShot();
+                    if(snapPath!=null){
+                        Toast.makeText(mContext, "截图成功", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(mContext, "截图失败", Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 default:
                     break;
@@ -437,6 +457,29 @@ public class PreviewActivity extends BaseActivity {
                 default:
                     break;
             }
+        }
+    }
+
+
+    /**
+     * 截图
+     */
+    public String snapShot () {
+        try {
+            String name = FileUtils.FILE_DIR_PATH + File.separator + FileUtils.SNAP_SHOT_DIR + File.separator + deviceOrg+"#"+deviceName+"@"+DisplayUtil.getCurrentTime_for_file() + ".jpg";
+            //调用LibVlc的截屏功能，传入一个路径，及图片的宽高
+//            if (mLibVLC.takeSnapShot(name, PIC_WIDTH, PIC_HEIGHT)) {
+            if (mMediaPlayer.takeSnapShot(0,name, previewWidth, previewHeight)) {
+                Log.i(TAG, "snapShot: 保存成功--" + System.currentTimeMillis());
+                //  Toast.makeText(mContext, "截图成功", Toast.LENGTH_SHORT).show();
+                return name;
+            } else {
+                // Toast.makeText(mContext, "截图成功", Toast.LENGTH_SHORT).show();
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

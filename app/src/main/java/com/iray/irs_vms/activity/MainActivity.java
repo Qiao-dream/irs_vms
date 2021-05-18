@@ -25,6 +25,7 @@ import com.iray.irs_vms.R;
 import com.iray.irs_vms.httpUtils.Common;
 import com.iray.irs_vms.httpUtils.UserUtils;
 import com.iray.irs_vms.utils.DisplayUtil;
+import com.iray.irs_vms.utils.FileUtils;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
@@ -32,6 +33,7 @@ import com.zhouwei.mzbanner.holder.MZViewHolder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +94,7 @@ public class MainActivity extends BaseActivity {
         initBanner();
         mHandler = new MainHandler(this);
         initLogin();
+        initDirs();
     }
 
     @Override
@@ -199,6 +202,20 @@ public class MainActivity extends BaseActivity {
         FrameLayout.LayoutParams layoutParams1 = (FrameLayout.LayoutParams) mainLayout.getLayoutParams();
         layoutParams1.bottomMargin = navigationBarHeight;
         mainLayout.setLayoutParams(layoutParams1);
+    }
+
+
+    private void initDirs(){
+        String mainDirStr = FileUtils.FILE_DIR_PATH;
+        File mainDir = new File(mainDirStr);
+        if(!mainDir.exists()){
+            mainDir.mkdir();
+        }
+        String snapDirStr = mainDirStr + File.separator + FileUtils.SNAP_SHOT_DIR;
+        File snapDir = new File(snapDirStr);
+        if(!snapDir.exists()){
+            snapDir.mkdir();
+        }
     }
 
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
