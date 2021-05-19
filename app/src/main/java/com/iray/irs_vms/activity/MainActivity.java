@@ -216,6 +216,11 @@ public class MainActivity extends BaseActivity {
         if(!snapDir.exists()){
             snapDir.mkdir();
         }
+        String videoDirStr = mainDirStr + File.separator + FileUtils.VIDEO_DIR;
+        File videoDir = new File(videoDirStr);
+        if(!videoDir.exists()){
+            videoDir.mkdir();
+        }
     }
 
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {

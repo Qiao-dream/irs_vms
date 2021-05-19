@@ -113,6 +113,9 @@
         app:layout_constraintTop_toBottomOf="@id/preview_top_black_bar">
 
 
+
+
+
         <org.videolan.libvlc.util.VLCVideoLayout
             android:id="@+id/video_layout"
             android:layout_width="match_parent"
@@ -130,6 +133,21 @@
             android:text="@string/tv_loading"
             android:textColor="@color/white"
             android:textSize="@dimen/tv_loading_text_size" />
+
+
+        <Chronometer
+            android:id="@+id/preview_chronometer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:textSize="18sp"
+            android:visibility="invisible"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="15dp"
+
+
+            android:layout_gravity="right"
+            />
 
 
     </FrameLayout>

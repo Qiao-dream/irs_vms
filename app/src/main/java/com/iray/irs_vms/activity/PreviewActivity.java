@@ -12,11 +12,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -81,6 +83,7 @@ public class PreviewActivity extends BaseActivity {
     private Button previewBtnArrowLeft;
     private Button previewBtnArrowRight;
     private Button previewBtnArrowSpin;
+    private Chronometer previewChornometer;
 
 
     DeviceManage deviceManage;
@@ -92,6 +95,7 @@ public class PreviewActivity extends BaseActivity {
     public String deviceId = "";
     private String deviceOrg = "";
     private String deviceName = "";
+    private boolean isRecording = false;
 
 
     @Override
@@ -154,6 +158,7 @@ public class PreviewActivity extends BaseActivity {
         previewBtnArrowLeft = (Button) findViewById(R.id.preview_btn_arrow_left);
         previewBtnArrowRight = (Button) findViewById(R.id.preview_btn_arrow_right);
         previewBtnArrowSpin = (Button) findViewById(R.id.preview_btn_arrow_spin);
+        previewChornometer = findViewById(R.id.preview_chronometer);
 //        mVideoSurfaceFrame = (FrameLayout) video_layout.findViewById(R.id.player_surface_frame);
 //        mVideoTexture = mVideoSurfaceFrame.findViewById(R.id.texture_stub);
 //        subtitles_surface_stub = mVideoSurfaceFrame.findViewById(R.id.subtitles_surface_stub);
@@ -223,22 +228,48 @@ public class PreviewActivity extends BaseActivity {
                     showSettingSheet();
                     break;
                 case R.id.preview_btn_pause:
-                    if(mMediaPlayer.isPlaying()) {
+                    if (mMediaPlayer.isPlaying()) {
                         mMediaPlayer.pause();
+                        previewBtnPause.setBackground(getDrawable(R.drawable.preview_btn_start));
                         Toast.makeText(PreviewActivity.this, getString(R.string.tst_preview_pause), Toast.LENGTH_SHORT).show();
                     } else {
                         mMediaPlayer.play();
+                        previewBtnPause.setBackground(getDrawable(R.drawable.preview_btn_pause));
                         Toast.makeText(PreviewActivity.this, getString(R.string.tst_preview_restart), Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case R.id.preview_btn_take_photo:
                     String snapPath = snapShot();
-                    if(snapPath!=null){
-                        Toast.makeText(mContext, "截图成功", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(mContext, "截图失败", Toast.LENGTH_SHORT).show();
+                    if (snapPath != null) {
+                        Toast.makeText(mContext, getString(R.string.tst_snap_shot_success), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(mContext, getString(R.string.tst_snap_shot_failed), Toast.LENGTH_SHORT).show();
                     }
                     break;
+                case R.id.preview_btn_video:
+                    if (!isRecording) {
+                        String path = FileUtils.FILE_DIR_PATH + File.separator + FileUtils.VIDEO_DIR;
+                        if (mMediaPlayer.record(path)) {
+                            isRecording = true;
+                            previewChornometer.setVisibility(View.VISIBLE);
+                            previewChornometer.start();
+                            previewChornometer.setBase(SystemClock.elapsedRealtime());
+                            Toast.makeText(mContext, "录制开始", Toast.LENGTH_SHORT).show();
+                        } else {
+                            isRecording = false;
+                            previewChornometer.stop();
+                            previewChornometer.setVisibility(View.INVISIBLE);
+                            Toast.makeText(mContext, "录制失败", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else {
+                        mMediaPlayer.record(null);
+                        previewChornometer.stop();
+                        previewChornometer.setVisibility(View.INVISIBLE);
+                        Toast.makeText(mContext, "录制结束", Toast.LENGTH_SHORT).show();
+                        isRecording = false;
+                        //finish();
+                    }
                 default:
                     break;
             }
@@ -272,7 +303,7 @@ public class PreviewActivity extends BaseActivity {
     }
 
 
-    private void showSettingSheet(){
+    private void showSettingSheet() {
         final BottomSheetDialog dialog = new BottomSheetDialog(PreviewActivity.this);
         View dialogView = LayoutInflater.from(PreviewActivity.this).inflate(R.layout.preview_setting_layout, null);
         TextView psTvZoom = (TextView) dialogView.findViewById(R.id.ps_tv_zoom);
@@ -446,8 +477,9 @@ public class PreviewActivity extends BaseActivity {
                 case HANDLER_GOT_RTSP:
                     String rtsp = msg.getData().getString("0");
                     int channelCount = Integer.valueOf(msg.getData().getString("1"));
-                    if(channelCount==1){
+                    if (channelCount == 1) {
                         this.previewActiviy.rbChannel2.setVisibility(View.INVISIBLE);
+                        this.previewActiviy.rbChannel1.setChecked(true);
                     }
                     if (!rtsp.equals("")) {
                         this.previewActiviy.initCamera_vlc(rtsp, this.previewActiviy.previewWidth, this.previewActiviy.previewHeight);
@@ -464,12 +496,12 @@ public class PreviewActivity extends BaseActivity {
     /**
      * 截图
      */
-    public String snapShot () {
+    public String snapShot() {
         try {
-            String name = FileUtils.FILE_DIR_PATH + File.separator + FileUtils.SNAP_SHOT_DIR + File.separator + deviceOrg+"#"+deviceName+"@"+DisplayUtil.getCurrentTime_for_file() + ".jpg";
+            String name = FileUtils.FILE_DIR_PATH + File.separator + FileUtils.SNAP_SHOT_DIR + File.separator + deviceOrg + "#" + deviceName + "@" + DisplayUtil.getCurrentTime_for_file() + ".jpg";
             //调用LibVlc的截屏功能，传入一个路径，及图片的宽高
 //            if (mLibVLC.takeSnapShot(name, PIC_WIDTH, PIC_HEIGHT)) {
-            if (mMediaPlayer.takeSnapShot(0,name, previewWidth, previewHeight)) {
+            if (mMediaPlayer.takeSnapShot(0, name, previewWidth, previewHeight)) {
                 Log.i(TAG, "snapShot: 保存成功--" + System.currentTimeMillis());
                 //  Toast.makeText(mContext, "截图成功", Toast.LENGTH_SHORT).show();
                 return name;
@@ -483,5 +515,7 @@ public class PreviewActivity extends BaseActivity {
         }
     }
 
-
 }
+
+
+

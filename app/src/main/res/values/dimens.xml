@@ -78,6 +78,8 @@
     <dimen name="ps_tv_text_size">18sp</dimen>
     <dimen name="ps_sb_thumb_size">20dp</dimen>
     <dimen name="ps_sb_track_size">3dp</dimen>
+    <dimen name="chronometer_margin_end">20dp</dimen>
+    <dimen name="chronometer_margin_top">15dp</dimen>
 
 
 </resources>

@@ -68,6 +68,11 @@
     <string name="ps_tv_aperture">光圈</string>
     <string name="tst_preview_pause">已暂停</string>
     <string name="tst_preview_restart">继续播放</string>
+    <string name="tst_snap_shot_success">截图成功</string>
+    <string name="tst_snap_shot_failed">截图失败</string>
+    <string name="tst_record_start">录制开始</string>
+    <string name="tst_record_end">录制结束</string>
+    <string name="tst_record_failed">录制失败</string>
 
     <!--    SharedPreferences-->
     <string name="sp_user">user</string>
