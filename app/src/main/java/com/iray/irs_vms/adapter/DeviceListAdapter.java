@@ -42,8 +42,8 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        holder.tvDeviceOrg.setText(mDeviceInfoList.get(position).getDeviceOrg().equals("null")?"未知区域":mDeviceInfoList.get(position).getDeviceOrg());
-        holder.tvDeviceName.setText(mDeviceInfoList.get(position).getDeviceName().equals("null")?"未命名设备":mDeviceInfoList.get(position).getDeviceName());
+        holder.tvDeviceOrg.setText(mDeviceInfoList.get(position).getDeviceOrg().equals("null")?reference.get().getString(R.string.org_unknown):mDeviceInfoList.get(position).getDeviceOrg());
+        holder.tvDeviceName.setText(mDeviceInfoList.get(position).getDeviceName().equals("null")?reference.get().getString(R.string.device_no_name):mDeviceInfoList.get(position).getDeviceName());
         holder.tvDeviceTransport.setText(String.format("%s%s", "通道", mDeviceInfoList.get(position).getDeviceTransport()));
         switch (mDeviceInfoList.get(position).getDeviceType()) {
             case 1:

@@ -81,5 +81,19 @@
     <dimen name="chronometer_margin_end">20dp</dimen>
     <dimen name="chronometer_margin_top">15dp</dimen>
 
+<!--     ReplayListActivity-->-->
+    <dimen name="rl_common_text_size">18sp</dimen>
+    <dimen name="rl_first_tv_margin_top">15dp</dimen>
+    <dimen name="rl_tv_margin_top">7dp</dimen>
+    <dimen name="rl_sp_width">200dp</dimen>
+    <dimen name="rl_btn_width">180dp</dimen>
+    <dimen name="rl_date_tv_height">25dp</dimen>
+    <dimen name="rl_btn_find_margin_top">20dp</dimen>
+    <dimen name="rl_rv_margin_top">15dp</dimen>
+    <dimen name="rl_rv_margin_left">10dp</dimen>
+    <dimen name="rl_item_height">140dp</dimen>
+    <dimen name="rl_item_btn_margin_end">20dp</dimen>
+
+
 
 </resources>

@@ -252,6 +252,9 @@ public class MainActivity extends BaseActivity {
                 case R.id.btn_abnormal_alarm:
                     Intent intent3 = new Intent(MainActivity.this, PreviewActivity.class);
                     startActivity(intent3);
+                case R.id.preview_btn_replay:
+                    Intent intent4 = new Intent(MainActivity.this, ReplayListActivity.class);
+                    startActivity(intent4);
                 default:
                     break;
             }

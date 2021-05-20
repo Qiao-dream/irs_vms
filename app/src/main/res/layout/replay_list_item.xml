@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_item"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/rl_item_height"
+    android:background="@drawable/rounded_shadow_shape">
+
+    <TextView
+        android:id="@+id/rli_tv_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textColor="@color/black"
+        android:textSize="@dimen/rl_common_text_size"
+        android:layout_marginStart="10dp"
+
+        app:layout_constraintTop_toTopOf="@id/rli_tv_name"
+        app:layout_constraintBottom_toBottomOf="@id/rli_tv_name"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <TextView
+        android:id="@+id/rli_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="大门摄像头-1"
+        android:textColor="@color/black"
+        android:textSize="@dimen/rl_common_text_size"
+        android:layout_marginStart="10dp"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/rli_tv_start_time"
+        app:layout_constraintStart_toEndOf="@id/rli_tv_number"/>
+
+
+    <TextView
+        android:id="@+id/rli_tv_start_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开始：2021-5-20 10:00:00"
+        android:textColor="@color/black"
+        android:textSize="@dimen/rl_common_text_size"
+        android:layout_marginTop="3dp"
+
+        app:layout_constraintTop_toBottomOf="@id/rli_tv_name"
+        app:layout_constraintBottom_toTopOf="@id/rli_tv_end_time"
+        app:layout_constraintStart_toStartOf="@id/rli_tv_name"/>
+
+    <TextView
+        android:id="@+id/rli_tv_end_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="结束：2021-5-20 11:00:00"
+        android:textColor="@color/black"
+        android:textSize="@dimen/rl_common_text_size"
+        android:layout_marginTop="3dp"
+
+        app:layout_constraintTop_toBottomOf="@id/rli_tv_start_time"
+        app:layout_constraintBottom_toTopOf="@id/rli_tv_status"
+        app:layout_constraintStart_toStartOf="@id/rli_tv_name"/>
+
+    <TextView
+        android:id="@+id/rli_tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="状态：已锁定"
+        android:textColor="@color/black"
+        android:textSize="@dimen/rl_common_text_size"
+        android:layout_marginTop="3dp"
+
+        app:layout_constraintTop_toBottomOf="@id/rli_tv_end_time"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/rli_tv_name"/>
+
+    <Button
+        android:id="@+id/rli_btn_look"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rl_item_btn_look"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:background="@color/transparent"
+        android:textSize="@dimen/rl_common_text_size"
+        android:textColor="@color/primary_color"
+        android:layout_marginEnd="@dimen/rl_item_btn_margin_end"
+
+        app:layout_constraintTop_toTopOf="@id/rli_tv_start_time"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/rli_btn_download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rl_item_btn_download"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:background="@color/transparent"
+        android:textSize="@dimen/rl_common_text_size"
+        android:textColor="@color/primary_color"
+        android:layout_marginEnd="@dimen/rl_item_btn_margin_end"
+
+        app:layout_constraintTop_toTopOf="@id/rli_tv_status"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

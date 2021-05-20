@@ -116,6 +116,8 @@ public class PreviewActivity extends BaseActivity {
         deviceId = Objects.requireNonNull(intent.getExtras()).getString("id");
         deviceOrg = Objects.requireNonNull(intent.getExtras()).getString("org");
         deviceName = Objects.requireNonNull(intent.getExtras()).getString("name");
+        deviceOrg = deviceOrg.equals("null")?getString(R.string.org_unknown):deviceOrg;
+        deviceName = deviceName.equals("null")?getString(R.string.device_no_name):deviceName;
         initView();
 
 

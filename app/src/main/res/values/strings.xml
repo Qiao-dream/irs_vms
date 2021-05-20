@@ -40,7 +40,7 @@
     <string name="tv_user_cs_number">0535-02602</string>
 
 
-<!--    AlterPasswordActivity-->
+    <!--    AlterPasswordActivity-->
     <string name="tv_alter_password_title">修改密码</string>
     <string name="tv_alter_password_old">旧密码</string>
     <string name="et_hint_alter_password_old">请输入旧密码</string>
@@ -51,13 +51,14 @@
     <string name="btn_alter_password_confirm">确定修改</string>
 
 
-
     <!--    DeviceListActivity-->
     <string name="device_list_tv_title">设备列表</string>
     <string name="tst_device_list_empty">未找到设备</string>
     <string name="tst_get_device_id_error">获取设备信息失败</string>
+    <string name="device_no_name">未命名设备</string>
+    <string name="org_unknown">未知区域</string>
 
-<!--    PreviewActivity-->
+    <!--    PreviewActivity-->
     <string name="tst_get_rtsp_error">获取设备信号失败</string>
     <string name="preview_tv_title_default">未知设备</string>
     <string name="preview_rb_channel1">通道1</string>
@@ -73,6 +74,21 @@
     <string name="tst_record_start">录制开始</string>
     <string name="tst_record_end">录制结束</string>
     <string name="tst_record_failed">录制失败</string>
+
+<!--    ReplayListActivity-->
+    <string name="replay_list_tv_title">视频回放</string>
+    <string name="rl_tv_org">区&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;域</string>
+    <string name="rl_tv_device">设&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;备</string>
+    <string name="rl_tv_start_time">开始时间</string>
+    <string name="rl_tv_end_time">结束时间</string>
+    <string name="rl_btn_find_replay">查找</string>
+    <string name="rl_item_tv_start_time">开始：</string>
+    <string name="rl_item_tv_end_time">结束：</string>
+    <string name="rl_item_tv_status">状态：</string>
+    <string name="rl_item_tv_status_locked">已锁定</string>
+    <string name="rl_item_tv_status_unlocked">未锁定</string>
+    <string name="rl_item_btn_look">查看</string>
+    <string name="rl_item_btn_download">下载</string>
 
     <!--    SharedPreferences-->
     <string name="sp_user">user</string>

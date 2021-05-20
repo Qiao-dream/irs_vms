@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/ImageTranslucentTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.AlterPasswordActivity"></activity>
+        <activity android:name=".activity.ReplayListActivity"></activity>
+        <activity android:name=".activity.AlterPasswordActivity" />
         <activity android:name=".activity.UserActivity" />
         <activity android:name=".activity.DeviceListActivity" />
         <activity android:name=".activity.LoginActivity" />
