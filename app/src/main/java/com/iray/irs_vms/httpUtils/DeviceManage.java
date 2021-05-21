@@ -104,6 +104,7 @@ public class DeviceManage {
             String result = strings[0];
             switch (strings[0]) {
                 case DEVICE_MANAGE_LIST_DEVICES:
+                    mDeviceList.clear();
                     String deviceListStr = DeviceUtils.listAllCurrentDevice(Common.ACCESS_TOKEN);
                     if (!deviceListStr.equals("")) {
                         try {
