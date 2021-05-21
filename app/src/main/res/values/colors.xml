@@ -15,4 +15,9 @@
     <color name="divide_gray_color">#3CBBB2B2</color>
     <color name="sub_text_color">#B0BBB2B2</color>
     <color name="date_line_color">#E9E0E0</color>
+
+    <color name="date_picker_bg">#FFFFFF</color>
+    <color name="date_picker_divider">#11112233</color>
+    <color name="date_picker_text_light">#28a3df</color>
+    <color name="date_picker_text_dark">#333333</color>
 </resources>

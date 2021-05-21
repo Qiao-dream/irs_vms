@@ -116,6 +116,9 @@
         android:layout_width="@dimen/rl_sp_width"
         android:layout_height="25dp"
         android:background="@drawable/data_selected_bg"
+        android:textSize="@dimen/rl_sp_text_size"
+        android:textColor="@color/primary_color"
+        android:gravity="center"
 
         app:layout_constraintTop_toTopOf="@id/rl_tv_start_time"
         app:layout_constraintBottom_toBottomOf="@id/rl_tv_start_time"
@@ -142,8 +145,9 @@
         android:layout_width="0dp"
         android:layout_height="25dp"
         android:background="@drawable/data_selected_bg"
-
-
+        android:textSize="@dimen/rl_sp_text_size"
+        android:textColor="@color/primary_color"
+        android:gravity="center"
 
         app:layout_constraintTop_toTopOf="@id/rl_tv_end_time"
         app:layout_constraintBottom_toBottomOf="@id/rl_tv_end_time"

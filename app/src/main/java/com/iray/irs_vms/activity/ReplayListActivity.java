@@ -21,9 +21,14 @@ import android.widget.Toast;
 import com.iray.irs_vms.R;
 import com.iray.irs_vms.httpUtils.DeviceManage;
 import com.iray.irs_vms.info.DeviceInfo;
+import com.iray.irs_vms.widget.datepicker.CustomDatePicker;
+import com.iray.irs_vms.widget.datepicker.DateFormatUtils;
 
 import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +50,8 @@ public class ReplayListActivity extends AppCompatActivity {
     private TextView rlTvSelectEndTime;
     private Button rlBtnFind;
     public ProgressBar pbReplayList;
+
+    private CustomDatePicker beginTimePicker, endTimePicker;
 
     DeviceManage deviceManage;
     public ReplayListHandler mReplayListHandler;
@@ -97,6 +104,16 @@ public class ReplayListActivity extends AppCompatActivity {
 
             }
         });
+
+
+        initBeginTimerPicker();
+        initEndTimerPicker();
+//        //获取当前时间
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");// HH:mm:ss
+//        Date date = new Date(System.currentTimeMillis());
+//        rlTvSelectStartTime.setText(simpleDateFormat.format(date));
+//        rlTvSelectEndTime.setText(simpleDateFormat.format(date));
+
     }
 
     private void findView(){
@@ -114,6 +131,9 @@ public class ReplayListActivity extends AppCompatActivity {
         rlTvSelectEndTime = (TextView) findViewById(R.id.rl_tv_select_end_time);
         rlBtnFind = (Button) findViewById(R.id.rl_btn_find);
         pbReplayList = (ProgressBar) findViewById(R.id.pb_replay_list);
+
+        rlTvSelectStartTime.setOnClickListener(mOnClickListener);
+        rlTvSelectEndTime.setOnClickListener(mOnClickListener);
     }
 
 
@@ -123,6 +143,21 @@ public class ReplayListActivity extends AppCompatActivity {
         super.onResume();
         deviceManage.listAllDeviceRl();
     }
+
+
+    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.rl_tv_select_start_time:
+                    beginTimePicker.show(rlTvSelectStartTime.getText().toString());
+                    break;
+                case R.id.rl_tv_select_end_time:
+                    endTimePicker.show(rlTvSelectEndTime.getText().toString());
+                    break;
+            }
+        }
+    };
 
     public void sendReplayHandler(int msgWhat) {
         mReplayListHandler.sendEmptyMessage(msgWhat);
@@ -208,5 +243,69 @@ public class ReplayListActivity extends AppCompatActivity {
                     break;
             }
         }
+    }
+
+
+    private void initBeginTimerPicker() {
+        String beginTime = "2018-0-0 00:00";
+
+        Date date = new Date();
+        //时间选择器下边界-当前天数加一天
+        Calendar calendarEnd = Calendar.getInstance();
+        calendarEnd.setTime(date);
+        calendarEnd.add(Calendar.DAY_OF_MONTH, 1);
+        String endTime = DateFormatUtils.long2Str(calendarEnd.getTimeInMillis(), true);
+
+        //tv起始时间-当前时间减一天
+        Calendar tv_begin_calendar = Calendar.getInstance();
+        tv_begin_calendar.setTime(date);
+        tv_begin_calendar.add(Calendar.DAY_OF_MONTH, -1);
+        rlTvSelectStartTime.setText(DateFormatUtils.long2Str(tv_begin_calendar.getTimeInMillis(), true));
+
+        // 通过日期字符串初始化日期，格式请用：yyyy-MM-dd HH:mm
+        beginTimePicker = new CustomDatePicker(this, new CustomDatePicker.Callback() {
+            @Override
+            public void onTimeSelected(long timestamp) {
+                rlTvSelectStartTime.setText(DateFormatUtils.long2Str(timestamp, true));
+            }
+        }, beginTime, endTime);
+        // 允许点击屏幕或物理返回键关闭
+        beginTimePicker.setCancelable(true);
+        // 显示时和分
+        beginTimePicker.setCanShowPreciseTime(true);
+        // 不允许循环滚动
+        beginTimePicker.setScrollLoop(false);
+        // 允许滚动动画
+        beginTimePicker.setCanShowAnim(true);
+    }
+
+    private void initEndTimerPicker() {
+        String beginTime = "2018-0-0 00:00";
+
+        Date date = new Date();
+        //时间选择器下边界-当前天数加一天
+        Calendar calendarEnd = Calendar.getInstance();
+        calendarEnd.setTime(date);
+        calendarEnd.add(Calendar.DAY_OF_MONTH, 1);
+        String endTime = DateFormatUtils.long2Str(calendarEnd.getTimeInMillis(), true);
+
+        //tv起始时间-当前时间
+        rlTvSelectEndTime.setText(DateFormatUtils.long2Str(System.currentTimeMillis(), true));
+
+        // 通过日期字符串初始化日期，格式请用：yyyy-MM-dd HH:mm
+        endTimePicker = new CustomDatePicker(this, new CustomDatePicker.Callback() {
+            @Override
+            public void onTimeSelected(long timestamp) {
+                rlTvSelectEndTime.setText(DateFormatUtils.long2Str(timestamp, true));
+            }
+        }, beginTime, endTime);
+        // 允许点击屏幕或物理返回键关闭
+        endTimePicker.setCancelable(true);
+        // 显示时和分
+        endTimePicker.setCanShowPreciseTime(true);
+        // 不允许循环滚动
+        endTimePicker.setScrollLoop(false);
+        // 允许滚动动画
+        endTimePicker.setCanShowAnim(true);
     }
 }
