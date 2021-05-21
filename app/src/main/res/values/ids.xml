@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tv_sp_text" type="id" />
+    <item name="tv_sp_drop_down" type="id" />
+    <item name="cl_sp" type="id"/>
+</resources>

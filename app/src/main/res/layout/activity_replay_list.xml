@@ -61,15 +61,15 @@
 
     <Spinner
         android:id="@+id/rl_sp_org"
-        android:layout_width="@dimen/rl_sp_width"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/MySpinner"
+        android:spinnerMode="dropdown"
+        android:backgroundTint="@color/transparent"
 
-
-        app:layout_constraintStart_toEndOf="@id/rl_tv_org"
+        app:layout_constraintStart_toStartOf="@id/rl_tv_select_start_time"
         app:layout_constraintTop_toTopOf="@id/rl_tv_org"
         app:layout_constraintBottom_toBottomOf="@id/rl_tv_org"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        />
 
 
     <TextView
@@ -87,16 +87,13 @@
 
     <Spinner
         android:id="@+id/rl_sp_device"
-        android:layout_width="@dimen/rl_sp_width"
-        android:layout_height="wrap_content"
-        android:theme="@style/MySpinner"
-
-
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
 
         app:layout_constraintTop_toTopOf="@id/rl_tv_device"
         app:layout_constraintBottom_toBottomOf="@id/rl_tv_device"
-        app:layout_constraintStart_toStartOf="@id/rl_sp_org"
-        app:layout_constraintEnd_toEndOf="@id/rl_sp_org"/>
+        app:layout_constraintStart_toStartOf="@id/rl_tv_select_start_time"
+        />
 
 
     <TextView
@@ -119,12 +116,10 @@
         android:layout_height="25dp"
         android:background="@drawable/data_selected_bg"
 
-
-
         app:layout_constraintTop_toTopOf="@id/rl_tv_start_time"
         app:layout_constraintBottom_toBottomOf="@id/rl_tv_start_time"
-        app:layout_constraintStart_toStartOf="@id/rl_sp_org"
-        app:layout_constraintEnd_toEndOf="@id/rl_sp_org"/>
+        app:layout_constraintStart_toEndOf="@id/rl_tv_start_time"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 
     <TextView
@@ -143,7 +138,7 @@
 
     <TextView
         android:id="@+id/rl_tv_select_end_time"
-        android:layout_width="@dimen/rl_sp_width"
+        android:layout_width="0dp"
         android:layout_height="25dp"
         android:background="@drawable/data_selected_bg"
 
@@ -151,8 +146,8 @@
 
         app:layout_constraintTop_toTopOf="@id/rl_tv_end_time"
         app:layout_constraintBottom_toBottomOf="@id/rl_tv_end_time"
-        app:layout_constraintStart_toStartOf="@id/rl_sp_org"
-        app:layout_constraintEnd_toEndOf="@id/rl_sp_org"/>
+        app:layout_constraintStart_toStartOf="@id/rl_tv_select_start_time"
+        app:layout_constraintEnd_toEndOf="@id/rl_tv_select_start_time"/>
 
     <Button
         android:id="@+id/rl_btn_find"

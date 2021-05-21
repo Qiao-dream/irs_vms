@@ -1,13 +1,17 @@
 package com.iray.irs_vms.httpUtils;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.iray.irs_vms.activity.BaseActivity;
 import com.iray.irs_vms.activity.DeviceListActivity;
 import com.iray.irs_vms.activity.MainActivity;
 import com.iray.irs_vms.activity.PreviewActivity;
+import com.iray.irs_vms.activity.ReplayListActivity;
 import com.iray.irs_vms.info.DeviceInfo;
 
 import org.json.JSONArray;
@@ -25,7 +29,9 @@ public class DeviceManage {
     private WeakReference<DeviceListActivity> deviceListActivityWeakReference;
     public List<DeviceInfo> mDeviceList;
     private WeakReference<PreviewActivity> previewActivityWeakReference;
+    private WeakReference<ReplayListActivity> replayListActivityWeakReference;
     String testDeviceResultStr = "1";
+    private String currenActivity; //当前调用manage的Context;
 
     private static final String DEVICE_MANAGE_LIST_DEVICES = "list_devices";
     private static final String DEVICE_MANAGE_GET_CHANNELS = "get_channels";
@@ -42,15 +48,27 @@ public class DeviceManage {
     }
 
     public void setDeviceListActivityWeakReference(DeviceListActivity deviceListActivity) {
-        this.deviceListActivityWeakReference = new WeakReference<DeviceListActivity>(deviceListActivity);
+        this.deviceListActivityWeakReference = new WeakReference<>(deviceListActivity);
     }
 
     public void setPreviewActivityWeakReference(PreviewActivity previewActivity) {
         this.previewActivityWeakReference = new WeakReference<PreviewActivity>(previewActivity);
     }
 
-    public void listAllDevice() {
+    public void setReplayListActivityWeakReference(ReplayListActivity replayListActivity){
+        this.replayListActivityWeakReference = new WeakReference<>(replayListActivity);
+    }
+
+    public void listAllDeviceDl() {
+        currenActivity = "DeviceListActivity";
         DeviceManageTask task = new DeviceManageTask(deviceListActivityWeakReference.get().pbDeviceList);
+        task.execute(new String[]{DEVICE_MANAGE_LIST_DEVICES});
+    }
+
+
+    public void listAllDeviceRl() {
+        currenActivity = "ReplayListActivity";
+        DeviceManageTask task = new DeviceManageTask(replayListActivityWeakReference.get().pbReplayList);
         task.execute(new String[]{DEVICE_MANAGE_LIST_DEVICES});
     }
 
@@ -64,6 +82,7 @@ public class DeviceManage {
         private ProgressBar mProgressBar;
         private WeakReference<DeviceListActivity> deviceListActivity = null;
         private WeakReference<PreviewActivity> previewActivity = null;
+        private WeakReference<ReplayListActivity> replayListActivity = null;
         private String rtsp = "";
         private String channelCount = "1";
 
@@ -71,6 +90,7 @@ public class DeviceManage {
             this.mProgressBar = mProgressBar;
             this.deviceListActivity = deviceListActivityWeakReference;
             this.previewActivity = previewActivityWeakReference;
+            this.replayListActivity = replayListActivityWeakReference;
         }
 
         @Override
@@ -152,7 +172,11 @@ public class DeviceManage {
             super.onPostExecute(s);
             switch (s) {
                 case DEVICE_MANAGE_LIST_DEVICES:
-                    deviceListActivity.get().sendDeviceHandler(DeviceListActivity.HANDLER_LIST_ALL_DEVICES);
+                    if(currenActivity.equals("DeviceListActivity")) {
+                        deviceListActivity.get().sendDeviceHandler(DeviceListActivity.HANDLER_LIST_ALL_DEVICES);
+                    } else if(currenActivity.equals("ReplayListActivity")){
+                        replayListActivity.get().sendReplayHandler(ReplayListActivity.HANDLER_LIST_ALL_DEVICES);
+                    }
                     break;
                 case DEVICE_MANAGE_GET_CHANNELS:
                     previewActivity.get().sendPreviewHandler(PreviewActivity.HANDLER_GOT_RTSP, rtsp, channelCount);

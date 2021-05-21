@@ -23,9 +23,5 @@
     </style>
 
 
-    <style name="MySpinner" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
-        <item name="android:textColor">@color/primary_color</item>
-        <item name="android:textSize">@dimen/rl_common_text_size</item>
-    </style>
 
 </resources>
