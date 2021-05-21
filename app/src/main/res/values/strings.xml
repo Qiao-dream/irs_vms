@@ -90,6 +90,8 @@
     <string name="rl_item_tv_status_unlocked">未锁定</string>
     <string name="rl_item_btn_look">查看</string>
     <string name="rl_item_btn_download">下载</string>
+    <string name="rl_sp_org_empty">未添加区域</string>
+    <string name="rl_sp_device_empty">未添加设备</string>
 
     <!--    SharedPreferences-->
     <string name="sp_user">user</string>

@@ -115,8 +115,8 @@ public class DeviceManage {
                                 aDeviceData = deviceDatas.getJSONObject(i);
                                 DeviceInfo deviceInfoBuff = new DeviceInfo();
                                 deviceInfoBuff.setDeviceId(aDeviceData.getString("id"));
-                                deviceInfoBuff.setDeviceOrg(aDeviceData.getString("organizationName"));
-                                deviceInfoBuff.setDeviceName(aDeviceData.getString("name"));
+                                deviceInfoBuff.setDeviceOrg(aDeviceData.getString("organizationName").equals("null")?"未知区域":aDeviceData.getString("organizationName"));
+                                deviceInfoBuff.setDeviceName(aDeviceData.getString("name").equals("null")?"未命名设备":aDeviceData.getString("name"));
                                 deviceInfoBuff.setDeviceTransport(aDeviceData.isNull("transport") ? 0 : aDeviceData.getInt("transport"));
                                 deviceInfoBuff.setDeviceType(aDeviceData.isNull("deviceType") ? 0 : aDeviceData.getInt("deviceType"));
                                 deviceInfoBuff.setDeviceOnline(!aDeviceData.isNull("online") && aDeviceData.getBoolean("online"));

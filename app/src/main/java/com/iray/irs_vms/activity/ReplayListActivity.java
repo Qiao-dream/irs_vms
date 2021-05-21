@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -49,6 +51,7 @@ public class ReplayListActivity extends AppCompatActivity {
     private List<DeviceInfo> mDeviceInfoList;
     private Map<String, ArrayList<String>> mapOrg2Name;
     private ArrayList<String> orgList;
+    private String currentOrg;  //当前选择的区域，默认第一个
     private ArrayAdapter<String> orgSpAdapter;
     private ArrayAdapter<String> deviceNameSpAdapter;
     public static final int HANDLER_LIST_ALL_DEVICES = 3001;
@@ -64,22 +67,36 @@ public class ReplayListActivity extends AppCompatActivity {
     }
 
     private void init(){
-        initView();
         mContext = this;
         mDeviceInfoList = new ArrayList<>();
         orgList = new ArrayList<>();
         mapOrg2Name = new HashMap<>();
-        orgSpAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_content, R.id.tv_sp_text);
-        orgSpAdapter.setDropDownViewResource(R.layout.spinner_content_drop_down);
-        deviceNameSpAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_content, R.id.tv_sp_text);
-        deviceNameSpAdapter.setDropDownViewResource(R.layout.spinner_content_drop_down);
         mReplayListHandler = new ReplayListHandler(this);
         deviceManage = DeviceManage.getInstance();
         deviceManage.setReplayListActivityWeakReference(this);
+        initView();
+
+
     }
 
     private void initView(){
         findView();
+        orgSpAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_content, R.id.tv_sp_text);
+        orgSpAdapter.setDropDownViewResource(R.layout.spinner_content_drop_down);
+        deviceNameSpAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_content, R.id.tv_sp_text);
+        deviceNameSpAdapter.setDropDownViewResource(R.layout.spinner_content_drop_down);
+        rlSpOrg.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                currentOrg = (String) rlSpOrg.getItemAtPosition(position);
+                setDeviceNameSpAdapter();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void findView(){
@@ -98,6 +115,7 @@ public class ReplayListActivity extends AppCompatActivity {
         rlBtnFind = (Button) findViewById(R.id.rl_btn_find);
         pbReplayList = (ProgressBar) findViewById(R.id.pb_replay_list);
     }
+
 
 
     @Override
@@ -139,16 +157,30 @@ public class ReplayListActivity extends AppCompatActivity {
 
     public void setOrgSpAdapter(){
         if(orgList.size()>0) {
+            currentOrg = orgList.get(0);
             for (int i = 0; i<orgList.size(); i++){
                 orgSpAdapter.add(orgList.get(i));
             }
-            rlSpOrg.setAdapter(orgSpAdapter);
+        } else {
+            currentOrg = getString(R.string.rl_sp_org_empty);
+            orgSpAdapter.add(currentOrg);
         }
+        rlSpOrg.setAdapter(orgSpAdapter);
     }
 
 
     public void setDeviceNameSpAdapter(){
+        deviceNameSpAdapter.clear();
+        if(currentOrg.equals(getString(R.string.rl_sp_org_empty))){
 
+            deviceNameSpAdapter.add(getString(R.string.rl_sp_device_empty));
+        } else {
+            ArrayList<String> deviceList = mapOrg2Name.get(currentOrg);
+            for(int i = 0; i<deviceList.size(); i++){
+                deviceNameSpAdapter.add(deviceList.get(i));
+            }
+        }
+        rlSpDevice.setAdapter(deviceNameSpAdapter);
     }
 
 
@@ -170,6 +202,7 @@ public class ReplayListActivity extends AppCompatActivity {
                 case HANDLER_LIST_ALL_DEVICES:
                     activity.getDeviceInfos();
                     activity.setOrgSpAdapter();
+                    activity.setDeviceNameSpAdapter();
                     break;
                 default:
                     break;
