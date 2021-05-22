@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ReplayListActivity extends AppCompatActivity {
+public class ReplayListActivity extends BaseActivity {
     private final String TAG =  "ReplayListActivity";
     private Context mContext;
     private ConstraintLayout replayListMainLayout;
@@ -56,9 +57,11 @@ public class ReplayListActivity extends AppCompatActivity {
     DeviceManage deviceManage;
     public ReplayListHandler mReplayListHandler;
     private List<DeviceInfo> mDeviceInfoList;
-    private Map<String, ArrayList<String>> mapOrg2Name;
+    private Map<String, ArrayList<String[]>> mapOrg2Name;   //组织-设备名、设备id字符串数组的list 其中字符串数组[0]表示设备名 [1]表示设备id
     private ArrayList<String> orgList;
     private String currentOrg;  //当前选择的区域，默认第一个
+    private String currentDeviceName;
+    private String currentDeviceId;
     private ArrayAdapter<String> orgSpAdapter;
     private ArrayAdapter<String> deviceNameSpAdapter;
     public static final int HANDLER_LIST_ALL_DEVICES = 3001;
@@ -88,6 +91,7 @@ public class ReplayListActivity extends AppCompatActivity {
 
     private void initView(){
         findView();
+        initLayoutSize();
         orgSpAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_content, R.id.tv_sp_text);
         orgSpAdapter.setDropDownViewResource(R.layout.spinner_content_drop_down);
         deviceNameSpAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_content, R.id.tv_sp_text);
@@ -97,6 +101,21 @@ public class ReplayListActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 currentOrg = (String) rlSpOrg.getItemAtPosition(position);
                 setDeviceNameSpAdapter();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        rlSpDevice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayList<String[]> deviceList = mapOrg2Name.get(currentOrg);
+                currentDeviceName = deviceList.get(position)[0];
+                currentDeviceId = deviceList.get(position)[1];
+                Log.e(TAG, "currentDeviceName: "+currentDeviceName+"         currentDeviceId: "+currentDeviceId);
             }
 
             @Override
@@ -134,6 +153,7 @@ public class ReplayListActivity extends AppCompatActivity {
 
         rlTvSelectStartTime.setOnClickListener(mOnClickListener);
         rlTvSelectEndTime.setOnClickListener(mOnClickListener);
+        rlBtnFind.setOnClickListener(mOnClickListener);
     }
 
 
@@ -155,9 +175,21 @@ public class ReplayListActivity extends AppCompatActivity {
                 case R.id.rl_tv_select_end_time:
                     endTimePicker.show(rlTvSelectEndTime.getText().toString());
                     break;
+                case R.id.rl_btn_find:
+
             }
         }
     };
+
+
+    private void initLayoutSize() {
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) replayListTopBar.getLayoutParams();
+        layoutParams.height = statusBarHeight + (int) getResources().getDimension(R.dimen.top_bar_origin_height);
+        replayListTopBar.setLayoutParams(layoutParams);
+        FrameLayout.LayoutParams layoutParams1 = (FrameLayout.LayoutParams) replayListMainLayout.getLayoutParams();
+        layoutParams1.bottomMargin = navigationBarHeight;
+//        previewMainLayout.setLayoutParams(layoutParams1);
+    }
 
     public void sendReplayHandler(int msgWhat) {
         mReplayListHandler.sendEmptyMessage(msgWhat);
@@ -174,16 +206,17 @@ public class ReplayListActivity extends AppCompatActivity {
             for(int i = 0; i<mDeviceInfoList.size(); i++){  //遍历获取组织设备map
                 String currentOrg = mDeviceInfoList.get(i).getDeviceOrg();
                 String currentDeviceName = mDeviceInfoList.get(i).getDeviceName();
+                String currentDeviceId = mDeviceInfoList.get(i).getDeviceId();
                 Log.e(TAG, "currentOrg: "+currentOrg +"             currentDeviceName: "+currentDeviceName);
                 if(mapOrg2Name.containsKey(currentOrg)){     //已有组织
-                    ArrayList<String> deviceNameBuf = mapOrg2Name.get(currentOrg);
-                    deviceNameBuf.add(currentDeviceName);
-                    mapOrg2Name.put(currentOrg, deviceNameBuf);
+                    ArrayList<String[]> deviceNameIdStrsBuf = mapOrg2Name.get(currentOrg);
+                    deviceNameIdStrsBuf.add(new String[]{currentDeviceName, currentDeviceId});
+                    mapOrg2Name.put(currentOrg, deviceNameIdStrsBuf);
                 } else {    //新组织
                     orgList.add(currentOrg);
-                    ArrayList<String> deviceNameBuf = new ArrayList<>();
-                    deviceNameBuf.add(currentDeviceName);
-                    mapOrg2Name.put(currentOrg, deviceNameBuf);
+                    ArrayList<String[]> deviceNameIdStrsBuf = new ArrayList<>();
+                    deviceNameIdStrsBuf.add(new String[]{currentDeviceName, currentDeviceId});
+                    mapOrg2Name.put(currentOrg, deviceNameIdStrsBuf);
                 }
             }
         }
@@ -210,9 +243,11 @@ public class ReplayListActivity extends AppCompatActivity {
 
             deviceNameSpAdapter.add(getString(R.string.rl_sp_device_empty));
         } else {
-            ArrayList<String> deviceList = mapOrg2Name.get(currentOrg);
+            ArrayList<String[]> deviceList = mapOrg2Name.get(currentOrg);
+            currentDeviceName = deviceList.get(0)[0];
+            currentDeviceId = deviceList.get(0)[1];
             for(int i = 0; i<deviceList.size(); i++){
-                deviceNameSpAdapter.add(deviceList.get(i));
+                deviceNameSpAdapter.add(deviceList.get(i)[0]);
             }
         }
         rlSpDevice.setAdapter(deviceNameSpAdapter);
