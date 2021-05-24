@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="main_bg">#F5F5F5</color>
+    <color name="primary_color">#28a3df</color>
     <color name="main_search_bg">#28a3df</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
@@ -13,4 +14,10 @@
     <color name="edit_line_color">#C7BEBE</color>
     <color name="divide_gray_color">#3CBBB2B2</color>
     <color name="sub_text_color">#B0BBB2B2</color>
+    <color name="date_line_color">#E9E0E0</color>
+
+    <color name="date_picker_bg">#FFFFFF</color>
+    <color name="date_picker_divider">#11112233</color>
+    <color name="date_picker_text_light">#28a3df</color>
+    <color name="date_picker_text_dark">#333333</color>
 </resources>

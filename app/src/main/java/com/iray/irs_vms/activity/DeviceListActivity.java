@@ -1,7 +1,6 @@
 package com.iray.irs_vms.activity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,9 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
@@ -23,7 +19,6 @@ import com.iray.irs_vms.R;
 import com.iray.irs_vms.adapter.DeviceListAdapter;
 import com.iray.irs_vms.httpUtils.DeviceManage;
 import com.iray.irs_vms.info.DeviceInfo;
-import com.iray.irs_vms.utils.DisplayUtil;
 import com.iray.irs_vms.widget.RecycleViewDivider;
 
 import java.lang.ref.WeakReference;
@@ -96,7 +91,7 @@ public class DeviceListActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        deviceManage.listAllDevice();
+        deviceManage.listAllDeviceDl();
     }
 
     public void sendDeviceHandler(int msgWhat) {
@@ -136,9 +131,11 @@ public class DeviceListActivity extends BaseActivity {
                     activity.listDevicesInfo();
                     break;
                 case HANDLER_GET_DEVICE_ID:
-                    if(!msg.obj.toString().equals("")){
+                    if(!msg.getData().getString("id").equals("")){
                         Intent intent = new Intent(activity, PreviewActivity.class);
-                        intent.putExtra("id", msg.obj.toString());
+                        intent.putExtra("id", msg.getData().getString("id"));
+                        intent.putExtra("org", msg.getData().getString("org"));
+                        intent.putExtra("name", msg.getData().getString("name"));
                         activity.startActivity(intent);
                     } else {
                         Toast.makeText(activity, activity.getString(R.string.tst_get_device_id_error), Toast.LENGTH_SHORT).show();

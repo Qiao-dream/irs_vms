@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.WindowManager;
 
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 显示相关工具类
@@ -237,6 +239,18 @@ public class DisplayUtil {
                 - statusBarHeight);
         view.destroyDrawingCache();
         return bp;
+
+    }
+
+    /**
+     * 获取当前时间作为文件名
+     * @return
+     */
+    public static String getCurrentTime_for_file(){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");// HH:mm:ss
+//获取当前时间
+        Date date = new Date(System.currentTimeMillis());
+        return  simpleDateFormat.format(date);
 
     }
 }
