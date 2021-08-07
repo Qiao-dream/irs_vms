@@ -1,10 +1,9 @@
 package com.iray.irs_vms.httpUtils;
 
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
-import com.iray.irs_vms.activity.LoginActivity;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -16,6 +15,8 @@ import java.util.concurrent.TimeUnit;
 public class UserUtils {
     private static String USER_API_URL = "/api-user";
     private static String LOGIN_API_URL = "/api-uaa/oauth/token";
+    private static String LOGIN_USER_ID = "/users/current";
+
 
     public final static int LOGIN_RESULT = 201;
 
@@ -35,6 +36,7 @@ public class UserUtils {
                     .build();
             Response response = client.newCall(request).execute();
             String resultStr = response.body().string();
+            Log.w("UserUtils","UserUtils resultStr:"+resultStr);
             if(resultStr.equals("")){
                 message = mHandler.obtainMessage(LOGIN_RESULT, "");
             } else {
@@ -47,4 +49,33 @@ public class UserUtils {
             mHandler.sendMessage(message);
         }
     }
+
+    /**
+     * 获取UserID
+     * GET请求
+     * @param
+     * @return
+     */
+    public static String getUserId(String accessToken){
+        try {
+            OkHttpClient client = new OkHttpClient();
+            client.setConnectTimeout(30, TimeUnit.SECONDS);
+            client.setReadTimeout(30, TimeUnit.SECONDS);
+            Request request = new Request.Builder()
+                    .url(Common.HTTP_URL+USER_API_URL+LOGIN_USER_ID)
+                    .addHeader("Content-Type", Common.MEDIA_TYPE)
+                    .addHeader("Authorization", accessToken)
+                    .build();
+            Response response = client.newCall(request).execute();
+            String userIds=response.body().string();
+              Log.i("UserUtils","User ID..."+userIds);
+            return userIds;
+        } catch (Exception e){
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+
+
 }

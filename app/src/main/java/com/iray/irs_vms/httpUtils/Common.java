@@ -10,8 +10,11 @@ import com.iray.irs_vms.utils.DisplayUtil;
 import java.io.File;
 
 public class Common {
-    public static String HTTP_URL = "http://172.16.20.10:9900";
-    public static String ACCESS_TOKEN;
+    // public static String HTTP_URL = "http://172.16.20.5:9900";
+     public static String HTTP_URL = "http://172.16.20.48/gateway";  //用户名：Java  密码：123456
+    // public static String HTTP_URL = "http://223.78.120.21:7799/gateway";   //用户名：admin 密码：admin123 /smartpark995
+    public static String ACCESS_TOKEN=null;
+    public static String USER_ID=null;
     public static String FILE_PATH = getSDPath() + File.separator + "iRayMedia/";
     public static final int DEFAULT_WIDTH = 384;
     public static final int DEFAULT_HEIGHT = 288;
@@ -19,6 +22,7 @@ public class Common {
     public  static final String  IMAGE_SIZE_VALUE="IMAGE_SIZE_VALUE";
 
     public static String MEDIA_TYPE = "application/x-www-form-urlencoded";
+    public static String MEDIA_TYPE1 = ("application/json; charset=utf-8");
 
 
     private static String getSDPath() {

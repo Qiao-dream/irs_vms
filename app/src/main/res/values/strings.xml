@@ -1,14 +1,15 @@
 <resources>
     <string name="app_name">irs_vms</string>
     <!--    MainActivity-->
-    <string name="btn_access_control">安防门禁</string>
+    <string name="btn_access_control">通行预览</string>
     <string name="btn_video_surveillance">视频监控</string>
     <string name="btn_inspection">巡检任务</string>
     <string name="btn_temp_screening">体温筛查</string>
     <string name="btn_park_track">园区轨迹</string>
     <string name="btn_statistics">数据统计</string>
     <string name="btn_abnormal_alarm">异常报警</string>
-    <string name="btn_more">更多</string>
+    <string name="btn_more">系统通知</string>
+    <string name="btn_video_replay">视频回放</string>
     <string name="btn_home">首页</string>
     <string name="btn_alarm">报警</string>
     <string name="btn_user">我的</string>
@@ -49,15 +50,30 @@
     <string name="tv_alter_password_new_confirm">新密码</string>
     <string name="et_hint_alter_password_new_confirm">请再次输入新密码</string>
     <string name="btn_alter_password_confirm">确定修改</string>
+    <!--OfflineInspectionFragment-->
+    <string name="tst_inspect_list_empty">目前没有巡检任务</string>
+
+    <!--AllAlarmFragment-->
+    <string name="tst_alarm_list_empty">目前没有巡检任务</string>
 
 
     <!--    DeviceListActivity-->
 
     <string name="device_list_tv_title">设备列表</string>
     <string name="tst_device_list_empty">未找到设备</string>
+    <string name="search_device_list_empty">搜索未找到设备</string>
     <string name="tst_get_device_id_error">获取设备信息失败</string>
     <string name="device_no_name">未命名设备</string>
     <string name="org_unknown">未知区域</string>
+
+    <!--    KeyMonitorActivity-->
+    <string name="keymonitor_list_tv_title">重点监控管理</string>
+    <string name="tst_del_device_id_error">删除监控设备失败</string>
+    <string name="tst_add_device_id_error">添加监控设备失败</string>
+    <string name="tst_key_device_list_empty">未找到重点监控设备</string>
+
+    <!--    AddKeyMonitorActivity-->
+    <string name="add_keymonitor_tv_title">添加重点监控</string>
 
     <!--    PreviewActivity-->
     <string name="tst_get_rtsp_error">获取设备信号失败</string>
@@ -76,6 +92,38 @@
     <string name="tst_record_end">录制结束</string>
     <string name="tst_record_failed">录制失败</string>
 
+
+    <!--  AccessControlActivity  -->
+    <string name="access_control_tv_title">通行预览</string>
+    <string name="access_control_device_name">设备名称</string>
+    <string name="access_control_access_count">通行人次</string>
+    <string name="access_control_abnormal_count">异常人次</string>
+    <string name="access_control_abnormal_temp">体温异常</string>
+
+
+      <!--InspectionActivity -->
+    <string name="inspect_tv_title">我的任务</string>
+
+    <!--NoticeActivity -->
+    <string name="notice_tv_title">系统通知</string>
+
+
+    <!--FeedBackActivity -->
+    <string name="feedback_tv_title">意见反馈</string>
+
+    <!--AlarmUploadActivity -->
+    <string name="alarm_tv_title">隐患上报</string>
+
+    <!--UrgentAlarmUploadActivity -->
+    <string name="urgent_alarm_tv_title">紧急报警</string>
+
+    <!--  TempCheckActivity  -->
+    <string name="temp_check_tv_title">体温筛查</string>
+    <!--  DataStatisActivity  -->
+    <string name="data_analysis">数据统计</string>
+    <!--  AbnormalAlarmActivity  -->
+    <string name="alarm_info">报警信息</string>
+
 <!--    ReplayListActivity-->
     <string name="replay_list_tv_title">视频回放</string>
     <string name="rl_tv_org">区&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;域</string>
@@ -92,6 +140,15 @@
     <string name="rl_item_btn_download">下载</string>
     <string name="rl_sp_org_empty">未添加区域</string>
     <string name="rl_sp_device_empty">未添加设备</string>
+    <string name="rl_tst_unavailable_date">开始时间需大于结束时间</string>
+
+
+    <!--  AlterPasswordActivity  -->
+    <string name="ap_input_old_hint">旧密码不能为空</string>
+    <string name="ap_input_new_hint">新密码不能为空</string>
+    <string name="ap_input_same_hint">两次输入的新密码必须相同</string>
+
+
 
     <!--    SharedPreferences-->
     <string name="sp_user">user</string>

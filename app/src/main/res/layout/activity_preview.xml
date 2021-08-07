@@ -112,10 +112,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/preview_top_black_bar">
 
-
-
-
-
         <org.videolan.libvlc.util.VLCVideoLayout
             android:id="@+id/video_layout"
             android:layout_width="match_parent"

@@ -1,15 +1,11 @@
 package com.iray.irs_vms.httpUtils;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.iray.irs_vms.activity.BaseActivity;
 import com.iray.irs_vms.activity.DeviceListActivity;
-import com.iray.irs_vms.activity.MainActivity;
 import com.iray.irs_vms.activity.PreviewActivity;
 import com.iray.irs_vms.activity.ReplayListActivity;
 import com.iray.irs_vms.info.DeviceInfo;
@@ -27,7 +23,8 @@ public class DeviceManage {
     private static DeviceManage instance = null;
     //    private DeviceListActivity deviceListActivity;
     private WeakReference<DeviceListActivity> deviceListActivityWeakReference;
-    public List<DeviceInfo> mDeviceList;
+    public  List<DeviceInfo> mDeviceList;
+    public static List<String> mDeviceNameList=new ArrayList<String>();
     private WeakReference<PreviewActivity> previewActivityWeakReference;
     private WeakReference<ReplayListActivity> replayListActivityWeakReference;
     String testDeviceResultStr = "1";
@@ -35,6 +32,7 @@ public class DeviceManage {
 
     private static final String DEVICE_MANAGE_LIST_DEVICES = "list_devices";
     private static final String DEVICE_MANAGE_GET_CHANNELS = "get_channels";
+    private static final String DEVICE_MANAGE_GET_REPLAY_LIST = "get_replay_list";
 
     private DeviceManage() {
         mDeviceList = new ArrayList<DeviceInfo>();
@@ -55,24 +53,42 @@ public class DeviceManage {
         this.previewActivityWeakReference = new WeakReference<PreviewActivity>(previewActivity);
     }
 
-    public void setReplayListActivityWeakReference(ReplayListActivity replayListActivity){
+    public void setReplayListActivityWeakReference(ReplayListActivity replayListActivity) {
         this.replayListActivityWeakReference = new WeakReference<>(replayListActivity);
     }
 
+    /**
+     * 获取设备列表
+     */
     public void listAllDeviceDl() {
         currenActivity = "DeviceListActivity";
         DeviceManageTask task = new DeviceManageTask(deviceListActivityWeakReference.get().pbDeviceList);
         task.execute(new String[]{DEVICE_MANAGE_LIST_DEVICES});
     }
 
-
+    /**
+     * 获取设备作为sp成员
+     */
     public void listAllDeviceRl() {
         currenActivity = "ReplayListActivity";
         DeviceManageTask task = new DeviceManageTask(replayListActivityWeakReference.get().pbReplayList);
         task.execute(new String[]{DEVICE_MANAGE_LIST_DEVICES});
     }
 
-    public void getDeviceChannel() {
+    /**
+     * 获取回放列表
+     */
+    public void getReplayList() {
+        currenActivity = "ReplayListActivity";
+        DeviceManageTask task = new DeviceManageTask(replayListActivityWeakReference.get().pbReplayList);
+        task.execute(new String[]{DEVICE_MANAGE_GET_REPLAY_LIST});
+    }
+
+    /**
+     * 获取rtsp地址
+     */
+    public void getRtsp() {
+        currenActivity = "PreviewActivity";
         DeviceManageTask task = new DeviceManageTask(previewActivityWeakReference.get().pbPreview);
         task.execute(new String[]{DEVICE_MANAGE_GET_CHANNELS});
     }
@@ -106,6 +122,7 @@ public class DeviceManage {
                 case DEVICE_MANAGE_LIST_DEVICES:
                     mDeviceList.clear();
                     String deviceListStr = DeviceUtils.listAllCurrentDevice(Common.ACCESS_TOKEN);
+                    Log.i("DeviceListActivity","deviceListStr:"+deviceListStr);
                     if (!deviceListStr.equals("")) {
                         try {
                             JSONObject jsonObject = new JSONObject(deviceListStr);
@@ -115,12 +132,18 @@ public class DeviceManage {
                                 aDeviceData = deviceDatas.getJSONObject(i);
                                 DeviceInfo deviceInfoBuff = new DeviceInfo();
                                 deviceInfoBuff.setDeviceId(aDeviceData.getString("id"));
-                                deviceInfoBuff.setDeviceOrg(aDeviceData.getString("organizationName").equals("null")?"未知区域":aDeviceData.getString("organizationName"));
-                                deviceInfoBuff.setDeviceName(aDeviceData.getString("name").equals("null")?"未命名设备":aDeviceData.getString("name"));
+                                deviceInfoBuff.setDeviceOrg(aDeviceData.getString("organizationName").equals("null") ? "未知区域" : aDeviceData.getString("organizationName"));
+                                deviceInfoBuff.setDeviceName(aDeviceData.getString("name").equals("null") ? "未命名设备" : aDeviceData.getString("name"));
                                 deviceInfoBuff.setDeviceTransport(aDeviceData.isNull("transport") ? 0 : aDeviceData.getInt("transport"));
                                 deviceInfoBuff.setDeviceType(aDeviceData.isNull("deviceType") ? 0 : aDeviceData.getInt("deviceType"));
                                 deviceInfoBuff.setDeviceOnline(!aDeviceData.isNull("online") && aDeviceData.getBoolean("online"));
+                                deviceInfoBuff.setAlias(aDeviceData.getString("alias").equals("null") ? "未知设备名称" : aDeviceData.getString("alias"));
+                                deviceInfoBuff.setDeviceModel(aDeviceData.getString("deviceModel").equals("null") ? "未知设备类型" : aDeviceData.getString("deviceModel"));
                                 mDeviceList.add(deviceInfoBuff);
+                                //将设备名称存储，供安防门禁使用
+                                String deviceName = deviceInfoBuff.getDeviceName();
+                                mDeviceNameList.add(deviceName);
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -145,6 +168,7 @@ public class DeviceManage {
                             e.printStackTrace();
                         }
                     }
+
                     if (!protocolChannelId.equals("") && !protocolDeviceId.equals("")) {
                         String getMainStreamResultStr = DeviceUtils.getMainStream(Common.ACCESS_TOKEN, protocolChannelId, protocolDeviceId);
                         Log.e(TAG, "getMainStreamResultStr: " + getMainStreamResultStr);
@@ -163,6 +187,27 @@ public class DeviceManage {
                         }
                     }
                     break;
+                case DEVICE_MANAGE_GET_REPLAY_LIST:
+                    String protocolChannelId1 = "";
+                    String protocolDeviceId1 = "";
+                    String channelResultStr1 = DeviceUtils.queryChannels(Common.ACCESS_TOKEN, replayListActivity.get().currentDeviceId, 1, 10);
+                    Log.e(TAG, "channelResultStr: " + channelResultStr1);
+                    if (!channelResultStr1.equals("")) {
+                        try {
+                            JSONObject channelObject = new JSONObject(channelResultStr1);
+                            JSONArray channelData = channelObject.getJSONArray("data");
+                            JSONObject aChannelData = channelData.getJSONObject(0);
+                            protocolChannelId1 = aChannelData.getString("protocolChannelId");
+                            protocolDeviceId1 = aChannelData.getString("protocolDeviceId");
+                            channelCount = String.valueOf(channelObject.getInt("count"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (!protocolChannelId1.equals("") && !protocolDeviceId1.equals("")) {
+                        String replayListStr = DeviceUtils.getReplayListByTime(Common.ACCESS_TOKEN, protocolChannelId1, protocolDeviceId1, replayListActivity.get().currentStartTime, replayListActivity.get().currentEndTime);
+                        Log.e(TAG, "replayListStr: "+replayListStr);
+                    }
 
             }
             return result;
@@ -173,9 +218,9 @@ public class DeviceManage {
             super.onPostExecute(s);
             switch (s) {
                 case DEVICE_MANAGE_LIST_DEVICES:
-                    if(currenActivity.equals("DeviceListActivity")) {
+                    if (currenActivity.equals("DeviceListActivity")) {
                         deviceListActivity.get().sendDeviceHandler(DeviceListActivity.HANDLER_LIST_ALL_DEVICES);
-                    } else if(currenActivity.equals("ReplayListActivity")){
+                    } else if (currenActivity.equals("ReplayListActivity")) {
                         replayListActivity.get().sendReplayHandler(ReplayListActivity.HANDLER_LIST_ALL_DEVICES);
                     }
                     break;

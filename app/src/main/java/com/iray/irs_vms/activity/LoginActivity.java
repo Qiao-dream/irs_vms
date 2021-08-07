@@ -1,8 +1,5 @@
 package com.iray.irs_vms.activity;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,6 +15,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.iray.irs_vms.R;
 import com.iray.irs_vms.httpUtils.Common;
@@ -177,6 +177,7 @@ public class LoginActivity extends BaseActivity {
                                 MainActivity.tagLogin = true;
                                 Toast.makeText(LoginActivity.this, getString(R.string.tst_login_success), Toast.LENGTH_SHORT).show();
                                 Log.e("login", accessToken);
+
                                 finish();
                             } catch (JSONException e){
                                 e.printStackTrace();

@@ -1,9 +1,5 @@
 package com.iray.irs_vms.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,20 +22,21 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.iray.irs_vms.R;
-
+import com.iray.irs_vms.httpUtils.Common;
 import com.iray.irs_vms.httpUtils.DeviceManage;
 import com.iray.irs_vms.utils.DisplayUtil;
 import com.iray.irs_vms.utils.FileUtils;
 import com.warkiz.widget.IndicatorSeekBar;
 
-
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.VLCVideoLayout;
-
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -84,8 +81,6 @@ public class PreviewActivity extends BaseActivity {
     private Button previewBtnArrowRight;
     private Button previewBtnArrowSpin;
     private Chronometer previewChornometer;
-
-
     DeviceManage deviceManage;
     private PreviewHandler previewHandler;
     private static final int HANDLER_GOT_PREVIEW_SIZE = 2001;
@@ -96,16 +91,20 @@ public class PreviewActivity extends BaseActivity {
     private String deviceOrg = "";
     private String deviceName = "";
     private boolean isRecording = false;
+    String rtsp;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
-
         mContext = this;
+        //通过Activity.getIntent()获取当前页面接收到的Intent。
+        Intent intent =getIntent();
+        //getXxxExtra方法获取Intent传递过来的数据
+        rtsp = intent.getStringExtra("rtsp");
+        Log.w(TAG,"rtsp***********:"+rtsp);
         init();
-
     }
 
     private void init() {
@@ -119,8 +118,9 @@ public class PreviewActivity extends BaseActivity {
         deviceOrg = deviceOrg.equals("null")?getString(R.string.org_unknown):deviceOrg;
         deviceName = deviceName.equals("null")?getString(R.string.device_no_name):deviceName;
         initView();
-
-
+        if(deviceOrg.equals("报警")) {
+            initCamera_vlc(rtsp, 1080, 810);
+        }
     }
 
 
@@ -141,6 +141,7 @@ public class PreviewActivity extends BaseActivity {
         previewListTopBar = (ConstraintLayout) findViewById(R.id.preview_top_bar);
         previewTvTitle = (TextView) findViewById(R.id.preview_tv_title);
         previewBtnClose = (Button) findViewById(R.id.preview_btn_close);
+        previewBtnClose.setOnClickListener(mOnClickListener);
         previewTvLoading = findViewById(R.id.tv_image_loading);
         btnShowSettingSheet = findViewById(R.id.btn_show_ps_setting_sheet);
 
@@ -272,6 +273,10 @@ public class PreviewActivity extends BaseActivity {
                         isRecording = false;
                         //finish();
                     }
+                    break;
+                case R.id.preview_btn_close:
+                    finish();
+                    break;
                 default:
                     break;
             }
@@ -330,7 +335,7 @@ public class PreviewActivity extends BaseActivity {
     public void initCamera_vlc(String rtsp, int previewWidth, int previewHeight) {
         try {
 
-            Log.i("aaa", "************111111111******");
+            Log.i("aaa", "************111111111******"+rtsp);
             final ArrayList<String> args = new ArrayList<>();//VLC参数
             args.add("--rtsp-tcp");//强制rtsp-tcp，加快加载视频速度
             args.add("--live-caching=0");
@@ -341,12 +346,13 @@ public class PreviewActivity extends BaseActivity {
             init_vlc_eventListener();
 
 //            String pathUri = "rtsp://admin:admin@10.10.25.34:554/cam/realmonitor?channel=1&subtype=0";
-            String pathUri = rtsp;
+
+            String pathUri = rtsp+"?"+Common.ACCESS_TOKEN;
             Uri uri = Uri.parse(pathUri);//rtsp流地址或其他流地址
             // Uri uri = Uri.parse("rtsp://10.10.25.42:554/stream0");//rtsp流地址或其他流地址
             //    Uri uri = Uri.parse("rtsp://10.10.25.35:554/cam/realmonitor?channel=1&subtype=0");
             //final Media media = new Media(mLibVLC, getAssets().openFd(ASSET_FILENAME));
-            Log.i("aaa", "************3333333333333******");
+            Log.i("aaa", "************3333333333333******"+pathUri);
             final Media media = new Media(mLibVLC, uri);
             media.setHWDecoderEnabled(false, false);//设置后才可以录制和截屏
             mMediaPlayer.setMedia(media);
@@ -474,7 +480,7 @@ public class PreviewActivity extends BaseActivity {
             switch (msg.what) {
                 case HANDLER_GOT_PREVIEW_SIZE:
 //                    this.previewActiviy.initCamera_vlc();
-                    this.previewActiviy.deviceManage.getDeviceChannel();
+                    this.previewActiviy.deviceManage.getRtsp();
                     break;
                 case HANDLER_GOT_RTSP:
                     String rtsp = msg.getData().getString("0");
@@ -485,6 +491,8 @@ public class PreviewActivity extends BaseActivity {
                     }
                     if (!rtsp.equals("")) {
                         this.previewActiviy.initCamera_vlc(rtsp, this.previewActiviy.previewWidth, this.previewActiviy.previewHeight);
+                        Log.w(TAG," this.previewActiviy.previewWidth:"+ this.previewActiviy.previewWidth);
+                        Log.w(TAG," this.previewActiviy.previewHeight:"+ this.previewActiviy.previewHeight);
                     } else {
                         Toast.makeText(this.previewActiviy, this.previewActiviy.getString(R.string.tst_get_rtsp_error), Toast.LENGTH_SHORT).show();
                     }

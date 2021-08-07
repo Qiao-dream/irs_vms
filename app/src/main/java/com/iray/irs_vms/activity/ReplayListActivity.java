@@ -1,9 +1,5 @@
 package com.iray.irs_vms.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +15,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.iray.irs_vms.R;
 import com.iray.irs_vms.httpUtils.DeviceManage;
 import com.iray.irs_vms.info.DeviceInfo;
@@ -26,6 +25,7 @@ import com.iray.irs_vms.widget.datepicker.CustomDatePicker;
 import com.iray.irs_vms.widget.datepicker.DateFormatUtils;
 
 import java.lang.ref.WeakReference;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -61,13 +61,12 @@ public class ReplayListActivity extends BaseActivity {
     private ArrayList<String> orgList;
     private String currentOrg;  //当前选择的区域，默认第一个
     private String currentDeviceName;
-    private String currentDeviceId;
+    public String currentDeviceId;
+    public String currentStartTime;
+    public String currentEndTime;
     private ArrayAdapter<String> orgSpAdapter;
     private ArrayAdapter<String> deviceNameSpAdapter;
     public static final int HANDLER_LIST_ALL_DEVICES = 3001;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +84,6 @@ public class ReplayListActivity extends BaseActivity {
         deviceManage = DeviceManage.getInstance();
         deviceManage.setReplayListActivityWeakReference(this);
         initView();
-
-
     }
 
     private void initView(){
@@ -140,6 +137,7 @@ public class ReplayListActivity extends BaseActivity {
         replayListTopBar = (ConstraintLayout) findViewById(R.id.replay_list_top_bar);
         replayListTvTitle = (TextView) findViewById(R.id.replay_list_tv_title);
         replayListBtnClose = (Button) findViewById(R.id.replay_list_btn_close);
+        replayListBtnClose.setOnClickListener(mOnClickListener);
         rlTvOrg = (TextView) findViewById(R.id.rl_tv_org);
         rlSpOrg = (Spinner) findViewById(R.id.rl_sp_org);
         rlTvDevice = (TextView) findViewById(R.id.rl_tv_device);
@@ -176,11 +174,36 @@ public class ReplayListActivity extends BaseActivity {
                     endTimePicker.show(rlTvSelectEndTime.getText().toString());
                     break;
                 case R.id.rl_btn_find:
+                    //Qiaoxp
+                    boolean dateAvailable = false;
+                    try {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        SimpleDateFormat dateFormatDes = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String startTimeStr = rlTvSelectStartTime.getText().toString() + ":00";
+                        Date startDate = dateFormat.parse(startTimeStr);
+                        currentStartTime = dateFormatDes.format(startDate);
+                        String endTimeStr = rlTvSelectEndTime.getText().toString() + ":00";
+                        Date endDate = dateFormat.parse(endTimeStr);
+                        currentEndTime = dateFormatDes.format(endDate);
+                        if(startDate.compareTo(endDate)<0){
+                            dateAvailable = true;
+                        }
+                    } catch (ParseException e){
+                        e.printStackTrace();
+                    }
+                    if(dateAvailable){
+                        deviceManage.getReplayList();
+                    } else {
+                        Toast.makeText(mContext, getString(R.string.rl_tst_unavailable_date), Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case R.id.replay_list_btn_close:
+                    finish();
+                    break;
 
             }
         }
     };
-
 
     private void initLayoutSize() {
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) replayListTopBar.getLayoutParams();

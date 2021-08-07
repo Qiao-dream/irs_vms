@@ -56,13 +56,55 @@
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/device_list_search"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_margin="20dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/device_list_top_bar">
+
+
+        <Spinner
+            android:id="@+id/typeSpinner"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="区域"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <EditText
+            android:id="@+id/et_search_content"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text=""
+            android:background="@drawable/edit_background"
+            app:layout_constraintTop_toTopOf="@id/typeSpinner"
+            app:layout_constraintStart_toEndOf="@id/typeSpinner"/>
+        <Button
+            android:id="@+id/bt_device_search"
+            android:layout_width="@dimen/top_bar_btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/btn_search_black"
+            android:layout_marginEnd="@dimen/top_bar_btn_margin"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintTop_toTopOf="@id/typeSpinner"
+            app:layout_constraintBottom_toBottomOf="@id/typeSpinner"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rc_device_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/rv_margin_top"
 
-        app:layout_constraintTop_toBottomOf="@id/device_list_top_bar"
+        app:layout_constraintTop_toBottomOf="@id/device_list_search"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <ProgressBar

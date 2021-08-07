@@ -212,7 +212,7 @@
             app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toStartOf="@id/btn_park_track"
             app:layout_constraintStart_toEndOf="@id/btn_inspection"
-            app:layout_constraintTop_toTopOf="@id/btn_access_control" />
+            app:layout_constraintTop_toTopOf="@+id/btn_inspection" />
 
         <TextView
             android:id="@+id/tv_temp_screening"
@@ -309,7 +309,7 @@
             android:id="@+id/btn_more"
             android:layout_width="@dimen/btn_size"
             android:layout_height="0dp"
-            android:background="@drawable/btn_more"
+            android:background="@drawable/btn_notice"
             app:layout_constraintBottom_toBottomOf="@id/btn_statistics"
 
             app:layout_constraintDimensionRatio="w,1:1"
@@ -329,6 +329,30 @@
             app:layout_constraintStart_toStartOf="@id/btn_more"
             app:layout_constraintTop_toTopOf="@id/tv_statistics" />
 
+        <Button
+            android:id="@+id/btn_video_replay"
+            android:layout_width="@dimen/btn_size"
+            android:layout_height="0dp"
+            android:background="@drawable/btn_replay"
+            app:layout_constraintBottom_toBottomOf="@id/btn_more"
+
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toEndOf="@id/btn_temp_screening"
+            app:layout_constraintStart_toStartOf="@id/btn_temp_screening"
+            app:layout_constraintTop_toTopOf="@id/btn_statistics" />
+
+        <TextView
+            android:id="@+id/tv_video_replay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_video_replay"
+            android:textSize="@dimen/btn_tv_text_size"
+
+            app:layout_constraintBottom_toBottomOf="@id/tv_more"
+            app:layout_constraintEnd_toEndOf="@id/tv_temp_screening"
+            app:layout_constraintStart_toStartOf="@id/tv_temp_screening"
+            app:layout_constraintTop_toTopOf="@id/tv_statistics" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/btn_gl_h1"
             android:layout_width="wrap_content"
@@ -340,13 +364,24 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_news_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_height="40dp"
 
         android:background="@drawable/rounded_shadow_shape"
         app:layout_constraintBottom_toTopOf="@id/gl_h3"
-        app:layout_constraintTop_toBottomOf="@id/gl_h2">
+        app:layout_constraintTop_toBottomOf="@id/gl_h2"
+        tools:layout_editor_absoluteX="10dp">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:text="智慧园区小卖部上线"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </TextView>
 
         <!--        <androidx.cardview.widget.CardView-->
         <!--            android:layout_width="0dp"-->
@@ -412,6 +447,7 @@
             app:layout_constraintBottom_toBottomOf="@id/tv_favorite_cams_title"/>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rc_device_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="5dp"

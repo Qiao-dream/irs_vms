@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="160dp">
+
+
+    <ImageView
+        android:id="@+id/iv_temp_item"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/device_list_image_margin_h"
+        android:layout_marginBottom="@dimen/device_list_image_margin_h"
+        android:background="@drawable/device_default"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="h,1:1"
+        app:layout_constraintStart_toStartOf="@id/device_list_gl_v1"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_temp_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="张三"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/device_list_tv_size"
+
+        app:layout_constraintStart_toEndOf="@id/device_list_gl_v2"
+        app:layout_constraintTop_toTopOf="@id/iv_temp_item"
+        app:layout_constraintBottom_toTopOf="@id/tv_temp_value"/>
+
+    <TextView
+        android:id="@+id/tv_temp_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="39.5"
+        android:textSize="@dimen/device_list_tv_size"
+
+        app:layout_constraintStart_toStartOf="@id/tv_temp_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_temp_name"
+        app:layout_constraintBottom_toTopOf="@id/tv_temp_kouzhao"/>
+
+    <TextView
+        android:id="@+id/tv_temp_kouzhao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="口罩：无"
+        android:textSize="@dimen/device_list_tv_size"
+
+        app:layout_constraintStart_toStartOf="@id/tv_temp_value"
+        app:layout_constraintTop_toBottomOf="@id/tv_temp_value"
+        app:layout_constraintBottom_toTopOf="@id/tv_temp_time"/>
+
+    <TextView
+        android:id="@+id/tv_temp_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2020-10-22 10:00"
+        android:textSize="@dimen/device_list_tv_size"
+
+        app:layout_constraintStart_toStartOf="@id/tv_temp_kouzhao"
+        app:layout_constraintTop_toBottomOf="@id/tv_temp_kouzhao"
+        />
+
+    <TextView
+        android:id="@+id/tv_icon_online"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/device_list_icon_size"
+        android:background="@drawable/icon_online"
+        app:layout_constraintBottom_toBottomOf="@id/iv_temp_item"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"
+
+        app:layout_constraintDimensionRatio="h,1:1"
+        app:layout_constraintStart_toEndOf="@id/device_list_gl_v2" />
+
+    <TextView
+        android:id="@+id/tv_temp_area"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:text="厂区西大门"
+        android:textSize="12sp"
+
+
+        app:layout_constraintBottom_toBottomOf="@id/tv_icon_online"
+        app:layout_constraintStart_toEndOf="@id/tv_icon_online"
+        app:layout_constraintTop_toTopOf="@id/tv_icon_online" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/device_list_gl_v1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/device_list_gl_v2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.58" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/device_list_gl_v3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+</androidx.constraintlayout.widget.ConstraintLayout>

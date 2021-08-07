@@ -31,4 +31,15 @@
         <item name="android:windowBackground">@color/white</item>
     </style>
 
+    <style name="activity_styles" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/divide_gray_color</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:windowIsFloating">true </item>
+
+
+    </style>
+
 </resources>

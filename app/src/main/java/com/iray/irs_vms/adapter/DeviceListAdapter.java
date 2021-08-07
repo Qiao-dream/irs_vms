@@ -2,7 +2,6 @@ package com.iray.irs_vms.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +41,41 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+        if(mDeviceInfoList.get(position).getAlias().contains("中载云台")){
+            holder.ivDeviceItem.setImageResource(R.drawable.device_m_load_gimbal);
+        }
+        if(mDeviceInfoList.get(position).getAlias().contains("轻载云台")){
+            holder.ivDeviceItem.setImageResource(R.drawable.device_l_load_gimbal);
+        }
+        if(mDeviceInfoList.get(position).getAlias().contains("球机")){
+            holder.ivDeviceItem.setImageResource(R.drawable.device_hemisphere_d);
+        }
+        if(mDeviceInfoList.get(position).getAlias().contains("观测型")){
+            holder.ivDeviceItem.setImageResource(R.drawable.device_fb4_h);
+        }
+        if(mDeviceInfoList.get(position).getAlias().contains("测温型")){
+            holder.ivDeviceItem.setImageResource(R.drawable.device_fb4);
+        }
+        if(mDeviceInfoList.get(position).getAlias().contains("工业测温半球")){
+            holder.ivDeviceItem.setImageResource(R.drawable.device_hemisphere);
+        }
+        if(mDeviceInfoList.get(position).getAlias().contains("人体测温半球")){
+            holder.ivDeviceItem.setImageResource(R.drawable.device_fb4_h);
+        }
+
+        if(mDeviceInfoList.get(position).getAlias().contains("工业")){
+            holder.ivDeviceItem.setImageResource(R.drawable.device_fb2_h);
+        }
+        if(mDeviceInfoList.get(position).getAlias().contains("人体测温")){
+            holder.ivDeviceItem.setImageResource(R.drawable.device_fb2_h);
+        }
+
+        if(mDeviceInfoList.get(position).getAlias().contains("面板机")){
+            holder.ivDeviceItem.setImageResource(R.drawable.device_ac8);
+        }
+        if(mDeviceInfoList.get(position).getAlias().contains("观测型")){
+            holder.ivDeviceItem.setImageResource(R.drawable.device_at20);
+        }
         holder.tvDeviceOrg.setText(mDeviceInfoList.get(position).getDeviceOrg().equals("null")?reference.get().getString(R.string.org_unknown):mDeviceInfoList.get(position).getDeviceOrg());
         holder.tvDeviceName.setText(mDeviceInfoList.get(position).getDeviceName().equals("null")?reference.get().getString(R.string.device_no_name):mDeviceInfoList.get(position).getDeviceName());
         holder.tvDeviceTransport.setText(String.format("%s%s", "通道", mDeviceInfoList.get(position).getDeviceTransport()));
@@ -67,6 +101,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
             holder.tvIconOnline.setBackground(reference.get().getDrawable(R.drawable.icon_offline));
             holder.tvOnline.setText(reference.get().getString(R.string.device_offline));
         }
+
 
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override

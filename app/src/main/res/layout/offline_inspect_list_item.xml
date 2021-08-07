@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="300dp">
+
+
+    <TextView
+        android:id="@+id/inspect_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="37dp"
+        android:text="巡检项目"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_unfinish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="41dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/inspect_unfinish" />
+
+    <TextView
+        android:id="@+id/inpsect_item_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="开发区园区A栋302机房防火检查"
+        app:layout_constraintStart_toStartOf="@+id/inspect_item"
+        app:layout_constraintTop_toBottomOf="@+id/inspect_item" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:text="巡检时间："
+        app:layout_constraintStart_toStartOf="@+id/inpsect_item_value"
+        app:layout_constraintTop_toBottomOf="@+id/inpsect_item_value" />
+
+    <TextView
+        android:id="@+id/tv_task_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:text="2021-02-01 17：00"
+        android:layout_marginLeft="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inpsect_item_value" />
+
+    <TextView
+        android:id="@+id/tv_task_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="17dp"
+        android:text="任务描述"
+        app:layout_constraintBottom_toTopOf="@+id/tv_inspect_description"
+        app:layout_constraintStart_toStartOf="@+id/tv_time" />
+
+    <TextView
+        android:id="@+id/tv_inspect_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="95dp"
+        android:text="本次巡查重点"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_task_detail"
+
+        app:layout_constraintTop_toBottomOf="@+id/inpsect_item_value" />
+
+    <Button
+        android:id="@+id/btn_begintask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="20dp"
+        android:text="开始任务"
+        app:layout_constraintTop_toBottomOf="@+id/tv_inspect_description"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_inspect_description"
+         />
+
+    <ImageView
+        android:id="@+id/imageView_sxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_inspect_description"
+        app:srcCompat="@drawable/btn_alarm_stranger" />
+
+    <Button
+        android:id="@+id/btn_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="31dp"
+        android:layout_marginLeft="180dp"
+        android:text="隐患上报"
+        app:layout_constraintTop_toTopOf="@+id/btn_begintask"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_begintask"
+        app:layout_constraintLeft_toRightOf="@+id/tv_inspect_description" />
+</androidx.constraintlayout.widget.ConstraintLayout>

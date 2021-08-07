@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/replay_list_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ReplayListActivity">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/notice_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/top_bar_bg"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/notice_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/top_bar_title_margin_bottom"
+            android:text="@string/notice_tv_title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_text_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/notice_btn_close"
+            android:layout_width="@dimen/top_bar_btn_size"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/top_bar_btn_margin"
+            android:background="@drawable/btn_close"
+
+            app:layout_constraintBottom_toBottomOf="@id/notice_tv_title"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/notice_tv_title" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2021春节加强安防通知"
+        android:layout_marginTop="10dp"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notice_top_bar"
+        app:layout_constraintStart_toStartOf="parent" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/tv_subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发布者：安全部"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="90dp"
+        android:textSize="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_headline"
+        app:layout_constraintStart_toStartOf="parent" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/tv_deatail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="严格执行好安全生产工作
+        \n严格执行好安全生产工作
+        \n严格执行好安全生产工作
+        \n严格执行好安全生产工作
+        \n严格执行好安全生产工作"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_subhead"
+        app:layout_constraintStart_toStartOf="parent" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2021-02-01 12:00"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="90dp"
+        android:textSize="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_deatail"
+        app:layout_constraintStart_toStartOf="parent" >
+    </TextView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

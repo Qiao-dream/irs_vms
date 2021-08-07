@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/tv_alarm_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="报警通知"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:textColor="@color/red"
+        />
+
+    <TextView
+        android:id="@+id/tv_alarm_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="      拌线，请注意,中国烟台艾睿光电     "
+        android:textColor="@color/skyblue"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:textSize="@dimen/device_list_tv_size"
+         />
+
+
+    <Button
+        android:id="@+id/btn_alarm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="确定"
+        android:gravity="center"
+        android:textColor="@color/red"
+        android:layout_marginTop="50dp"
+        android:textSize="@dimen/device_list_tv_size"
+        >
+
+    </Button>
+</LinearLayout>

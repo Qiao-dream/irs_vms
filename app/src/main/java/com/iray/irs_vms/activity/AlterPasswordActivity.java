@@ -1,8 +1,6 @@
 package com.iray.irs_vms.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
+import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -10,12 +8,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.iray.irs_vms.R;
-import com.shehuan.niv.NiceImageView;
 
 public class AlterPasswordActivity extends BaseActivity {
-
+    private static String TAG="AlterPasswordActivity";
     private ConstraintLayout alterPasswordMainLayout;
     private ConstraintLayout alterPasswordTopBar;
     private Button alterPasswordBtnClose;
@@ -30,9 +30,7 @@ public class AlterPasswordActivity extends BaseActivity {
     private EditText etApNewPassword2;
     private Button btnApHidePasswordNew2;
     private Button btnAlterPasswordConfirm;
-
-
-
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +41,8 @@ public class AlterPasswordActivity extends BaseActivity {
 
     private void init(){
         initView();
+        mContext = this;
+
     }
 
     private void initView(){
@@ -74,6 +74,8 @@ public class AlterPasswordActivity extends BaseActivity {
         btnApHidePasswordOld.setOnClickListener(mOnClickListener);
         btnApHidePasswordNew1.setOnClickListener(mOnClickListener);
         btnApHidePasswordNew2.setOnClickListener(mOnClickListener);
+        btnAlterPasswordConfirm.setOnClickListener(mOnClickListener);
+        alterPasswordBtnClose.setOnClickListener(mOnClickListener);
 
     }
 
@@ -116,6 +118,30 @@ public class AlterPasswordActivity extends BaseActivity {
                         btnApHidePasswordNew2.setBackground(getDrawable(R.drawable.btn_hide_password));
                     }
                     break;
+                case R.id.btn_alter_password_confirm:
+                    if(etApOldPassword.getText().toString().equals("")){
+                        Toast.makeText(mContext, getString(R.string.ap_input_old_hint), Toast.LENGTH_SHORT).show();
+                        return;
+                    }else if (etApOldPassword.getText().toString().equals("")){
+                        Toast.makeText(mContext, getString(R.string.ap_input_new_hint), Toast.LENGTH_SHORT).show();
+                        return;
+                    }else if(etApNewPassword1.getText().toString().equals("")){
+                        Toast.makeText(mContext, getString(R.string.ap_input_new_hint), Toast.LENGTH_SHORT).show();
+                    }
+                    else if (etApNewPassword2.getText().toString().equals("")){
+                        Toast.makeText(mContext, getString(R.string.ap_input_new_hint), Toast.LENGTH_SHORT).show();
+                        return;
+
+                    }else if(!etApNewPassword1.getText().toString().equals(etApNewPassword2.getText().toString())){
+                        Toast.makeText(mContext, getString(R.string.ap_input_same_hint), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    //调用修改密码的接口
+                    break;
+                case R.id.alter_password_btn_close:
+                    AlterPasswordActivity.this.finish();
+                    break;
+
             }
         }
     };

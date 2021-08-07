@@ -1,9 +1,5 @@
 package com.iray.irs_vms.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,21 +7,30 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.iray.irs_vms.R;
+import com.iray.irs_vms.adapter.KeyDeviceListAdapter;
 import com.iray.irs_vms.httpUtils.Common;
+import com.iray.irs_vms.httpUtils.KeyDeviceManage;
 import com.iray.irs_vms.httpUtils.UserUtils;
-import com.iray.irs_vms.utils.DisplayUtil;
+import com.iray.irs_vms.info.KeyDeviceInfo;
+import com.iray.irs_vms.service.AlarmService;
 import com.iray.irs_vms.utils.FileUtils;
+import com.iray.irs_vms.widget.RecycleViewDivider;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
@@ -37,6 +42,7 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class MainActivity extends BaseActivity {
     private ConstraintLayout mainLayout;
@@ -73,14 +79,22 @@ public class MainActivity extends BaseActivity {
     private Button btnAlarm;
     private TextView tvAlarm;
     private Button btnUser;
+    private Button btnReplay;
     private TextView tvUser;
+    public ProgressBar pbDeviceList;
+
 
     private SharedPreferences userSp;
     public static boolean tagLogin = false;    //登录标记
     //Handler
-    MainHandler mHandler;
+    public MainHandler mHandler;
     public final static int LOGIN_RESULT = 201;
-
+    public static final int HANDLER_LIST_ALL_DEVICESB = 1004;
+    private RecyclerView rcDeviceList;
+    private List<KeyDeviceInfo> mDeviceInfoList;
+    KeyDeviceManage keyDeviceManage;
+    private KeyDeviceListAdapter adapter;
+    public MainActivity.MainHandler mDeviceHandler;
 
     MZBannerView mMZBanner;
     List<Integer> list;
@@ -95,12 +109,21 @@ public class MainActivity extends BaseActivity {
         mHandler = new MainHandler(this);
         initLogin();
         initDirs();
+        Intent intent = new Intent(this, AlarmService.class);
+        startService(intent);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mMZBanner.start();
+        keyDeviceManage.listAllDeviceDlB();
+
+
+    }
+
+    public void sendDeviceHandler(int msgWhat) {
+        mDeviceHandler.sendEmptyMessage(msgWhat);
     }
 
     @Override
@@ -145,14 +168,48 @@ public class MainActivity extends BaseActivity {
         tvAlarm = (TextView) findViewById(R.id.tv_alarm);
         btnUser = (Button) findViewById(R.id.btn_user);
         tvUser = (TextView) findViewById(R.id.tv_user);
+        rcDeviceList = (RecyclerView) findViewById(R.id.rc_device_list);
+        btnReplay=(Button) findViewById(R.id.btn_video_replay);
+        btnReplay.setOnClickListener(mOnClickListener);
+        btnParkTrack.setOnClickListener(mOnClickListener);
+
+        KeyMonitorActivity keyMonitorActivity=new KeyMonitorActivity();
+        mDeviceHandler = new MainActivity.MainHandler(this);
 
         btnMore.setOnClickListener(mOnClickListener);
         btnVideoSurveillance.setOnClickListener(mOnClickListener);
         btnUser.setOnClickListener(mOnClickListener);
         btnAbnormalAlarm.setOnClickListener(mOnClickListener);
+        btnFavoriteCamsManage.setOnClickListener(mOnClickListener);
+        btnAccessControl.setOnClickListener(mOnClickListener);
+        btnTempScreening.setOnClickListener(mOnClickListener);
+        btnStatistics.setOnClickListener(mOnClickListener);
+        btnInspection.setOnClickListener(mOnClickListener);
+        btnAlarm.setOnClickListener(mOnClickListener);
+        etSearchBox.setOnClickListener(mOnClickListener);
+        btnPlusMenu.setOnClickListener(mOnClickListener);
 
         initLayoutSize();
+        //智慧园区代码
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rcDeviceList.addItemDecoration(new RecycleViewDivider(this, LinearLayoutManager.HORIZONTAL, 2, getResources().getColor(R.color.divide_gray_color)));
+        rcDeviceList.setLayoutManager(linearLayoutManager);
+        listKeyDevicesInfo();
+    }
 
+    public void listKeyDevicesInfo() {
+        keyDeviceManage = KeyDeviceManage.getInstance();
+        keyDeviceManage.setKeyDeviceListActivityWeakReference(this);  // Qiaoxp
+        mDeviceInfoList = keyDeviceManage.mDeviceList;
+        if (mDeviceInfoList.size() == 0) {
+            Log.i("DeviceUtils","MainActivity 未找到设备");
+            Toast.makeText(this, getString(R.string.tst_device_list_empty), Toast.LENGTH_SHORT).show();
+        } else {
+            adapter = new KeyDeviceListAdapter(this, mDeviceInfoList, mDeviceHandler); // Qiaoxp 智慧园区参考
+            rcDeviceList.setAdapter(adapter);
+
+        }
     }
 
     /**
@@ -169,6 +226,26 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void run() {
                     UserUtils.loginForToken(mHandler, loginName, loginPassword, "password", "webApp", "webApp");
+                    while(Common.ACCESS_TOKEN==null) {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    String userString = UserUtils.getUserId(Common.ACCESS_TOKEN);
+                    if (!userString.equals("")) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(userString);
+                           JSONObject userIds = jsonObject.getJSONObject("datas");
+                            Common.USER_ID=userIds.getString("id");
+                            Log.w("MainActivity","User_ID:"+Common.USER_ID);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
                 }
             }).start();
         }
@@ -227,10 +304,24 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.btn_more:
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
+                //安防门禁
+                case R.id.btn_access_control:
+                    Intent intent0 = new Intent(MainActivity.this, AccessControlActivity.class);
+                    startActivity(intent0);
+ //                   Intent intent0 = new Intent(MainActivity.this, TestNotifyActivity.class);
+  //                  startActivity(intent0);
                     break;
+                    //系统通知
+                case R.id.btn_more:
+                    if(tagLogin) {
+                        Intent intent1 = new Intent(MainActivity.this, NoticesActivity.class);
+                        startActivity(intent1);
+                    } else {
+                        Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent1);
+                    }
+                    break;
+                    //视频监控
                 case R.id.btn_video_surveillance:
                     if(tagLogin) {
                         Intent intent1 = new Intent(MainActivity.this, DeviceListActivity.class);
@@ -240,19 +331,136 @@ public class MainActivity extends BaseActivity {
                         startActivity(intent1);
                     }
                     break;
+                    //首页
+                case R.id.btn_home:
+                    if(tagLogin) {
+                        Intent intent2 = new Intent(MainActivity.this, MainActivity.class);
+                        startActivity(intent2);
+
+                    }else {
+                        Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent1);
+                    }
+                    //紧急报警
+                case R.id.btn_alarm:
+                    if(tagLogin) {
+                        Intent intent2 = new Intent(MainActivity.this, UrgentAlarmUploadActivity.class);
+                        startActivity(intent2);
+
+                    }else {
+                        Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent1);
+                    }
+
+                    break;
+                    //我的
                 case R.id.btn_user:
                     if(tagLogin) {
                         Intent intent2 = new Intent(MainActivity.this, UserActivity.class);
                         startActivity(intent2);
+                        finish();
                     }else {
                         Intent intent2 = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(intent2);
                     }
                     break;
+                    //异常报警
                 case R.id.btn_abnormal_alarm:
-                    Intent intent4 = new Intent(MainActivity.this, ReplayListActivity.class);
-                    startActivity(intent4);
+                    if(tagLogin) {
+                        Intent intent4 = new Intent(MainActivity.this, AbnormalAlarmActivity.class);
+                        startActivity(intent4);
+                     }else {
+                       Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                       startActivity(intent1);
+                      }
+
                     break;
+                    //重点监控设备
+                case R.id.btn_favorite_cams_manage:
+                    if(tagLogin) {
+                        Intent intent5 = new Intent(MainActivity.this, KeyMonitorActivity.class);
+                        startActivity(intent5);
+                    }else {
+                        Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent1);
+                    }
+                    break;
+                    //体温筛查
+                case R.id.btn_temp_screening:
+                    if(tagLogin) {
+                        Intent intent6 = new Intent(MainActivity.this, TempCheckActivity.class);
+                        startActivity(intent6);
+                        Log.i("DeviceUtils","btn_temp_screening is clicked.");
+                    }else {
+                        Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent1);
+                    }
+
+                    break;
+
+                    //数据统计
+                case R.id.btn_statistics:
+                    if(tagLogin) {
+                        Intent intent7 = new Intent(MainActivity.this, DataStatisActivity.class);
+                        startActivity(intent7);
+                    }else {
+                        Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent1);
+                    }
+                    break;
+                    //巡检任务
+                case R.id.btn_inspection:
+                    if(tagLogin) {
+                        Intent intent8 = new Intent(MainActivity.this, InspectionActivity.class);
+                        startActivity(intent8);
+                    }else {
+                        Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent1);
+                    }
+                    break;
+                    //首页搜索框
+                case R.id.et_search_box:
+                    if(tagLogin) {
+                        Intent intent9 = new Intent(MainActivity.this, DeviceListActivity.class);
+                        startActivity(intent9);
+                    }else {
+                        Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent1);
+                    }
+
+                    break;
+                    //隐患上报
+                case R.id.btn_plus_menu:
+                    if(tagLogin) {
+                        Intent intent10 = new Intent(MainActivity.this, AlarmUploadActivity.class);
+                        startActivity(intent10);
+                    }else {
+                        Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent1);
+                    }
+
+                    break;
+                    //视频回放
+                case R.id.btn_video_replay:
+                    if(tagLogin) {
+                        Intent intent11 = new Intent(MainActivity.this, ReplayListActivity.class);
+                        startActivity(intent11);
+                    }else {
+                        Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent1);
+                    }
+                    break;
+                    //园区轨迹
+                case R.id.btn_park_track:
+                    if(tagLogin) {
+                        Intent intent12 = new Intent(MainActivity.this, ParkTrackActivity.class);
+                        startActivity(intent12);
+                    }else {
+                        Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent1);
+                    }
+                    break;
+
                 default:
                     break;
             }
@@ -277,9 +485,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-
-
-    private static class MainHandler extends Handler{
+    public static class MainHandler extends Handler{
         private MainActivity activity;
 
         private MainHandler(MainActivity activity){
@@ -290,6 +496,10 @@ public class MainActivity extends BaseActivity {
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what){
+                case HANDLER_LIST_ALL_DEVICESB:
+                    Log.i("DeviceUtils","mainActivity receieve DeviceHandlerb......");
+                    activity.listKeyDevicesInfo();
+                    break;
                 case LOGIN_RESULT:
                     if (msg.obj.toString().equals("")) {  //登录失败
                         activity.tagLogin = false;
